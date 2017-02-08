@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Yuki</title>
+  <title>Yuki | Otaku</title>
 
   
   <meta name="author" content="Bewils">
@@ -40,14 +40,18 @@
     <h1 class="site-title">
       <a href="/">Yuki</a>
     </h1>
-    <p class="site-description"></p>
+    <p class="site-description">Otaku</p>
   </div>
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">Home</a></li>
+        <li><a href="/">主页</a></li>
       
-        <li><a href="/archives">Archives</a></li>
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
       
     </ul>
   </nav>
@@ -59,7 +63,60 @@
 
   
     
-    <h3 class="article-title"><a href="/2017/02/05/TextField/"><span>MacOS 开发入门 NSTextField</span></a></h3>
+    <h3 class="article-title"><a href="/2017/02/08/TextField1/"><span>MacOS 开发入门 NSTextField @2</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/02/08/TextField1/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-02-08T06:56:36.000Z">
+          2017-02-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本来以为一次已经把 NSTextField 的坑踩完了，没想到又陷进去一天…</p>
+<p>上次把基本的绘制样式实现好了，接下来只想实现一个小功能，就是判断下哪个输入框处于有焦点的状态然后高亮下边线就可以了</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/MacOS/">MacOS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/02/05/TextField/"><span>MacOS 开发入门 NSTextField @1</span></a></h3>
     
   
 
@@ -80,29 +137,6 @@
     <div class="entry">
       
         <p>突发奇想做一个 mac 上的 app，本来以为借着 iOS 的开发经验应该会比较顺利，发现 macOS 整个就一大坑…国内的资料基本没有，还是靠着 google + stackoverflow 才活了下来，这系列就记录下开发过程中学到的知识和踩的坑</p>
-<p>首先做一个 app 要做一个登录页面，登录自然需要输入框，输入框的样式定为这样</p>
-<p><img src="/images/NSTextField/demo.png" alt=""></p>
-<p>虽然这个样式实现起来其实很简单，到最后只写了 20 行代码，但是坑却踩了一天…</p>
-<p>为了复用直接继承一个 NSTextField，要解决的问题如下：</p>
-<ol>
-<li><p>首先要解决的是当处于编辑状态的输入框外部有一圈蓝色的高亮边框以及自带的灰色的外边框都要去掉，只要修改两个属性即可</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">awakeFromNib</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">self</span>.focusRingType = .<span class="keyword">none</span></div><div class="line">	<span class="keyword">self</span>.isBordered = <span class="literal">false</span> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>因为比较懒喜欢用 storyboard 所以把这两句写到了 awakeFromNib 函数中，当从 storyboard 初始化之后会调用这个函数，这样只要在 storyboard 中拖控件然后改下类就可以了</p>
-</li>
-<li><p>然后要解决自定义下边线的问题，这个需要重写 draw 方法，用贝塞尔曲线画条直线就行了</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> dirtyRect: NSRect)</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.draw(dirtyRect)</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> rect = <span class="keyword">self</span>.bounds</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> underLine = <span class="type">NSBezierPath</span>()</div><div class="line">    <span class="comment">// 离底边距离2，否则移除边框时会把这条线也裁出去</span></div><div class="line">    underLine.move(to: <span class="type">NSPoint</span>(x: <span class="number">1</span>, y: rect.height - <span class="number">2</span>))</div><div class="line">    <span class="comment">// 左右宽度分别缩回1，看起来舒服些</span></div><div class="line">    underLine.line(to: <span class="type">NSPoint</span>(x: rect.width - <span class="number">1</span>, y: rect.height - <span class="number">2</span>))</div><div class="line">    underLine.lineWidth = <span class="number">2</span></div><div class="line">    <span class="type">NSColor</span>.red.setStroke()</div><div class="line">    underLine.stroke()</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>最后的一个问题，本来想把输入框的文字弄成垂直居中，发现 macOS 没有这个属性，然后发现 NSTextField 的结构竟然是 NSTextField 中添加了一个 NSTextFieldCell 这个 Cell 感觉才是我们平常理解的 TextField，可以设置文字颜色背景颜色提示信息是否可编辑等属性，而 NSTextField 好像只是外面套的一层壳，但是又不像其他包含关系那样容易设置位置关系，最后想着反正没有上边框把高度调适中看起来就像垂直居中了…</p>
-</li>
-<li><p>在 2 中画了一条红色底边线，但是当画完后调整位置发现看不到这条线了，调整了半天发现是中间的 NSTextFieldCell 默认背景颜色是白色，而重绘 NSTextField 时是在下层重绘，这条线被盖住了，当然如果再继承一个 NSTextFieldCell 然后在 NSTextFieldCell 中重绘的话也可以</p>
-</li>
-<li><p>尝试垂直居中的过程中在 stackoverflow 中找到了一个很厉害的答案 <a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external"><a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external">Is there a “right” way to have NSTextFieldCell draw vertically centered text?</a></a> </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">drawInterior</span><span class="params">(withFrame cellFrame: NSRect, <span class="keyword">in</span> controlView: NSView)</span></span> &#123;</div><div class="line">      <span class="keyword">self</span>.attributedStringValue.draw(<span class="keyword">in</span>: <span class="type">NSRect</span>())</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>在这个函数里修改文字的绘制位置可以做到垂直居中的效果，但是尝试过发现了一个问题，这个方法适用于静态文字，就是 label。因为在 Cocoa 中虽然区分 label 和 textfield 但两种控件本质都是 NSTextField，只不过里面的子视图不同。label 的文字带定义时就确定了，可以用这种方法绘制，但 textfield 是交互性的，使用这种方法时很麻烦的是指针输入还是在原来顶端的位置，边输入边在下面绘制同样的文字</p>
-<p><img src="/images/NSTextField/wrong.png" alt=""></p>
-</li>
-</ol>
-
       
     </div>
 

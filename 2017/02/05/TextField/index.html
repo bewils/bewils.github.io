@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MacOS 开发入门 NSTextField | Yuki</title>
+  <title>MacOS 开发入门 NSTextField @1 | Yuki | Otaku</title>
 
   
   <meta name="author" content="Bewils">
   
 
   
-  <meta name="description" content="突发奇想做一个 mac 上的 app，本来以为借着 iOS 的开发经验应该会比较顺利，发现 macOS 整个就一大坑…国内的资料基本没有，还是靠着 google + stackoverflow 才活了下来，这系列就记录下开发过程中学到的知识和踩的坑
-首先做一个 app 要做一个登录页面，登录自然需要">
+  <meta name="description" content="突发奇想做一个 mac 上的 app，本来以为借着 iOS 的开发经验应该会比较顺利，发现 macOS 整个就一大坑…国内的资料基本没有，还是靠着 google + stackoverflow 才活了下来，这系列就记录下开发过程中学到的知识和踩的坑">
   
 
   
@@ -23,7 +22,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta property="og:title" content="MacOS 开发入门 NSTextField"/>
+  <meta property="og:title" content="MacOS 开发入门 NSTextField @1"/>
 
   <meta property="og:site_name" content="Yuki"/>
 
@@ -46,14 +45,18 @@
     <h1 class="site-title">
       <a href="/">Yuki</a>
     </h1>
-    <p class="site-description"></p>
+    <p class="site-description">Otaku</p>
   </div>
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">Home</a></li>
+        <li><a href="/">主页</a></li>
       
-        <li><a href="/archives">Archives</a></li>
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
       
     </ul>
   </nav>
@@ -64,7 +67,7 @@
 
   
     
-    <h3 class="article-title"><span>MacOS 开发入门 NSTextField</span></h3>
+    <h3 class="article-title"><span>MacOS 开发入门 NSTextField @1</span></h3>
     
   
 
@@ -85,8 +88,9 @@
     <div class="entry">
       
         <p>突发奇想做一个 mac 上的 app，本来以为借着 iOS 的开发经验应该会比较顺利，发现 macOS 整个就一大坑…国内的资料基本没有，还是靠着 google + stackoverflow 才活了下来，这系列就记录下开发过程中学到的知识和踩的坑</p>
+<a id="more"></a>
 <p>首先做一个 app 要做一个登录页面，登录自然需要输入框，输入框的样式定为这样</p>
-<p><img src="/images/NSTextField/demo.png" alt=""></p>
+<p><img src="/images/TextField/demo.png" alt=""></p>
 <p>虽然这个样式实现起来其实很简单，到最后只写了 20 行代码，但是坑却踩了一天…</p>
 <p>为了复用直接继承一个 NSTextField，要解决的问题如下：</p>
 <ol>
@@ -104,7 +108,7 @@
 <li><p>尝试垂直居中的过程中在 stackoverflow 中找到了一个很厉害的答案 <a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external"><a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external">Is there a “right” way to have NSTextFieldCell draw vertically centered text?</a></a> </p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">drawInterior</span><span class="params">(withFrame cellFrame: NSRect, <span class="keyword">in</span> controlView: NSView)</span></span> &#123;</div><div class="line">      <span class="keyword">self</span>.attributedStringValue.draw(<span class="keyword">in</span>: <span class="type">NSRect</span>())</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
 <p>在这个函数里修改文字的绘制位置可以做到垂直居中的效果，但是尝试过发现了一个问题，这个方法适用于静态文字，就是 label。因为在 Cocoa 中虽然区分 label 和 textfield 但两种控件本质都是 NSTextField，只不过里面的子视图不同。label 的文字带定义时就确定了，可以用这种方法绘制，但 textfield 是交互性的，使用这种方法时很麻烦的是指针输入还是在原来顶端的位置，边输入边在下面绘制同样的文字</p>
-<p><img src="/images/NSTextField/wrong.png" alt=""></p>
+<p><img src="/images/TextField/wrong.png" alt=""></p>
 </li>
 </ol>
 
