@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MacOS 开发入门 NSTextField @2 | Yuki | Otaku</title>
+  <title>macOS 开发入门 NSTextField @2 | Yuki | Otaku</title>
 
   
   <meta name="author" content="Bewils">
@@ -16,14 +16,14 @@
 
   
   
-  <meta name="keywords" content="MacOS">
+  <meta name="keywords" content="macOS">
   
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta property="og:title" content="MacOS 开发入门 NSTextField @2"/>
+  <meta property="og:title" content="macOS 开发入门 NSTextField @2"/>
 
   <meta property="og:site_name" content="Yuki"/>
 
@@ -51,13 +51,13 @@
   <nav class="site-navigation">
     <ul>
       
-        <li><a href="/">主页</a></li>
+        <li><a href="/">Home</a></li>
       
-        <li><a href="/archives">归档</a></li>
+        <li><a href="/archives">Archives</a></li>
       
-        <li><a href="/tags">标签</a></li>
+        <li><a href="/tags">Tags</a></li>
       
-        <li><a href="/about">关于</a></li>
+        <li><a href="/about">About</a></li>
       
     </ul>
   </nav>
@@ -68,13 +68,13 @@
 
   
     
-    <h3 class="article-title"><span>MacOS 开发入门 NSTextField @2</span></h3>
+    <h3 class="article-title"><span>macOS 开发入门 NSTextField @2</span></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2017/02/08/TextField1/" rel="bookmark">
+      <a href="/2017/02/08/ NSTextField1/" rel="bookmark">
         <time class="entry-date published" datetime="2017-02-08T06:56:36.000Z">
           2017-02-08
         </time>
@@ -91,7 +91,7 @@
         <p>本来以为一次已经把 NSTextField 的坑踩完了，没想到又陷进去一天…</p>
 <p>上次把基本的绘制样式实现好了，接下来只想实现一个小功能，就是判断下哪个输入框处于有焦点的状态然后高亮下边线就可以了</p>
 <a id="more"></a>
-<p><img src="/images/TextField1/demo.png" alt=""></p>
+<p><img src="/images/NSTextField1/demo.png" alt=""></p>
 <ol>
 <li><p>最容易想到的就是 NSText Delegate 函数</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textShouldBeginEditing</span><span class="params">(NSText)</span></span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textDidBeginEditing</span><span class="params">(Notification)</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textShouldEndEditing</span><span class="params">(NSText)</span></span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textDidEndEditing</span><span class="params">(Notification)</span></span></div></pre></td></tr></table></figure>
@@ -102,7 +102,7 @@
 <p>这样只要在 become/resign first responder 的时候修改颜色就可以，而且时机完全正确，本以为找到了最好的解决方案</p>
 <p>but…</p>
 <p>问题又来了，因为效果不对所以在两个函数中加入了输出语句，打印出的结果竟然 resignFirstResponder 在 becomeFirstResponder 执行结束就立即被调用了</p>
-<p><img src="/images/TextField1/print.png" alt=""></p>
+<p><img src="/images/NSTextField1/print.png" alt=""></p>
 <p>然后继续感谢 google，在一篇很老的帖子里找到了解释 <a href="http://www.cocoabuilder.com/archive/cocoa/103607-resignfirstresponder-called-immediately.html" target="_blank" rel="external">resignFirstResponder called immediately</a></p>
 <blockquote>
 <p>When a text field is being edited, the shared “field editor” object<br>is used as the first responder, not the text field. Check out the<br>documentation for the NSWindow method fieldEditor:forObject: for more<br>information on this.</p>
@@ -112,7 +112,7 @@
 <li><p>最后又选择了一个折中的方案，使用下面两个函数</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">becomeFirstResponder</span><span class="params">()</span></span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textDidEndEditing</span><span class="params">(Notification)</span></span></div></pre></td></tr></table></figure>
 <p>这样尽管 become first responder 后立刻就 resign first responder 但仍然处于编辑状态，还是会处于高亮下边线的状态，停止编辑后也能立即切换高亮</p>
-<p><img src="/images/TextField1/demo.gif" alt=""></p>
+<p><img src="/images/NSTextField1/demo.gif" alt=""></p>
 </li>
 </ol>
 
@@ -131,7 +131,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/MacOS/">MacOS</a>
+        <a href="/tags/macOS/">macOS</a>
     </span>
     
 
