@@ -102,10 +102,6 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> dirtyRect: NSRect)</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.draw(dirtyRect)</div><div class="line">  </div><div class="line">  <span class="type">NSColor</span>.blue.setFill()</div><div class="line">  <span class="type">NSRectFill</span>(dirtyRect)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这个方法的坏处是因为是重写了 draw 函数，所以绘制文字的代码也要重写否则会只剩下背景而没有文字</p>
 </li>
-</ul>
-</li>
-</ol>
-<ul>
 <li><p>改变 NSButton layer 的颜色即背景颜色</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.wantsLayer = <span class="literal">true</span></div><div class="line"><span class="keyword">self</span>.layer?.backgroundColor = <span class="type">NSColor</span>.blue.cgColor</div></pre></td></tr></table></figure>
 <p>这个方法比较简洁容易实现，但是在 github open issue 里面找到一个回答</p>
@@ -114,7 +110,7 @@
 </blockquote>
 </li>
 </ul>
-<ol>
+</li>
 <li><p>修改文字颜色字体等属性，这个可以使用 NSAttributedString 这个类来实现，NSButton 中有个属性叫 attributedTitle，通过修改这个属性就能实现文字属性的修改</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> paraStyle = <span class="type">NSMutableParagraphStyle</span>()</div><div class="line">paraStyle.alignment = .center</div><div class="line"><span class="keyword">self</span>.attributedTitle = <span class="type">NSAttributedString</span>(string: <span class="keyword">self</span>.title, attributes: [<span class="type">NSForegroundColorAttributeName</span>: fontColor, <span class="type">NSFontAttributeName</span>: <span class="type">NSFont</span>.systemFont(ofSize: fontSize), <span class="type">NSParagraphStyleAttributeName</span> : paraStyle])</div></pre></td></tr></table></figure>
 <p>在这个例子中通过 NSAttributedString 设置了三个属性：文字颜色，字体和段落样式，NSAttributedString 的 attributes 是 [String: Any] 的字典，所有属性可以参考 <a href="https://developer.apple.com/reference/foundation/nsattributedstring/character_attributes" target="_blank" rel="external">Character Attributes</a>，比较常用的有：NSBackgroundColorAttributeName、NSFontAttributeName、NSForegroundColorAttributeName、NSShadowAttributeName、NSUnderlineColorAttributeName</p>
