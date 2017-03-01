@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ife 课程笔记 @1 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。
+Emmet首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。">
+  
+
+  
+  
+  <meta name="keywords" content="FrontEnd">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Ife 课程笔记 @1"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <style media="screen">
+  pre{
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint linenums').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+        <li><a href="/tags">Tags</a></li>
+      
+        <li><a href="/about">About</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Ife 课程笔记 @1</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/01/Ife1/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-01T02:59:53.000Z">
+          2017-03-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。</p>
+<h2 id="Emmet"><a href="#Emmet" class="headerlink" title="Emmet"></a>Emmet</h2><p>首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。</p>
+<a id="more"></a>
+<pre><code class="html">&lt;!-- div#foo.box --&gt;
+&lt;!-- #为id .为class --&gt;
+&lt;div id=&quot;foo&quot; class=&quot;card&quot;&gt;&lt;/div&gt;
+
+&lt;!-- a[href=&quot;#&quot;]{Link} --&gt;
+&lt;!-- []中填属性 {}中填文本 --&gt;
+&lt;a href=&quot;#&quot;&gt;Link&lt;/a&gt;
+
+&lt;!-- div&gt;p+span^div --&gt;
+&lt;!-- &gt;表示嵌套 +表示同级 ^表示回到上一级 --&gt;
+&lt;div&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;span&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div&gt;&lt;/div&gt;
+
+&lt;!-- ul&gt;(li&gt;a)*3 --&gt;
+&lt;!-- ()可以形成分组 *可以重复生成 --&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- div&gt;img.item$[src=img$.jpg]*3 --&gt;
+&lt;!-- $可以用来占位来生成多个带属性的元素 --&gt;
+&lt;div&gt;
+  &lt;img src=&quot;img1.jpg&quot; alt=&quot;&quot; class=&quot;item1&quot;&gt;
+  &lt;img src=&quot;img2.jpg&quot; alt=&quot;&quot; class=&quot;item2&quot;&gt;
+  &lt;img src=&quot;img3.jpg&quot; alt=&quot;&quot; class=&quot;item3&quot;&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h2><p>曾经前端的布局是靠着一套 table 实现各种布局的，但是现在由于布局的方案越来越多比如 position、float、flex 均比 table 的实现效果好很多也更加灵活，现在使用 table 的场合越来越少。table 也逐渐回归了自己本来制表功能，然而表格平时也不常用所以已经快把 table 的相关属性忘得差不多了，通过这次课程复习一下 table</p>
+<p><strong>cellpadding(cellspacing)</strong>：实现效果类似于给 td 设置 padding(margin)</p>
+<p><strong>colspan(rowspan)</strong>：设置某个单元格横跨几行(几列)</p>
+<p><strong>border-collapse</strong>：html 中默认会将 table 的border 和 cell 的 border 隔离开，中间会有一个很小的缝隙，通过修改 border-collapse 属性可以将二者合并起来，让表格看起来更紧凑。默认值为 separate，可取 collapse</p>
+<h2 id="三栏布局"><a href="#三栏布局" class="headerlink" title="三栏布局"></a>三栏布局</h2><p>有一道题目考的是很基础的三栏布局，起手写起 <code>width: calc(100% - 400px)</code>，然后发现现在借着 CSS3 的便捷传统布局有点忘记了，顺便复习下</p>
+<ul>
+<li>float 布局：左右浮动，中间设置 margin 为左右宽度</li>
+<li>absolute 布局：左右绝对定位，中间设置 margin 为左右宽度</li>
+</ul>
+<p>其他方案不是很有实用价值，在此不记录，而上面两种方法就是要求左右固定宽度，中间自适应的时候其实可能会出现些显示上的问题</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/FrontEnd/">FrontEnd</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
