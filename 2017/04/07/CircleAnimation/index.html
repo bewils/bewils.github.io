@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>圆形扇形等一系列问题 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="画圆形的方法
+UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆
+
+UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)
+
+
+参数列表为弧形中心，半径，开始角度，结束角度，方向是否为顺时针">
+  
+
+  
+  
+  <meta name="keywords" content="iOS">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="圆形扇形等一系列问题"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <style media="screen">
+  pre{
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint linenums').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+        <li><a href="/tags">Tags</a></li>
+      
+        <li><a href="/about">About</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>圆形扇形等一系列问题</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/04/07/CircleAnimation/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-04-07T00:30:36.000Z">
+          2017-04-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="画圆形的方法"><a href="#画圆形的方法" class="headerlink" title="画圆形的方法"></a>画圆形的方法</h3><ol>
+<li><p>UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆</p>
+</li>
+<li><p>UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)</p>
+</li>
+</ol>
+<p>参数列表为弧形中心，半径，开始角度，结束角度，方向是否为顺时针</p>
+<a id="more"></a>
+<p>这个函数其实是画了一个弧线，而如果把弧度起止设为 0 和 M_PI*2 那么就画出了一个圆环</p>
+<p><img src="/images/CircleAnimation/Oval.png" alt=""></p>
+<p>将这个 UIBezierPath 赋给 CAShapeLayer 就可以获得一个圆形的 layer ，通过设定 CAShapeLayer 的 lineWidth 为半径的 2 倍就可以绘制出一个实心圆</p>
+<p><img src="/images/CircleAnimation/Group.png" alt=""></p>
+<p>弧形的半径为 90 ， lineWidth 为 180，因为边框是从边界开始绘制向内 90 向外 90，因此就可以画出一个半径为 180 的圆了</p>
+<h3 id="画扇形的方法"><a href="#画扇形的方法" class="headerlink" title="画扇形的方法"></a>画扇形的方法</h3><p>其实画扇形也很简单，只要使用 UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)  先画出一个弧形，然后使用 addLine(to: CGPoint) 方法添加一条到达圆心的线， 接下来使用 close() 方法就可以画出扇形了<br><img src="/images/CircleAnimation/Group%202.png" alt=""></p>
+<h3 id="扇形动画的方法"><a href="#扇形动画的方法" class="headerlink" title="扇形动画的方法"></a>扇形动画的方法</h3><p>在画圆的部分中第二种方法绘制起来非常麻烦，所以在正常情况下一般是使用 UIBezierPath(ovalIn: CGRect) 的方法来绘制圆形</p>
+<p>但是第二种方法存在的价值就是绘制一个扇形动画，效果如下</p>
+<p><img src="/images/CircleAnimation/1.gif" alt=""></p>
+<p>因为第二种方法绘制的圆形其实是利用一个很宽很宽的边框绘制出来的，就很像传统圆的定义，半径绕着圆心旋转一周就变成了圆</p>
+<p>同时CAShapeLayer中有两个属性 strokeStart 和 strokeEnd 可以设置外边框的起止位置，取值范围 0~1 。如果设置 strokeStart 为 0， strokeEnd 为 0.5 并且应用于第一个圆环，就会变成这样：</p>
+<p><img src="/images/CircleAnimation/Group%203.png" alt=""></p>
+<p>这时第二种方法画圆的好处就体现出来了，我们可以通过修改 strokeEnd 的值来进行一个扇形动画， 因为整个圆其实就是用 stroke 绘制出来的</p>
+<pre><code class="swift">let animation = CABasicAnimation(keyPath: &quot;strokeEnd&quot;)
+animation.fromValue = 0.0
+animation.toValue = 1.0
+animation.duration = 2.0
+animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+maskLayer.add(animation, forKey: &quot;maskAnimation&quot;)
+</code></pre>
+<p>这样就可以绘制出一个扇形动画了</p>
+<p>其实这种动画可以应用在很多方面，比如一个圆弧形的进度条，比如绘制扇形图的时候一个加载动画</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
