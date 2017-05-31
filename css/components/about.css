@@ -1,0 +1,16 @@
+.article-content img {
+  width: 300px;
+  box-shadow: 0 0 8px 2px #ccc;
+  margin: 30px !important;
+  margin-left: 0 !important;
+  float: left;
+}
+.article-content div {
+  float: left;
+}
+.article-content del {
+  line-height: 1.8;
+}
+.article-content blockquote {
+  margin: 10px 0;
+}
