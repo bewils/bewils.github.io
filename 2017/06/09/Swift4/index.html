@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>What&#39;s new in swift4 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="这次 WWDC 最令你激动的更新是什么？
+最令我激动的是 swift 没更新
+
+然而并不是这样，只不过 keynote 中偏重新品发布没提到就以为没有更新了？Github 上 swift 的更新进程仍在继续，新添加的特性和修复的 bug 也不断增多。Swift 作为一门现代语言正向着更好的方向发展，在这篇文章中将主要讨论 swift4 中主要的变化">
+  
+
+  
+  
+  <meta name="keywords" content="iOS,swift">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="What&#39;s new in swift4"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <style media="screen">
+  pre{
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint linenums').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+        <li><a href="/atom.xml">订阅</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>What&#39;s new in swift4</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/06/09/Swift4/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-06-09T06:55:03.000Z">
+          2017-06-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<p>这次 WWDC 最令你激动的更新是什么？</p>
+<p>最令我激动的是 swift 没更新</p>
+</blockquote>
+<p>然而并不是这样，只不过 keynote 中偏重新品发布没提到就以为没有更新了？Github 上 swift 的更新进程仍在继续，新添加的特性和修复的 bug 也不断增多。Swift 作为一门现代语言正向着更好的方向发展，在这篇文章中将主要讨论 swift4 中主要的变化</p>
+<a id="more"></a>
+<h3 id="0-不是一门新的语言"><a href="#0-不是一门新的语言" class="headerlink" title="0 不是一门新的语言"></a>0 不是一门新的语言</h3><p>这大概是今年最大的惊喜吧，4 终于作为了一个版本号而不是新语言的名称出现在 swift 中，每年为人们所诟病的 swift 重新入门也终于可以停下来了。虽然 4 和 3 还是有一定的区别但是已经基本上可以共同编译，官方也说 swift3 的绝大多数代码不需要移植就能通过编译，这样很多第三方的库即使停止维护或者维护不及时现在也可以继续运行</p>
+<h3 id="1-单向区间"><a href="#1-单向区间" class="headerlink" title="1 单向区间"></a>1 单向区间</h3><p>单向区间是一个新的类型，主要分两种：确定上限和确定下限的区间。直接用字面量定义大概可以写成 <code>...6</code> 和 <code>2...</code></p>
+<p>单向区间比较方便的场合</p>
+<ol>
+<li><p>在比如 zip 函数中使用单向区间，因为 zip 过程中较短的一个序列结束后整个操作就会停止，因此使用单向区间可以不去关心限制(反正范围比你大</p>
+<pre><code class="swift">// [(1, &quot;q&quot;), (2, &quot;w&quot;), (3, &quot;e&quot;)]
+Array(zip(1..., [&quot;q&quot;, &quot;w&quot;, &quot;e&quot;]))
+</code></pre>
+</li>
+<li><p>比如对数组进行操作，取第 3 个元素后的所有元素，现在可以直接通过 <code>arr[3...]</code> 直接取出同样不用关心数组的长度</p>
+</li>
+<li><p>可以用在 switch 语句中，实际上这样 switch 语句就可以模拟整个数轴了</p>
+</li>
+</ol>
+<h3 id="2-private-权限"><a href="#2-private-权限" class="headerlink" title="2 private 权限"></a>2 private 权限</h3><p>在开始学习面向对象的时候每个人都学过封装，通过隐藏内部实现或属性暴露接口给其他类使用。同时也会学到一个重要的关键字 private，这个关键字可以将一切类内的东西设为私有让外部无法访问，是实现封装不可缺少的关键字。</p>
+<p>随着文件代码量的增加，通过自行领悟或查看教程，我们学到了在 swift 中通过扩展实现各个不同的模块功能，但这时问题就出现了</p>
+<pre><code class="swift">class SomeClass {
+  private someProp
+}
+
+extension SomeClass: SomeProtocol {
+  func someFun() {
+      // error!
+    self.someProp = newValue
+  }
+}
+</code></pre>
+<p>someProp 这个私有变量在扩展中竟然无法访问，所幸 swift3 中提供了新的关键字 fileprivate，于是我们可以继续开开心心使用这个关键字来限制变量，在其他文件中无法访问而只在本文件内能访问。</p>
+<p>而 swift4 彻底修复了这个问题，由于 fileprivate 一定程度上使被限定者的作用域比预期要大(作用域从类内变成整个文件，因此修改了 private 关键字。现在，private 修饰的变量可以在类内和类的扩展中访问到了，今后对于类内的私有变量还是使用 private 即可</p>
+<h3 id="3-字符串"><a href="#3-字符串" class="headerlink" title="3 字符串"></a>3 字符串</h3><p>字符串的改动可以说是回到最初的起点？</p>
+<p>由于之前过度封装，导致对字符串的操作十分麻烦，对字符串的操作总要经过一层 characters。而 swift4 中进行修改将 String 又变回我们在其他语言中看到的，通常意义上的字符的集合。现在，我们可以直接对字符串进行操作来修改获得字符串</p>
+<pre><code class="swift">var str = &quot;Hello, world!&quot;
+str.last
+str.indexOf(&quot;w&quot;)
+str.dropLast(1)
+</code></pre>
+<p>并且字符串中还加入了一个有趣的功能，多行字符串。为了方便程序员不用在字符串中手动加入多个”\n”，swift4 中用 3 个 “ 包裹起来的字符串会自动将格式化换行和缩进</p>
+<pre><code class="swift">// 3
+var str = &quot;Hello\nWorld&quot;
+// 4
+var str =&quot;&quot;&quot;
+    Hello
+    World
+    &quot;&quot;&quot;
+</code></pre>
+<h3 id="4-keyPath"><a href="#4-keyPath" class="headerlink" title="4 keyPath"></a>4 keyPath</h3><p>在过去用到 keyPath 的时候我们只是使用一个字符串来构建 keyPath， 比如 <code>“book.title”</code> 这种方式。在 swift4 中，keyPath 变成了一个正式的类型，而且可以通过字面量的方式进行定义，定义方法是以一个反斜线开始，比如 <code>\Book.title</code> 这种方式，也提供了 append 这种修改的方法，而就使用上来说倒是没什么太多的不同</p>
+<h3 id="5-swapAt"><a href="#5-swapAt" class="headerlink" title="5 swapAt"></a>5 swapAt</h3><p>Swift4 中将 swapAt 封装到了 Collection 协议中，全局的 swap 函数将不合法使用会报错</p>
+<pre><code class="swift">var arr = [1, 2, 3, 4, 5]
+// 3
+swap(&amp;arr[1], &amp;arr[2])
+// 4
+arr.swapAt(1, 2)
+</code></pre>
+<h3 id="6-类与协议复合类型"><a href="#6-类与协议复合类型" class="headerlink" title="6 类与协议复合类型"></a>6 类与协议复合类型</h3><p>过去我们指定一个变量的类型我们可以通过类名或者协议名，不过这会带来一些困扰，比如 session 中提到的</p>
+<p><img src="/images/Swift4/Snip20170608_1.png" alt="Snip20170608_1"></p>
+<p><img src="/images/Swift4/Snip20170608_2.png" alt="Snip20170608_2"></p>
+<p>这两种写法每种都有问题，都会造成使用上的困扰，都需要进行类型转换后才能进行使用，而 swift4 中我们可以使用类 + 协议的复合类型来定义变量</p>
+<p><img src="/images/Swift4/Snip20170608_3.png" alt="Snip20170608_3"></p>
+<p>这样的好处是可以尽可能少得进行类型转换，也避免了单一限定会混进来其他变量的问题</p>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7 总结"></a>7 总结</h3><p>Swift4 中添加了很多新的特性，也修改了很多不方便使用的部分，总体上来说对程序员是很有帮助的一个更新，让程序员可以写出更简洁更准确的代码。由于笔者水平有限，现在只能从语言层面上来分析 swift4 的变化，如果希望了解更深层次比如编译连接的变化可以查看下面的参考资料。</p>
+<h3 id="8-参考资料"><a href="#8-参考资料" class="headerlink" title="8 参考资料"></a>8 参考资料</h3><p><a href="https://developer.apple.com/videos/play/wwdc2017/102/" target="_blank" rel="external">https://developer.apple.com/videos/play/wwdc2017/102/</a> WWDC 中各个方面的概述 包括 swift4</p>
+<p><a href="https://developer.apple.com/videos/play/wwdc2017/402/" target="_blank" rel="external">https://developer.apple.com/videos/play/wwdc2017/402/</a> WWDC 关于 swift4 的 session</p>
+<p><a href="https://github.com/ole/whats-new-in-swift-4" target="_blank" rel="external">https://github.com/ole/whats-new-in-swift-4</a> 展示 swift4 新特性的 playground</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a><a href="/tags/swift/">swift</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

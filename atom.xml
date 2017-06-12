@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-07T00:34:59.000Z</updated>
+  <updated>2017-06-12T10:22:50.334Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>What&#39;s new in swift4</title>
+    <link href="http://yoursite.com/2017/06/09/Swift4/"/>
+    <id>http://yoursite.com/2017/06/09/Swift4/</id>
+    <published>2017-06-09T06:55:03.000Z</published>
+    <updated>2017-06-12T10:22:50.334Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;这次 WWDC 最令你激动的更新是什么？&lt;/p&gt;
+&lt;p&gt;最令我激动的是 swift 没更新&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然而并不是这样，只不过 keynote 中偏重新品发布没提到就以为没有更新了？Github 上 swift 的更新进程仍在继续，新添加的特性和修复的 bug 也不断增多。Swift 作为一门现代语言正向着更好的方向发展，在这篇文章中将主要讨论 swift4 中主要的变化&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="swift" scheme="http://yoursite.com/tags/swift/"/>
+    
+  </entry>
   
   <entry>
     <title>圆形扇形等一系列问题</title>
