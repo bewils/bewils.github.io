@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-12T10:22:50.334Z</updated>
+  <updated>2017-06-12T17:29:15.789Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,29 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>iOS11 大标题</title>
+    <link href="http://yoursite.com/2017/06/12/BigTitle/"/>
+    <id>http://yoursite.com/2017/06/12/BigTitle/</id>
+    <published>2017-06-12T15:29:11.000Z</published>
+    <updated>2017-06-12T17:29:15.789Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在 iOS11 中苹果推出了新的设计风格 Complexion Reduction，其中一个很直观的特点就是大标题的使用：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>What&#39;s new in swift4</title>
     <link href="http://yoursite.com/2017/06/09/Swift4/"/>
     <id>http://yoursite.com/2017/06/09/Swift4/</id>
     <published>2017-06-09T06:55:03.000Z</published>
-    <updated>2017-06-12T10:22:50.334Z</updated>
+    <updated>2017-06-12T16:47:43.013Z</updated>
     
     <summary type="html">
     
@@ -68,7 +86,7 @@
     <link href="http://yoursite.com/2017/03/27/AutoLayout/"/>
     <id>http://yoursite.com/2017/03/27/AutoLayout/</id>
     <published>2017-03-26T16:50:49.000Z</published>
-    <updated>2017-03-26T18:40:35.000Z</updated>
+    <updated>2017-06-12T16:47:12.664Z</updated>
     
     <summary type="html">
     

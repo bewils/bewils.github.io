@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS11 大标题 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="在 iOS11 中苹果推出了新的设计风格 Complexion Reduction，其中一个很直观的特点就是大标题的使用：">
+  
+
+  
+  
+  <meta name="keywords" content="iOS">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="iOS11 大标题"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <style media="screen">
+  pre{
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint linenums').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+        <li><a href="/atom.xml">订阅</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>iOS11 大标题</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/06/12/BigTitle/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-06-12T15:29:11.000Z">
+          2017-06-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 iOS11 中苹果推出了新的设计风格 Complexion Reduction，其中一个很直观的特点就是大标题的使用：</p>
+<a id="more"></a>
+<p><img src="/images/BigTitle/Snip20170612_11.png" alt="Snip20170612_11"></p>
+<p>在过去的 iOS 版本中很多 App 就采用了这种设计方式，但由于 iOS 没有提供相关的方法，只能通过开发者自行实现。而在 iOS11 中，iOS 提供了统一的实现方法即 Large Title，我们可以很轻松地实现上述效果</p>
+<h2 id="1-相关属性"><a href="#1-相关属性" class="headerlink" title="1 相关属性"></a>1 相关属性</h2><p>iOS11 中实现大标题非常简单，只需要设置两个属性即可：</p>
+<pre><code class="swift">// UINavigationBar
+var prefersLargeTitles: Bool
+
+// UINavigationItem
+var largeTitleDisplayMode: UINavigationItem.LargeTitleDisplayMode
+</code></pre>
+<p>largeTitleDisplayMode 的取值为一个枚举值，取值如下：</p>
+<pre><code class="swift">case always
+case automatic
+case never
+</code></pre>
+<p>当设置 <code>prefersLargeTitles = true</code> 且 <code>largeTitleDisplayMode = .automatic</code> 就会有如下图所示的效果，默认显示大标题，而当屏幕向上滑动的时候标题缩小恢复到过去的小标题样式</p>
+<p><img src="/images/BigTitle/Snip20170612_12.png" alt="Snip20170612_12"></p>
+<p>顺便还有个好消息，这么简单的两个属性当然已经集成在 storyboard 中了！</p>
+<p><img src="/images/BigTitle/Snip20170612_15.png" alt="Snip20170612_15"></p>
+<h2 id="2-集成搜索框"><a href="#2-集成搜索框" class="headerlink" title="2 集成搜索框"></a>2 集成搜索框</h2><p>iOS8 中为 UITableView 内嵌了搜索框 UISearchController，但加到 UITableView 中的搜索框与大标题配合的时候就很复杂，需要两个组件间通信状态并同步动画。因此 iOS11 中选择将搜索框加入到 UINavigationItem 中，这样就实现了统一的动画。</p>
+<p>而加入搜索框的方法也很简单，UINagivationItem 中新添加了两个属性：</p>
+<pre><code class="swift">var searchController: UISearchController?
+var hidesSearchBarWhenScrolling: Bool
+
+// 使用
+self.navigationItem.searchController = UISearchController(searchResultsController: nil)
+self.navigationItem.hidesSearchBarWhenScrolling = true
+</code></pre>
+<p>其中 <code>hideSearchBarWhenScrolling</code> 属性可以设置下面试图滚动的时候时候隐藏搜索框， <code>true</code> 和 <code>false</code> 时效果分别如下：</p>
+<p><img src="/images/BigTitle/Snip20170613_18.png" alt="Snip20170613_18"></p>
+<h2 id="3-视图栈中的使用"><a href="#3-视图栈中的使用" class="headerlink" title="3 视图栈中的使用"></a>3 视图栈中的使用</h2><p>iOS11 中的大标题，比如在设置中的使用，只在主界面中用了大标题，即 <code>UINavigationController</code> 的 <code>rootViewController</code> 中。当点击某个设置进入下级视图的时候直接是以小标题的样式展示</p>
+<p>借助 iOS11 中方便的 API，我们只需要在后面的视图中设置 <code>largeTitleDisplayMode = .never</code> 即可</p>
+<p><img src="/images/BigTitle/demo.gif" alt="demo"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
