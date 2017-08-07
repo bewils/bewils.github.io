@@ -29,11 +29,12 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+
   <style media="screen">
-  pre{
-    word-break: break-all;
-    word-wrap: break-word;
-  }
+    pre {
+      word-break: break-all;
+      word-wrap: break-word;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -44,6 +45,7 @@
     prettyPrint();
   })
   </script>
+
 </head>
 
 
@@ -77,6 +79,77 @@
 
     <main class="site-main posts-loop">
     
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/08/07/Swift4codable/"><span>Swift4 JSON 解析</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/08/07/Swift4codable/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-07T14:05:52.000Z">
+          2017-08-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
+<pre><code class="swift">if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+  if let objectList = jsonObject as? [Any] {
+    for object in objectList {
+      if let object = object as? [String: Any] {
+        // use object
+      }
+    }
+  }
+}
+</code></pre>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/swift/">swift</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/08/07/Swift4codable/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
   <article>
 
   

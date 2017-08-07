@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-12T17:34:45.029Z</updated>
+  <updated>2017-08-07T16:48:14.397Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Swift4 JSON 解析</title>
+    <link href="http://yoursite.com/2017/08/07/Swift4codable/"/>
+    <id>http://yoursite.com/2017/08/07/Swift4codable/</id>
+    <published>2017-08-07T14:05:52.000Z</published>
+    <updated>2017-08-07T16:48:14.397Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+  if let objectList = jsonObject as? [Any] {
+    for object in objectList {
+      if let object = object as? [String: Any] {
+        // use object
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="swift" scheme="http://yoursite.com/tags/swift/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS11 大标题</title>
