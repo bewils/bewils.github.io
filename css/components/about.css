@@ -1,16 +1,19 @@
-.article-content img {
+.article-content > div {
+  width: 620px;
+  margin: 0 auto;
+}
+.article-content .entry div {
+  float: right;
+}
+.article-content .entry img {
   width: 300px;
   box-shadow: 0 0 8px 2px #ccc;
   margin: 30px !important;
   margin-left: 0 !important;
-  float: left;
 }
-.article-content div {
-  float: left;
-}
-.article-content del {
+.article-content .entry del {
   line-height: 1.8;
 }
-.article-content blockquote {
+.article-content .entry blockquote {
   margin: 10px 0;
 }

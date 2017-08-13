@@ -39,9 +39,17 @@
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
 
   <style media="screen">
+    body .blog .content {
+      max-width: 1000px;
+    }
     pre {
       word-break: break-all;
       word-wrap: break-word;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    pre code {
+      white-space: pre-wrap !important;
     }
   </style>
 
@@ -49,7 +57,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
   <script type="text/javascript">
   $(window).load(function(){
-    $('pre').addClass('prettyprint linenums').attr('style', 'overflow:hidden;');
+    $('pre').addClass('prettyprint').attr('style', 'overflow:hidden;');
     prettyPrint();
   })
   </script>
