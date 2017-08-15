@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Protobuf 简介及简单应用 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="Protobuf 是 protocol buffers 的缩写. 根据官网的说法, protocol buffers 与平台无关, 与语言无关, 实现数据序列化的一种手段. 正如名字一样, protobuf 可以将数据按照规定的协议(protocol)序列化为二进制的数据(buffers). 序列化的数据基本上可以保证类型安全, 并且可以压缩大小. 这篇文章将简单说说关于 protobuf 的优点和问题, 如果有使用的需要可以作为参考">
+  
+
+  
+  
+  <meta name="keywords" content="Basic">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Protobuf 简介及简单应用"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+
+  <style media="screen">
+    body .blog .content {
+      max-width: 1000px;
+    }
+    pre {
+      word-break: break-all;
+      word-wrap: break-word;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    pre code {
+      white-space: pre-wrap !important;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+        <li><a href="/atom.xml">订阅</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Protobuf 简介及简单应用</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/08/14/Protobuf/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-14T14:05:11.000Z">
+          2017-08-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Protobuf 是 protocol buffers 的缩写. 根据<a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="external">官网</a>的说法, protocol buffers 与平台无关, 与语言无关, 实现数据序列化的一种手段. 正如名字一样, protobuf 可以将数据按照规定的协议(protocol)序列化为二进制的数据(buffers). 序列化的数据基本上可以保证类型安全, 并且可以压缩大小. 这篇文章将简单说说关于 protobuf 的优点和问题, 如果有使用的需要可以作为参考</p>
+<a id="more"></a>
+<h2 id="安装和使用"><a href="#安装和使用" class="headerlink" title="安装和使用"></a>安装和使用</h2><p>Protobuf 是在 github 上开源的项目, 地址在<a href="https://github.com/google/protobuf" target="_blank" rel="external">这里</a>.</p>
+<p>因为 protobuf 的编译器是用 C++ 写的, 所以可以通过 C++ 的安装方式来安装. mac 用户的话由于没有 apt-get, 按照安装说明中要使用的命令行工具可以用 <code>homebrew</code> 安装</p>
+<p>经过漫长的下载, 编译, 安装, 没有显示错误, 恭喜🎉, 可以正式开始使用 protobuf 了</p>
+<p>首先按照 protobuf 的语法(格式?)来写一个 .proto 文件</p>
+<pre><code class="protobuf">// BookInfo.proto
+syntax = &quot;proto3&quot;;
+
+message BookInfo {
+  int64 id = 1;
+  string title = 2;
+  string author = 3;
+}
+</code></pre>
+<p>因为 protobuf 与语言无关, 因此接下来请按照 github 项目页面的教程选择自己使用的语言, 现在 protobuf 官方支持的语言有很多: C++, Java, Python, Objective-C… 选择后根据文档中的方法编译 .proto 文件, 这里我们将 .proto 编译成能够当做 CommonJS 引入的 js 文件</p>
+<pre><code class="shell">$ protoc --js_out=import_style=commonjs,binary:. BookInfo.proto
+</code></pre>
+<p>其实利用 protobuf 编译器将 .proto 文件编译成各种语言的方法都大同小异:</p>
+<ol>
+<li>指定语言的输出路径 <code>--js-out=.</code> (这里省略了中间的编译选项)</li>
+<li>要编译的文件 <code>BookInfo.proto</code></li>
+</ol>
+<p>然后就能看到当前文件夹中出现了一个 <code>BookInfo_pb.js</code> 的文件, 在项目中引用后就可以直接使用了</p>
+<pre><code class="javascript">const BookInfoModel = require(&#39;../protobuf_model/build_model/BookInfo_pb&#39;)
+let bookInfo = new BookInfoModel.BookInfo()
+bookInfo.setId(4)
+</code></pre>
+<p>安装及使用大体就是这样, 根据语言的不同会有一些差别. 接下来将会开始介绍隐藏在 .proto 和 _pb.js 文件背后的东西</p>
+<h2 id="先从-JSON-说起"><a href="#先从-JSON-说起" class="headerlink" title="先从 JSON 说起"></a>先从 JSON 说起</h2><p>在讲 protobuf 之前先聊聊 JSON, 这个现在非常流行的数据格式. JSON 的格式非常简洁并且可以自解释, 在传输同样的数据量的时候比 XML 更小, 这也就意味着 JSON 可以占用更小的内存, 有更快的传输速度, 后面这点更为关键. 作为服务器和客户端的交互数据, 传输速度更快可以让用户更快得到反馈, 极大提高用户体验.</p>
+<p>JSON 是利用符号来作为数据结构的分界, 比如 <code>[]</code> 表示数组, <code>{}</code> 表示字典, 这样就可以直接传输 key-value, 基本上传输的都是最简的需要的数据, 这是它如此轻量的原因. 那么, 有没有办法让 JSON 在传输数据的时候体积更小呢?</p>
+<pre><code class="JSON">// 47 个字符
+{
+  &quot;id&quot;: 123456,
+  &quot;title&quot;: &quot;A Book&quot;,
+  &quot;author&quot;: &quot;bewils&quot;
+}
+</code></pre>
+<p>因为 JSON 的格式不能改变, 否则在解析过程中会直接 crash 掉, 而 value 部分因为都是需要的数据也不能动, 所以理所当然地想到可以对 key 做一些事情</p>
+<pre><code class="JSON">// 37 个字符
+{
+  &quot;a&quot;: 123456,
+  &quot;b&quot;: &quot;A Book&quot;,
+  &quot;c&quot;: &quot;bewils&quot;
+}
+</code></pre>
+<p>通过一个简单的操作就可以将传输的数据压缩 21%, 虽然在使用的时候就会有点麻烦 ???</p>
+<pre><code class="Javascript">let id = obj[&quot;a&quot;]
+let title = obj[&quot;b&quot;]
+</code></pre>
+<p>可读性基本为 0, 除了写代码的人没人能看得懂, 估计写代码的人过了 3 个月也不知道自己写了什么鬼东西ヽ(｀Д´)ﾉ</p>
+<p>那要不用个字典来存储对应关系? 然后就能写出可读性好的代码了</p>
+<pre><code class="Javascript">const keys = {
+  id: &quot;a&quot;,
+  title: &quot;b&quot;,
+  author: &quot;c&quot;
+}
+
+let id = obj[keys[&quot;id&quot;]]
+let author = obj[keys[&quot;author&quot;]]
+</code></pre>
+<p>通过这种方法, 在前后端各保留一份对应字典, 就可以在传输的过程中缩小体积节省时间, 并且在使用时不会造成困扰. 但是, 等等, keys 的结构好像看起来和 .proto 文件的结构有点像啊? 好像发现了什么不得了的事情.</p>
+<p><img src="http://ouqin1qvl.bkt.clouddn.com/IMG_0129.PNG?imageslim" alt="Protocol Buffers"></p>
+<h2 id="proto-文件和编码"><a href="#proto-文件和编码" class="headerlink" title=".proto 文件和编码"></a>.proto 文件和编码</h2><p>实际上 .proto 文件就是一个数据格式的协议文件, 里面规定了数据的结构和类型. 比如开始的 BookInfo,  <code>int64 id = 1</code> 这句就是定义了 BookInfo 的属性名为 id, 类型为 int64, tag 为 1. 这样传输的时候只需要传数据, 类型和 tag, 收到后按照 tag 对应的属性名将数据序列化为对象就可以正常使用了</p>
+<p>关于编码方法, <a href="https://developers.google.com/protocol-buffers/docs/encoding" target="_blank" rel="external">官网</a>写了很详细的介绍, 在这里简单介绍(翻译)下:</p>
+<pre><code class="protobuf">message Test1 {
+  required int32 a = 1;
+}
+
+message Test2 {
+  required string b = 2;
+}
+</code></pre>
+<p>使用编译好的文件来创建 Test1 和 Test2 对象, 将 a 和 b 分别设为 150 和 “testing”, serialize 后打印 buffer 可以看到分别输出了 16 进制的 <code>08 96 01</code> 和 <code>12 07 74 65 73 74 69 6e 67</code>, 这就是 protobuf 将数据编码后的结果</p>
+<p>首先看两个数据的前 8 位分别是<code>08(0000 1000)</code> 和 <code>12(0001 0010)</code>, protobuf 的编码规则是低 3 位存 type, 高 5 位存 tag. a 字段的类型 int32 是 Varint(type 0), tag 为 1, 因此拼起来是 <code>00001(tag) 000(type)</code> 即 08; b 字段同理拼起来为 <code>00010(tag) 002(type)</code> 即 12 </p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Meaning</th>
+<th>Used For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Varint</td>
+<td>int32, int64, uint32, uint64, sint32, sint64, bool, enum</td>
+</tr>
+<tr>
+<td>1</td>
+<td>64-bit</td>
+<td>fixed64, sfixed64, double</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Length-delimited</td>
+<td>string, bytes, embedded messages, packed repeated fields</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Start group</td>
+<td>groups (deprecated)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>End group</td>
+<td>groups (deprecated)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>32-bit</td>
+<td>fixed32, sfixed32, float</td>
+</tr>
+</tbody>
+</table>
+<p>因为 protobuf 不使用符号来截断数据, 因此就存在如何分割数据的问题, 在传输数字的时候 protobuf 将每字节的第 1 位用来表示是否结束, 剩下 7 位为数据位. 而且字节间是倒序编码但字节内的 7 位是正序编码.</p>
+<pre><code>96 01 = 1001 0110 0000 0001
+    =&gt; 001 0110, 000 0001 (第 1 个字节的第 1 位 1 表示数据还没结束, 第 2 个字节的第 1 位 0 表示数据结束)
+    =&gt; 000 0001 001 0110 (字节间顺序为倒序, 字节内顺序为正序)
+    = 1001 0110 = 150
+</code></pre><p>接下来说说 string 的编码方式, 通过第 1 个字节的 12 可知类型为 Length-delimited(string), tag 为 2, 接下来的第 2 个字节表示这段数据的长度 07, 后面的 7 个字节就是字符的 ASCII 码了</p>
+<p>可以看出, protobuf 通过这些编码方式可以在保证数据类型, 数据结构的情况下还能将数据压缩到每个数据只附带 1 到 2 字节的多余数据, 更复杂结构的编码方式请前往官网查看</p>
+<h2 id="Protobuf-在-iOS-中的使用"><a href="#Protobuf-在-iOS-中的使用" class="headerlink" title="Protobuf 在 iOS 中的使用"></a>Protobuf 在 iOS 中的使用</h2><p>本来是打算在 iOS 的项目中使用 protobuf 才去学习的(因为在 Swift 中使用 protobuf 需要做额外工作所以前面用 js 举例)</p>
+<p>在 iOS 中使用 protobuf 有两种方法:</p>
+<ul>
+<li>如果使用 Objective-C 的话, 因为 protobuf 支持编译成 objc 所以直接编译后就能使用了</li>
+<li>如果使用的是 Swift 的话则有些麻烦, 不过还好苹果亲自动手写了 <a href="https://github.com/apple/swift-protobuf" target="_blank" rel="external">swift-protobuf</a> 这个库, 虽然配置麻烦但至少比较官方, 维护和反馈都比较及时</li>
+</ul>
+<p>swift-protobuf 的安装过程:</p>
+<ol>
+<li>clone 下来本地编译, 然后将编译出来的 <code>protoc-gen-swift</code> 放到 <code>PATH</code> 环境变量的目录下, 可以在命令行中输入 <code>echo $PATH</code> 来查看路径, 选一个放进去就行</li>
+<li>在 xcode 项目中用 Cocoapods/Carthage/Swift Package Manager/源代码 的方式引入均可</li>
+</ol>
+<p>然后就可以正常使用了, swift-protobuf 提供了很多方便的方法, 除了基础的 serialize/deserialize 外还能与 JSON 相互转换, 简直方便</p>
+<p>除此之外 swift-protobuf 在进行转换时还会按照 swift 的代码风格, 比如 python 的后端将 key 定义为 <code>html_url</code> 那么 swift-protobuf 会解析为驼峰命名的 <code>htmlUrl</code></p>
+<p>还有一点, 因为 protobuf 是单纯的数据序列化, 因此会直接转化为 struct 而不是 class</p>
+<h2 id="最后总结一下"><a href="#最后总结一下" class="headerlink" title="最后总结一下"></a>最后总结一下</h2><p>总体来说 protobuf 是一个很好的数据编码的方案</p>
+<ol>
+<li>可以保证类型安全</li>
+<li>可以极大地压缩数据量, 理论上可以将 JSON 压缩 1~∞ 倍</li>
+<li>因为 protobuf 有默认值这个说法(比如 int 的默认值是 0, stirng 的默认值是 “”, bool 的默认值是 false), 因此如果缺少数据解析过程不会失败, 而且在取值的时候不会有问题, 在 Swift 中特别明显, 所有的字段解析后都不是 optional 的, 也省去了很多 <code>if let id = id</code> 这种判断</li>
+<li>在定下来 API 接口的时候后端写好 .proto 文件就可以直接编译两份直接使用, 开发过程中基本上只需要关心网络连接即可</li>
+</ol>
+<h2 id="还有一些问题"><a href="#还有一些问题" class="headerlink" title="还有一些问题"></a>还有一些问题</h2><p>Protobuf 在得到上述好处的同时还有一些问题</p>
+<ol>
+<li>分布式的不同步性. 因为需要将 .proto 文件编译后在程序中使用, 如果在分布式的系统(或者最简单的例子 客户端)中, 用户所使用的版本一般不同(客户端一般不会强制更新). 如果新的版本中 .proto 文件进行了修改, 虽然 protobuf 的解析过程不会出现问题(多余字段忽略, 缺失字段用默认值), 但在使用的过程中还是会有一定的影响</li>
+<li>不推荐删除字段, 和第 1 点一样的原因, 而且如果这个字段真的没用过要删除的话新的字段也不能使用该字段的  tag 因为 protobuf 在解析的时候是用 tag 和字段名对应的, 客户端拿到了 tag 还是会对应到旧的字段上</li>
+<li>Protobuf 2 中的 required 和 optional 这两个用来标记字段的关键字在 3 中取消了, 理由同 1, 2 因此使用 Protobuf 来保证字段缺失问题只能回去用 2 的版本</li>
+<li><code>Swift</code> 写客户端(其实什么语言都是一样): 因为有默认值的存在所以对于 0, false 等值的用法就要小心, 因为无法保证接收到的到底是确实是这个数据还是丢失了字段</li>
+<li>关于在 Swift 中的使用还有一个理由可以看我的另外一篇<a href="http://www.jianshu.com/p/9f16765aaa34" target="_blank" rel="external">Swift4 JSON 解析</a></li>
+<li><code>Javascript</code> 写前端: 前端因为请求 js 脚本到本地执行所以不存在不同步的问题, 但是为了传 protobuf 还要把解析文件一起传还是很蛋疼的. 而且 JSON 本来就是 Javascript 的内置对象, 操作方便到天际, 根本没可比性</li>
+</ol>
+<h2 id="目前想到的最好使用场合"><a href="#目前想到的最好使用场合" class="headerlink" title="目前想到的最好使用场合"></a>目前想到的最好使用场合</h2><p>网络游戏开发(强制客户端更新, 大量数据, 对传输速度要求高)</p>
+<h2 id="安利一波"><a href="#安利一波" class="headerlink" title="安利一波"></a>安利一波</h2><p>黑仪·约会甜到炸/荡漾真可爱/疯狂打 call/٩(^o^)۶</p>
+<p><img src="http://ouqin1qvl.bkt.clouddn.com/IMG_3941.png?imageslim" alt="Hitagi"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Basic/">Basic</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'bewils';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
