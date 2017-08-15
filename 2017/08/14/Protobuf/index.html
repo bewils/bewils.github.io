@@ -265,7 +265,7 @@ message Test2 {
 <li>不推荐删除字段, 和第 1 点一样的原因, 而且如果这个字段真的没用过要删除的话新的字段也不能使用该字段的  tag 因为 protobuf 在解析的时候是用 tag 和字段名对应的, 客户端拿到了 tag 还是会对应到旧的字段上</li>
 <li>Protobuf 2 中的 required 和 optional 这两个用来标记字段的关键字在 3 中取消了, 理由同 1, 2 因此使用 Protobuf 来保证字段缺失问题只能回去用 2 的版本</li>
 <li><code>Swift</code> 写客户端(其实什么语言都是一样): 因为有默认值的存在所以对于 0, false 等值的用法就要小心, 因为无法保证接收到的到底是确实是这个数据还是丢失了字段</li>
-<li>关于在 Swift 中的使用还有一个理由可以看我的另外一篇<a href="http://www.jianshu.com/p/9f16765aaa34" target="_blank" rel="external">Swift4 JSON 解析</a></li>
+<li>关于在 Swift 中的使用还有一个理由可以看我的另外一篇<a href="http://blog.bewils.cn/2017/08/07/Swift4codable/" target="_blank" rel="external">Swift4 JSON 解析</a></li>
 <li><code>Javascript</code> 写前端: 前端因为请求 js 脚本到本地执行所以不存在不同步的问题, 但是为了传 protobuf 还要把解析文件一起传还是很蛋疼的. 而且 JSON 本来就是 Javascript 的内置对象, 操作方便到天际, 根本没可比性</li>
 </ol>
 <h2 id="目前想到的最好使用场合"><a href="#目前想到的最好使用场合" class="headerlink" title="目前想到的最好使用场合"></a>目前想到的最好使用场合</h2><p>网络游戏开发(强制客户端更新, 大量数据, 对传输速度要求高)</p>
