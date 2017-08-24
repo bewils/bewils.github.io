@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>记一次动画封装 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="⚠️ 警告: 本文中的代码非常恶心, 可能引起身体不适, 请谨慎阅读(当然本文的代码主要就是想恶心到人), 当然如果能够坚持看下去, 说不定会变舒服
+最近在公司的项目中需要将动画封装来使用, 主要需求有两个:
+
+像 SKAction 一样支持, start, pause, resume, cancel
+统一 UIView 和 CALayer 的动画
+
+然后开始进行了封装, 最后总算是写完了吧, 写的过程中向公司的大佬学习了很多
+因此写了这篇文章, 主要想记录一下让代码从能运行到写起来和用起来都很舒服的一个过程吧">
+  
+
+  
+  
+  <meta name="keywords" content="iOS,Swift">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="记一次动画封装"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+
+  <style media="screen">
+    body .blog .content {
+      max-width: 1000px;
+    }
+    pre {
+      word-break: break-all;
+      word-wrap: break-word;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    pre code {
+      white-space: pre-wrap !important;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+        <li><a href="/atom.xml">订阅</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>记一次动画封装</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/08/24/记一次动画封装/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-24T14:29:28.000Z">
+          2017-08-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>⚠️ <strong>警告</strong>: 本文中的代码非常恶心, 可能引起身体不适, 请谨慎阅读(当然本文的代码主要就是想恶心到人), 当然如果能够坚持看下去, 说不定会变舒服</p>
+<p>最近在公司的项目中需要将动画封装来使用, 主要需求有两个:</p>
+<ol>
+<li>像 SKAction 一样支持, start, pause, resume, cancel</li>
+<li>统一 UIView 和 CALayer 的动画</li>
+</ol>
+<p>然后开始进行了封装, 最后总算是写完了吧, 写的过程中向公司的大佬学习了很多</p>
+<p>因此写了这篇文章, 主要想记录一下让代码从能运行到写起来和用起来都很舒服的一个过程吧</p>
+<a id="more"></a>
+<p>也明白了作为全公司最菜的还有很多要学的</p>
+<p>下面使用简化代码进行演示, 只封装 UIView 的动画</p>
+<h2 id="V1-0"><a href="#V1-0" class="headerlink" title="V1.0"></a>V1.0</h2><pre><code class="swift">typealias AnimationBlock = (UIView) -&gt; Void
+typealias CompletionBlock = (Bool) -&gt; Void
+
+class Animation {
+  // 各种动画的属性, 保存下来在 start 的时候才开始真正的动画
+  let view: UIView
+  let duration: TimeInterval
+  var timingFunction: UIViewAnimationOptions = []
+  let animation: AnimationBlock
+  var completion: CompletionBlock?
+
+  // 初始化
+  init(_ view: UIView, duration: TimeInterval, timingFunction: UIViewAnimationOptions = [], animation: @escaping AnimationBlock, completion: CompletionBlock? = nil) {
+    self.view = view
+    self.duration = duration
+    self.timingFunction = timingFunction
+    self.animation = animation
+    self.completion = completion
+  }
+
+  // 真正开始动画
+  func start() {
+    UIView.animate(withDuration: duration, delay: 0, options: timingFunction, animations: {
+      self.animation(self.view)
+    }, completion: completion)
+  }
+}
+
+extension Animation {
+  // 两个预先定义好的 fadeOut 和 moveBy 动画
+  static func fadeOut(_ view: UIView, duration: TimeInterval, timingFunction: UIViewAnimationOptions = [], completion: CompletionBlock? = nil) -&gt; Animation {
+    return Animation(view, duration: duration, timingFunction: timingFunction, animation: { $0.alpha = 0 }, completion: completion)
+  }
+
+  static func moveBy(x: CGFloat, y: CGFloat, _ view: UIView, duration: TimeInterval, timingFunction: UIViewAnimationOptions = [], completion: CompletionBlock? = nil) -&gt; Animation {
+    return Animation(view, duration: duration, timingFunction: timingFunction, animation: {
+      let newX = $0.center.x + x
+      let newY = $0.center.y + y
+      $0.center = CGPoint(x: newX, y: newY)
+    }, completion: completion)
+  }
+}
+</code></pre>
+<p>然后开始使用, 使用的过程还是蛮舒心的:</p>
+<pre><code class="swift">let view = UIView()
+Animation.fadeOut(view, duration: 2).start()
+Animation.moveBy(x: 20, y: 40, view, duration: 4).start()
+</code></pre>
+<p>可以预见, 继续这样写下去包括 rotate, scale, moveTo 等函数都可以无脑写完</p>
+<p>但是遇到了第一个问题, 每个动画函数都要附带所有动画的参数, 并且还有带上每种特定动画的额外参数, 然后再将这些动画原封不动地传入构造函数, 真的是很恶心</p>
+<h2 id="V2-0"><a href="#V2-0" class="headerlink" title="V2.0"></a>V2.0</h2><p>有大量公共的参数, 只有少数不同的参数需要调整, 想到可以使用 <code>柯里化</code> 来解决这个问题, 本文只是记录写代码的过程, 如果不了解的请自行学习</p>
+<p>修改 extension 中的代码如下:</p>
+<pre><code class="swift">typealias AnimationInitBlock = (UIView, TimeInterval, UIViewAnimationOptions, CompletionBlock?) -&gt; Animation
+extension Animation {
+  private static func generateAnimationWithBlock(block: @escaping AnimationBlock) -&gt; AnimationInitBlock {
+    return { view, duration, timingFunction, completion in
+      return Animation(view, duration: duration, timingFunction: timingFunction, animation: block, completion: completion)
+    }
+  }
+
+  static func fadeOut() -&gt; AnimationInitBlock {
+    return Animation.generateAnimationWithBlock { $0.alpha = 0 }
+  }
+
+  static func moveBy(x: CGFloat, y: CGFloat) -&gt; AnimationInitBlock {
+    return Animation.generateAnimationWithBlock {
+      let newX = $0.center.x + x
+      let newY = $0.center.y + y
+      $0.center = CGPoint(x: newX, y: newY)
+    }
+  }
+}
+</code></pre>
+<p>经过这次的修改, 将恶心的垃圾扔到统一的地方了, 每个特定的动画函数只需要传一个动画内容的闭包就可以了, 但还是有两个比较麻烦的问题:</p>
+<ol>
+<li><p>因为通过柯里化将函数拆成两段, 在使用的时候需要连续调用, 看起来不是很直观(友好</p>
+<pre><code class="swift">let view = UIView()
+Animation.fadeOut()(view, 2, .curveEaseInOut, nil).start()
+Animation.moveBy(x: 20, y: 40)(view, 4, .curveEaseInOut, nil).start()
+</code></pre>
+</li>
+<li><p>因为 Swift 闭包不支持默认参数, 所以在第二步调用的时候必须传入所有参数, 哪怕是传入 nil, 这个也是比较蛋疼的一个事情</p>
+</li>
+</ol>
+<h2 id="V2-1"><a href="#V2-1" class="headerlink" title="V2.1"></a>V2.1</h2><p>理想的情况是将柯里化的第二部分再变成一个函数调用而不是闭包, 这样就可以使用链式调用而且可以使用默认参数</p>
+<p>那就需要在调用 fadeOut 的时候先存下来动画闭包, 然后再继续初始化, 于是添加一个静态闭包属性, 修改 extension 如下:</p>
+<pre><code class="swift">class Animation {
+  let view: UIView
+  let duration: TimeInterval
+  var timingFunction: UIViewAnimationOptions = []
+  let animation: AnimationBlock
+  var completion: CompletionBlock?
+
+  init(_ view: UIView, duration: TimeInterval, timingFunction: UIViewAnimationOptions = [], animation: @escaping AnimationBlock, completion: CompletionBlock? = nil) {
+    self.view = view
+    self.duration = duration
+    self.timingFunction = timingFunction
+    self.animation = animation
+    self.completion = completion
+  }
+
+  func start() {
+    UIView.animate(withDuration: duration, delay: 0, options: timingFunction, animations: {
+      self.animation(self.view)
+    }, completion: completion)
+  }
+
+  // 添加了一个 static property 来保存 animation block
+  fileprivate static var staticAnimation: AnimationBlock?
+}
+
+extension Animation {
+  // 静态创建方法
+  static func staticGenerator(with view: UIView, duration: TimeInterval, timingFunction: UIViewAnimationOptions = [], completion: CompletionBlock? = nil) -&gt; Animation {
+    return Animation(view, duration: duration, timingFunction: timingFunction, animation: Animation.staticAnimation!, completion: completion)
+  }
+
+  // 保存 animation block
+  static func fadeOut() -&gt; Animation.Type {
+    staticAnimation = { $0.alpha = 0 }
+    return Animation.self
+  }
+}
+
+let view = UIView()
+Animation.fadeOut().staticGenerator(with: view, duration: 2).start()
+</code></pre>
+<p>经过这次的修改, 将动画的初始化方法变成了分段的过程, 不同的动画只是初始化了不同的闭包, 然后继续调用静态的初始化方法来创建 <code>Animation</code> </p>
+<p>本来很满意地看着现在的代码, 结果 review 后又被教做人, 就是使用 staticAnimation 来保存 AnimationBlock 的话是线程不安全的, 而又没有任何的必要去加互斥量或者锁, 又陷入了很僵的境地</p>
+<h2 id="V3-0"><a href="#V3-0" class="headerlink" title="V3.0"></a>V3.0</h2><p>这时 dalao 提出了一个方案</p>
+<blockquote>
+<p>既然想写成链式调用那就把所有参数都写成链式的</p>
+</blockquote>
+<p>(瞬间感到差距所在</p>
+<p>最后改成了这样:</p>
+<pre><code class="swift">class Animation {
+  // 将所有参数都变成 option 或者默认值
+  var view: UIView? = nil
+  var duration: TimeInterval = 0
+  var timingFunction: UIViewAnimationOptions = []
+  let animation: AnimationBlock
+  var completion: CompletionBlock?
+
+  init(animation: @escaping AnimationBlock) {
+    self.animation = animation
+  }
+
+  func start() {
+    // 在 start 中进行参数判断, 然后正常执行动画
+    guard let view = view, duration &gt; 0 else { return }
+
+    UIView.animate(withDuration: duration, delay: 0, options: timingFunction, animations: {
+      self.animation(view)
+    }, completion: completion)
+  }
+}
+
+extension Animation {
+  // 创建动画
+  static func fadeOut() -&gt; Animation {
+    return Animation { $0.alpha = 0 }
+  }
+
+  // 一系列链式调用传参
+  func apply(on view: UIView) -&gt; Self {
+    self.view = view
+    return self
+  }
+
+  func duration(_ duration: TimeInterval) -&gt; Self {
+    self.duration = duration
+    return self
+  }
+
+  func completion(_ completion: @escaping CompletionBlock) -&gt; Self {
+    self.completion = completion
+    return self
+  }
+}
+
+// 很舒服的使用方式
+let view = UIView()
+Animation.fadeOut().apply(on: view).completion { _ in
+  print(&quot;completion&quot;)
+}.start()
+</code></pre>
+<p>在最后这个版本里, 减少了大量的代码量并且获得了很舒服的使用方式, 需要什么参数就去设置, 同时可读性也得到了很大的提高, 自认为是很好的封装了(如果有更好的想法欢迎交流</p>
+<h2 id="再次跑题"><a href="#再次跑题" class="headerlink" title="再次跑题"></a>再次跑题</h2><p>肝了半个月活动, 酒吞终于满破</p>
+<p>当然最最关键的问题 <strong>非洲人的尊严</strong> 抽了将近 100 发, 从玄奘抽到师匠抽到奶光, 终于出了!</p>
+<p>感觉又有了未来(￣▽￣)”</p>
+<p><img src="http://ouqin1qvl.bkt.clouddn.com/IMG_54356.jpg? imageslim" alt="future"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a><a href="/tags/Swift/">Swift</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'bewils';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

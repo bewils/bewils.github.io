@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-15T16:40:02.936Z</updated>
+  <updated>2017-08-24T16:58:41.332Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次动画封装</title>
+    <link href="http://yoursite.com/2017/08/24/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8A%A8%E7%94%BB%E5%B0%81%E8%A3%85/"/>
+    <id>http://yoursite.com/2017/08/24/记一次动画封装/</id>
+    <published>2017-08-24T14:29:28.000Z</published>
+    <updated>2017-08-24T16:58:41.332Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;⚠️ &lt;strong&gt;警告&lt;/strong&gt;: 本文中的代码非常恶心, 可能引起身体不适, 请谨慎阅读(当然本文的代码主要就是想恶心到人), 当然如果能够坚持看下去, 说不定会变舒服&lt;/p&gt;
+&lt;p&gt;最近在公司的项目中需要将动画封装来使用, 主要需求有两个:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;像 SKAction 一样支持, start, pause, resume, cancel&lt;/li&gt;
+&lt;li&gt;统一 UIView 和 CALayer 的动画&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;然后开始进行了封装, 最后总算是写完了吧, 写的过程中向公司的大佬学习了很多&lt;/p&gt;
+&lt;p&gt;因此写了这篇文章, 主要想记录一下让代码从能运行到写起来和用起来都很舒服的一个过程吧&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+  </entry>
   
   <entry>
     <title>Protobuf 简介及简单应用</title>
@@ -38,7 +65,7 @@
     <link href="http://yoursite.com/2017/08/07/Swift4codable/"/>
     <id>http://yoursite.com/2017/08/07/Swift4codable/</id>
     <published>2017-08-07T14:05:52.000Z</published>
-    <updated>2017-08-07T16:48:14.397Z</updated>
+    <updated>2017-08-24T14:33:25.639Z</updated>
     
     <summary type="html">
     
@@ -57,7 +84,7 @@
     </summary>
     
     
-      <category term="swift" scheme="http://yoursite.com/tags/swift/"/>
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
     
   </entry>
   
@@ -84,7 +111,7 @@
     <link href="http://yoursite.com/2017/06/09/Swift4/"/>
     <id>http://yoursite.com/2017/06/09/Swift4/</id>
     <published>2017-06-09T06:55:03.000Z</published>
-    <updated>2017-06-12T16:47:43.013Z</updated>
+    <updated>2017-08-24T14:33:19.456Z</updated>
     
     <summary type="html">
     
@@ -97,9 +124,7 @@
     </summary>
     
     
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
-      <category term="swift" scheme="http://yoursite.com/tags/swift/"/>
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
     
   </entry>
   

@@ -9,7 +9,7 @@ article:not(:first-child):before {
   content: '';
   width: 150px;
   height: 1px;
-  background-color: #e0e0e0;
+  background-color: #e3e3e3;
   position: absolute;
   top: 0;
   left: 50%;
@@ -35,16 +35,23 @@ article .article-title a {
   color: #212121;
 }
 article .article-title a span {
+  position: relative;
   padding-bottom: 3px;
   -webkit-transition: 0.15s;
   transition: 0.15s;
   box-shadow: inset 0 -2px 0 rgba(240,56,56,0);
 }
-article .article-title a:hover {
-  color: #212121;
+article .article-title a span:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -14px;
+  bottom: 3px;
+  width: 8px;
+  background-color: #000;
 }
-article .article-title a:hover span {
-  box-shadow: inset 0 -2px 0 rgba(240,56,56,0.4);
+article .article-title a:hover span:before {
+  background-color: #f03838;
 }
 article .article-top-meta {
   position: relative;
