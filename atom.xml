@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-24T16:58:41.332Z</updated>
+  <updated>2017-08-26T09:02:49.029Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS 中的多线程</title>
+    <link href="http://yoursite.com/2017/08/26/iOS%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://yoursite.com/2017/08/26/iOS中的多线程/</id>
+    <published>2017-08-26T06:10:42.000Z</published>
+    <updated>2017-08-26T09:02:49.029Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了&lt;/p&gt;
+&lt;p&gt;我们可能都会写过这样的代码:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;Swift&quot;&gt;DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次动画封装</title>

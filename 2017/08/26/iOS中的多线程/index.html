@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS 中的多线程 | Yuki | Otaku</title>
+
+  
+  <meta name="author" content="Bewils">
+  
+
+  
+  <meta name="description" content="在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了
+我们可能都会写过这样的代码:
+DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
+  }
+}">
+  
+
+  
+  
+  <meta name="keywords" content="iOS">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="iOS 中的多线程"/>
+
+  <meta property="og:site_name" content="Yuki"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+
+  <style media="screen">
+    body .blog .content {
+      max-width: 1000px;
+    }
+    pre {
+      word-break: break-all;
+      word-wrap: break-word;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    pre code {
+      white-space: pre-wrap !important;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script type="text/javascript">
+  $(window).load(function(){
+    $('pre').addClass('prettyprint').attr('style', 'overflow:hidden;');
+    prettyPrint();
+  })
+  </script>
+
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Yuki</a>
+    </h1>
+    <p class="site-description">Otaku</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+        <li><a href="/atom.xml">订阅</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>iOS 中的多线程</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/08/26/iOS中的多线程/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-26T06:10:42.000Z">
+          2017-08-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
+<p>我们可能都会写过这样的代码:</p>
+<pre><code class="Swift">DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
+  }
+}
+</code></pre>
+<a id="more"></a>
+<p>在 iOS 的很多教程, 包括著名的斯坦福公开课 CS193P 里面关于多线程的课程也使用了这样的 GCD 代码. 当时理所当然得接受了这个, 认为这个就像冒泡排序一样的模板, 遇到了直接背上去就可以.</p>
+<p>直到实习面试的时候倒背如流这段代码后被问到了一个问题, 那么为什么<code>用这样的 GCD 代码就能开启多线程呢?</code>(笑容渐渐消失…)</p>
+<p>这篇文章的目的其实主要就是去寻找为什么, 而不是关于多线程的具体使用, 具体使用的话预计接下来会写一篇关于使用 GCD 的文章</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><img src="http://ouqin1qvl.bkt.clouddn.com/1503731690955.jpg?imageslim" alt="iOS 多线程"></p>
+<p>iOS 中的多线程的结构大概就是这样, 每一层都对上一层进行了封装, 接下来将一层一层进行分析</p>
+<h2 id="Mach"><a href="#Mach" class="headerlink" title="Mach"></a>Mach</h2><p>Mach 最早是 CMU 开发的操作系统微内核, 但现在基本上是作为其他类似操作系统的标准而存在</p>
+<p>Apple 在 2000 年开源了一个叫 Darwin 的操作系统, Darwin 就是实现了 Mach 的架构. 而且 Darwin 也同时作为 macOS 和 iOS 的核心, 因此在 iOS 的操作系统内核直接与 CPU 进行控制的部分就是 Mach, 直接控制线程的部分就是这里</p>
+<h2 id="pthread"><a href="#pthread" class="headerlink" title="pthread"></a>pthread</h2><p>POSIX Threads 是一个跨平台的线程标准, 定义了创建和操作线程的一套 API</p>
+<p>支持包括 Linux, Windows, macOS 等各种系统, 使用的时候只需要引入<code>pthread.h</code> 即可</p>
+<p>但由于是纯 C 库, 在 OC 中使用尚可忍受, 在 Swift 中…(算了, 就当无事发生过</p>
+<h2 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h2><p>也就是过去的 NSThread, 是在 pthread 上封装了一层, 用面向对象的方式直接将线程和代码做了映射</p>
+<p>通过 Thread 的 API 可以直接创建线程, 设置运行在子线程上的代码, 并且可以关闭子线程</p>
+<p>通过 Thread 可以直接对线程进行管理, 不过坏处也就是什么都需要手动管理</p>
+<h2 id="Dispatch"><a href="#Dispatch" class="headerlink" title="Dispatch"></a>Dispatch</h2><p>就是过去的 GCD, GCD(Grand Central Dispatch) 是 Apple 开发的一个多线程编程的解决方案. 通过将任务抽象为队列的方法, GCD 可以让程序员在不直接操作线程即可完成并发编程</p>
+<p>只需要简单地设置队列是<code>串行/并行</code> <code>同步/异步</code>然后加入要执行的操作(block/closure), GCD 内部会自动根据这些设置来创建线程, 并且会自行决定开多少个线程, 完全的对外隐藏内部的复杂操作, 可以将编程的关注点聚焦于任务的处理</p>
+<p>另: GCD 是纯 C 的 API, 是在 pthread 上加入队列和任务的管理. 使用大概是这样:</p>
+<pre><code class="swift">dispatch_async(dispatch_get_main_queue(), {
+  // update ui
+})
+</code></pre>
+<p>但是这种纯 C 的代码与 Swift 的编程风格格格不入, 所幸在 Swift3 推出的时候, Apple 在 GCD 的基础上加入了面向对象的特点, 也就变成了现在的 Dispatch Framework</p>
+<pre><code class="swift">Dispatch.main.async {
+    // update ui
+}
+</code></pre>
+<h2 id="OperationQueue"><a href="#OperationQueue" class="headerlink" title="OperationQueue"></a>OperationQueue</h2><p>过去的 NSOperationQueue, 一个很尴尬的东西. 最初是封装了 GCD 为 GCD 添加了面向对象的特性, 将要添加的操作封装为 Operation, 然后直接添加到 OperationQueue 中并且设置<code>串行/并行</code>即可执行</p>
+<p>说了这么多(好像和 GCD 的功能差不多的样子?…</p>
+<p>确实是这样…在 OC 中因为 OperationQueue 提供了面向对象的使用方式, 并且相比于 GCD 更关键的一点是封装后的 Operation 是支持 start, cancel 等操作以及运行状态 isCancelled, isExecuting, isFinished 的判断, 使任务有了很好地可控性. 当然实际上 GCD 也是支持这种功能的, 但是在 C 的 API 下使用起来会很困难, 因此在 OC 中大多会用 OperationQueue 的方法开进行多线程编程</p>
+<p>然而 Swift3 中 Apple 提供了 Dispatch Framework, 不但提供了基础的面向对象的接口, 而且也提供了和 Operation 基本等价的 DispatchWorkItem, 这样 OperationQueue 对 GCD 的优势基本为 0, 这也就是 Swift 中为什么大家都喜欢用 GCD</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>iOS 中的多线程的运作模式基本上就是上面写的这些. 通过层层的封装 Apple 提供了对程序员很友好, 使用便捷的接口, 但在日常使用的同时还是希望能了解它们内部的原理. 如果其他人看了这篇文章也能学到 iOS 的多线程, 无论在工作中还是面试中能够用上, 那还是很好地</p>
+<p>PS: 开始实习之后越发感觉到自己的基础不好…要补的有点多</p>
+<blockquote>
+<p>非常后悔没学好多线程(但不后悔当初没好好学, 毕竟学习不是为了考试</p>
+</blockquote>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  <div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<style media="screen">
+	.gitment-comments-init-btn:disabled,
+	.gitment-editor-submit:disabled {
+		background-color: #f03838;
+	}
+
+	.gitment-editor-submit,
+	.gitment-comments-init-btn {
+		background-color: #f03838;
+	}
+
+	.gitment-editor-submit:hover,
+	.gitment-comments-init-btn:hover {
+		background-color: #f03838;
+	}
+</style>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'bewils',
+	repo: 'bewils.github.io',
+	id: window.location.pathname,
+  oauth: {
+    client_id: '7238409484b54ebdd4a6',
+    client_secret: '4fad27888c7ad67c5a12390a02e4705fb566ded5',
+  },
+})
+gitment.render('container')
+</script>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 Bewils
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

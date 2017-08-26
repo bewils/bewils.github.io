@@ -91,6 +91,66 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/08/26/iOS中的多线程/"><span>iOS 中的多线程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/08/26/iOS中的多线程/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-26T06:10:42.000Z">
+          2017-08-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
+<p>我们可能都会写过这样的代码:</p>
+<pre><code class="Swift">DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
+  }
+}
+</code></pre>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/08/24/记一次动画封装/"><span>记一次动画封装</span></a></h3>
     
   
@@ -558,59 +618,6 @@
         <p>今天来讨论另一个常用的控件</p>
 <p>结束了 NSTextField 的封装后开始封装下一个控件 NSButton</p>
 <p>效果如下</p>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/macOS/">macOS</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/02/08/ NSTextField1/"><span>macOS 开发入门 NSTextField @2</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/02/08/ NSTextField1/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-02-08T06:56:36.000Z">
-          2017-02-08
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>本来以为一次已经把 NSTextField 的坑踩完了，没想到又陷进去一天…</p>
-<p>上次把基本的绘制样式实现好了，接下来只想实现一个小功能，就是判断下哪个输入框处于有焦点的状态然后高亮下边线就可以了</p>
       
     </div>
 
