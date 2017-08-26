@@ -161,7 +161,11 @@ DispatchQueue.global().async {
 <p>说了这么多(好像和 GCD 的功能差不多的样子?…</p>
 <p>确实是这样…在 OC 中因为 OperationQueue 提供了面向对象的使用方式, 并且相比于 GCD 更关键的一点是封装后的 Operation 是支持 start, cancel 等操作以及运行状态 isCancelled, isExecuting, isFinished 的判断, 使任务有了很好地可控性. 当然实际上 GCD 也是支持这种功能的, 但是在 C 的 API 下使用起来会很困难, 因此在 OC 中大多会用 OperationQueue 的方法开进行多线程编程</p>
 <p>然而 Swift3 中 Apple 提供了 Dispatch Framework, 不但提供了基础的面向对象的接口, 而且也提供了和 Operation 基本等价的 DispatchWorkItem, 这样 OperationQueue 对 GCD 的优势基本为 0, 这也就是 Swift 中为什么大家都喜欢用 GCD</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>iOS 中的多线程的运作模式基本上就是上面写的这些. 通过层层的封装 Apple 提供了对程序员很友好, 使用便捷的接口, 但在日常使用的同时还是希望能了解它们内部的原理. 如果其他人看了这篇文章也能学到 iOS 的多线程, 无论在工作中还是面试中能够用上, 那还是很好地</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>iOS 中的多线程的运作模式基本上就是上面写的这些. 通过层层的封装 Apple 提供了对程序员很友好, 使用便捷的接口, 但在日常使用的同时还是希望能了解它们内部的原理. 如果其他人看了这篇文章也能学到 iOS 的多线程, 无论在工作中还是面试中能够用上, 那还是很好的</p>
+<p>而且希望能将脱节的理论和实际联系起来</p>
+<p>毕竟学习的时候就只是学到了 ‘利用 CPU 开启线程提高并发度’ 这种不痛不痒的东西</p>
+<p>然后使用的时候就直接 Dispatch.main.async 就跑起来了</p>
+<p>希望读完这篇文章能够了解这两者之间的关系</p>
 <p>PS: 开始实习之后越发感觉到自己的基础不好…要补的有点多</p>
 <blockquote>
 <p>非常后悔没学好多线程(但不后悔当初没好好学, 毕竟学习不是为了考试</p>
