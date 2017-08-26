@@ -135,17 +135,25 @@
     </div>
 
     
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/02/05/NSTextField/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
   </div>
 </article>
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'bewils',
+  repo: '存储评论的 repo',
+  oauth: {
+    client_id: '7238409484b54ebdd4a6',
+    client_secret: '4fad27888c7ad67c5a12390a02e4705fb566ded5',
+  },
+})
+gitment.render('container')
+</script>
+
+
+
 
 
 
