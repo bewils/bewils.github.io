@@ -29,6 +29,8 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+
 
   <style media="screen">
     body .blog .content {
@@ -91,6 +93,60 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/09/01/CGAffineTransform/"><span>CGAffineTransform 介绍</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/09/01/CGAffineTransform/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-31T16:05:43.000Z">
+          2017-09-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近又在写动画; 最近写动画又遇到了这个莫名其妙的东西; 最近终于了解了一些这个东西;</p>
+<p>于是记录一下, 毕竟基础太差好不容易弄明白很怕过段时间就忘了</p>
+<p>在做动画的时候很经常使用 <code>CGAffineTransform</code> 这个 struct. UIView 有一个属性 <code>var transform: CGAffineTransform</code> , 我们可以在对 UIView 做动画的时候修改这个属性来使 UIView 进行移动, 旋转, 缩放等动画. 但很多时候我们只是简单地使用如 <code>CGAffineTransform(rotationAngle: CGFloat)</code> 这些自带的方法来进行变换. 接下来会比较详细地讨论一下关于这个 struct 的一些细节.</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a><a href="/tags/Basic/">Basic</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/08/26/iOS中的多线程/"><span>iOS 中的多线程</span></a></h3>
     
   
@@ -113,10 +169,10 @@
       
         <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
 <p>我们可能都会写过这样的代码:</p>
-<pre><code class="Swift">DispatchQueue.global().async {
-  // get data from networking
-  DispatchQueue.main.async {
-    // update ui
+<pre class="highlight"><code class="Swift"><span class="type">DispatchQueue</span>.global().async {
+  <span class="comment">// get data from networking</span>
+  <span class="type">DispatchQueue</span>.main.async {
+    <span class="comment">// update ui</span>
   }
 }
 </code></pre>
@@ -283,11 +339,11 @@
     <div class="entry">
       
         <p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
-<pre><code class="swift">if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-  if let objectList = jsonObject as? [Any] {
-    for object in objectList {
-      if let object = object as? [String: Any] {
-        // use object
+<pre class="highlight"><code class="swift"><span class="keyword">if</span> <span class="keyword">let</span> jsonObject = <span class="keyword">try</span>? <span class="type">JSONSerialization</span>.jsonObject(with: data!, options: .allowFragments) {
+  <span class="keyword">if</span> <span class="keyword">let</span> objectList = jsonObject <span class="keyword">as</span>? [<span class="type">Any</span>] {
+    <span class="keyword">for</span> object <span class="keyword">in</span> objectList {
+      <span class="keyword">if</span> <span class="keyword">let</span> object = object <span class="keyword">as</span>? [<span class="type">String</span>: <span class="type">Any</span>] {
+        <span class="comment">// use object</span>
       }
     }
   }
@@ -452,10 +508,13 @@
   <div class="article-content">
     <div class="entry">
       
-        <h3 id="画圆形的方法"><a href="#画圆形的方法" class="headerlink" title="画圆形的方法"></a>画圆形的方法</h3><ol>
-<li><p>UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆</p>
+        <h3 id="画圆形的方法"><a class="markdownIt-Anchor" href="#画圆形的方法"></a> 画圆形的方法</h3>
+<ol>
+<li>
+<p>UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆</p>
 </li>
-<li><p>UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)</p>
+<li>
+<p>UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)</p>
 </li>
 </ol>
 <p>参数列表为弧形中心，半径，开始角度，结束角度，方向是否为顺时针</p>
@@ -563,7 +622,8 @@
     <div class="entry">
       
         <p>开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。</p>
-<h2 id="Emmet"><a href="#Emmet" class="headerlink" title="Emmet"></a>Emmet</h2><p>首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。</p>
+<h2 id="emmet"><a class="markdownIt-Anchor" href="#emmet"></a> Emmet</h2>
+<p>首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。</p>
       
     </div>
 
@@ -580,60 +640,6 @@
     <span class="post-tags">
       <i class="icon-tags"></i>
         <a href="/tags/FrontEnd/">FrontEnd</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/02/12/NSButton/"><span>macOS 开发入门 NSButton</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/02/12/NSButton/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-02-12T11:50:38.000Z">
-          2017-02-12
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>今天来讨论另一个常用的控件</p>
-<p>结束了 NSTextField 的封装后开始封装下一个控件 NSButton</p>
-<p>效果如下</p>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/macOS/">macOS</a>
     </span>
     
 

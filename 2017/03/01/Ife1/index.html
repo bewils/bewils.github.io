@@ -11,7 +11,8 @@
 
   
   <meta name="description" content="开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。
-Emmet首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。">
+ Emmet
+首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。">
   
 
   
@@ -35,6 +36,8 @@ Emmet首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快�
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+
 
   <style media="screen">
     body .blog .content {
@@ -117,45 +120,48 @@ Emmet首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快�
     <div class="entry">
       
         <p>开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。</p>
-<h2 id="Emmet"><a href="#Emmet" class="headerlink" title="Emmet"></a>Emmet</h2><p>首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。</p>
+<h2 id="emmet"><a class="markdownIt-Anchor" href="#emmet"></a> Emmet</h2>
+<p>首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。</p>
 <a id="more"></a>
-<pre><code class="html">&lt;!-- div#foo.box --&gt;
-&lt;!-- #为id .为class --&gt;
-&lt;div id=&quot;foo&quot; class=&quot;card&quot;&gt;&lt;/div&gt;
+<pre class="highlight"><code class="html"><span class="comment">&lt;!-- div#foo.box --&gt;</span>
+<span class="comment">&lt;!-- #为id .为class --&gt;</span>
+<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"foo"</span> <span class="attr">class</span>=<span class="string">"card"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>
 
-&lt;!-- a[href=&quot;#&quot;]{Link} --&gt;
-&lt;!-- []中填属性 {}中填文本 --&gt;
-&lt;a href=&quot;#&quot;&gt;Link&lt;/a&gt;
+<span class="comment">&lt;!-- a[href="#"]{Link} --&gt;</span>
+<span class="comment">&lt;!-- []中填属性 {}中填文本 --&gt;</span>
+<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Link<span class="tag">&lt;/<span class="name">a</span>&gt;</span>
 
-&lt;!-- div&gt;p+span^div --&gt;
-&lt;!-- &gt;表示嵌套 +表示同级 ^表示回到上一级 --&gt;
-&lt;div&gt;
-  &lt;p&gt;&lt;/p&gt;
-  &lt;span&gt;&lt;/span&gt;
-&lt;/div&gt;
-&lt;div&gt;&lt;/div&gt;
+<span class="comment">&lt;!-- div&gt;p+span^div --&gt;</span>
+<span class="comment">&lt;!-- &gt;表示嵌套 +表示同级 ^表示回到上一级 --&gt;</span>
+<span class="tag">&lt;<span class="name">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>
 
-&lt;!-- ul&gt;(li&gt;a)*3 --&gt;
-&lt;!-- ()可以形成分组 *可以重复生成 --&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+<span class="comment">&lt;!-- ul&gt;(li&gt;a)*3 --&gt;</span>
+<span class="comment">&lt;!-- ()可以形成分组 *可以重复生成 --&gt;</span>
+<span class="tag">&lt;<span class="name">ul</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">ul</span>&gt;</span>
 
-&lt;!-- div&gt;img.item$[src=img$.jpg]*3 --&gt;
-&lt;!-- $可以用来占位来生成多个带属性的元素 --&gt;
-&lt;div&gt;
-  &lt;img src=&quot;img1.jpg&quot; alt=&quot;&quot; class=&quot;item1&quot;&gt;
-  &lt;img src=&quot;img2.jpg&quot; alt=&quot;&quot; class=&quot;item2&quot;&gt;
-  &lt;img src=&quot;img3.jpg&quot; alt=&quot;&quot; class=&quot;item3&quot;&gt;
-&lt;/div&gt;
+<span class="comment">&lt;!-- div&gt;img.item$[src=img$.jpg]*3 --&gt;</span>
+<span class="comment">&lt;!-- $可以用来占位来生成多个带属性的元素 --&gt;</span>
+<span class="tag">&lt;<span class="name">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img1.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"item1"</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img2.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"item2"</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img3.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"item3"</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">div</span>&gt;</span>
 </code></pre>
-<h2 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h2><p>曾经前端的布局是靠着一套 table 实现各种布局的，但是现在由于布局的方案越来越多比如 position、float、flex 均比 table 的实现效果好很多也更加灵活，现在使用 table 的场合越来越少。table 也逐渐回归了自己本来制表功能，然而表格平时也不常用所以已经快把 table 的相关属性忘得差不多了，通过这次课程复习一下 table</p>
+<h2 id="table"><a class="markdownIt-Anchor" href="#table"></a> Table</h2>
+<p>曾经前端的布局是靠着一套 table 实现各种布局的，但是现在由于布局的方案越来越多比如 position、float、flex 均比 table 的实现效果好很多也更加灵活，现在使用 table 的场合越来越少。table 也逐渐回归了自己本来制表功能，然而表格平时也不常用所以已经快把 table 的相关属性忘得差不多了，通过这次课程复习一下 table</p>
 <p><strong>cellpadding(cellspacing)</strong>：实现效果类似于给 td 设置 padding(margin)</p>
 <p><strong>colspan(rowspan)</strong>：设置某个单元格横跨几行(几列)</p>
 <p><strong>border-collapse</strong>：html 中默认会将 table 的border 和 cell 的 border 隔离开，中间会有一个很小的缝隙，通过修改 border-collapse 属性可以将二者合并起来，让表格看起来更紧凑。默认值为 separate，可取 collapse</p>
-<h2 id="三栏布局"><a href="#三栏布局" class="headerlink" title="三栏布局"></a>三栏布局</h2><p>有一道题目考的是很基础的三栏布局，起手写起 <code>width: calc(100% - 400px)</code>，然后发现现在借着 CSS3 的便捷传统布局有点忘记了，顺便复习下</p>
+<h2 id="三栏布局"><a class="markdownIt-Anchor" href="#三栏布局"></a> 三栏布局</h2>
+<p>有一道题目考的是很基础的三栏布局，起手写起 <code>width: calc(100% - 400px)</code>，然后发现现在借着 CSS3 的便捷传统布局有点忘记了，顺便复习下</p>
 <ul>
 <li>float 布局：左右浮动，中间设置 margin 为左右宽度</li>
 <li>absolute 布局：左右绝对定位，中间设置 margin 为左右宽度</li>

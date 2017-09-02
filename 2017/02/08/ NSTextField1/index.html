@@ -35,6 +35,8 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+
 
   <style media="screen">
     body .blog .content {
@@ -121,18 +123,20 @@
 <a id="more"></a>
 <p><img src="/images/NSTextField1/demo.png" alt=""></p>
 <ol>
-<li><p>最容易想到的就是 NSText Delegate 函数</p>
-<pre><code class="swift">func textShouldBeginEditing(NSText)
-func textDidBeginEditing(Notification)
+<li>
+<p>最容易想到的就是 NSText Delegate 函数</p>
+<pre class="highlight"><code class="swift"><span class="function"><span class="keyword">func</span> <span class="title">textShouldBeginEditing</span><span class="params">(NSText)</span></span>
+<span class="function"><span class="keyword">func</span> <span class="title">textDidBeginEditing</span><span class="params">(Notification)</span></span>
 
-func textShouldEndEditing(NSText)
-func textDidEndEditing(Notification)
+<span class="function"><span class="keyword">func</span> <span class="title">textShouldEndEditing</span><span class="params">(NSText)</span></span>
+<span class="function"><span class="keyword">func</span> <span class="title">textDidEndEditing</span><span class="params">(Notification)</span></span>
 </code></pre>
 <p>用这一套方案其实已经可以实现比较接近的效果。只有一个小问题就是因为高亮的代码写在 text(Should|Did)BeginEditing 函数中，只有当开始输入第一个字符的时候才会高亮下边线，当光标移动过去时是不产生高亮的</p>
 </li>
-<li><p>然后想到了可以判断是否是 first responder 来判断焦点是否处于输入框，然后修改颜色，重写 NSResponder 的函数</p>
-<pre><code class="swift">func becomeFirstResponder()
-func resignFirstResponder()
+<li>
+<p>然后想到了可以判断是否是 first responder 来判断焦点是否处于输入框，然后修改颜色，重写 NSResponder 的函数</p>
+<pre class="highlight"><code class="swift"><span class="function"><span class="keyword">func</span> <span class="title">becomeFirstResponder</span><span class="params">()</span></span>
+<span class="function"><span class="keyword">func</span> <span class="title">resignFirstResponder</span><span class="params">()</span></span>
 </code></pre>
 <p>这样只要在 become/resign first responder 的时候修改颜色就可以，而且时机完全正确，本以为找到了最好的解决方案</p>
 <p>but…</p>
@@ -140,13 +144,17 @@ func resignFirstResponder()
 <p><img src="/images/NSTextField1/print.png" alt=""></p>
 <p>然后继续感谢 google，在一篇很老的帖子里找到了解释 <a href="http://www.cocoabuilder.com/archive/cocoa/103607-resignfirstresponder-called-immediately.html" target="_blank" rel="external">resignFirstResponder called immediately</a></p>
 <blockquote>
-<p>When a text field is being edited, the shared “field editor” object<br>is used as the first responder, not the text field. Check out the<br>documentation for the NSWindow method fieldEditor:forObject: for more<br>information on this.</p>
+<p>When a text field is being edited, the shared “field editor” object<br>
+is used as the first responder, not the text field. Check out the<br>
+documentation for the NSWindow method fieldEditor:forObject: for more<br>
+information on this.</p>
 </blockquote>
 <p>因为当输入框进行输入时实际上成为 first responder 的是一个通用于整个 window 所有输入框的 field editor，因此其他的 textfield 当光标移入时只会通知一下 become first responder 然后立刻进入编辑状态时就会把 first responder 让给 field editor，所以永远不会绘制高亮下边线</p>
 </li>
-<li><p>最后又选择了一个折中的方案，使用下面两个函数</p>
-<pre><code class="swift">func becomeFirstResponder()
-func textDidEndEditing(Notification)
+<li>
+<p>最后又选择了一个折中的方案，使用下面两个函数</p>
+<pre class="highlight"><code class="swift"><span class="function"><span class="keyword">func</span> <span class="title">becomeFirstResponder</span><span class="params">()</span></span>
+<span class="function"><span class="keyword">func</span> <span class="title">textDidEndEditing</span><span class="params">(Notification)</span></span>
 </code></pre>
 <p>这样尽管 become first responder 后立刻就 resign first responder 但仍然处于编辑状态，还是会处于高亮下边线的状态，停止编辑后也能立即切换高亮</p>
 <p><img src="/images/NSTextField1/demo.gif" alt=""></p>

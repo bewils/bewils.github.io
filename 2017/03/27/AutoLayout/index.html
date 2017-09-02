@@ -34,6 +34,8 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+
 
   <style media="screen">
     body .blog .content {
@@ -117,8 +119,9 @@
       
         <p>开始写起了 Playgroundbook，作为重度 storyboard 用户不管做什么项目都喜欢把能可视化的控件都扔到 storyboard 中，通过 storyboard 就能看到整个 App 的样式。结果 Playgroundbook 没法使用 storyboard 简直悲剧，样式看不到也就算了，布局还日常崩。用 frame 布局写得实在难受，还是正经学一下如何用代码来实现 AutoLayout</p>
 <a id="more"></a>
-<h2 id="NSLayoutConstraint"><a href="#NSLayoutConstraint" class="headerlink" title="NSLayoutConstraint"></a>NSLayoutConstraint</h2><p>最基础的 AutoLayout 写法就是通过创建一个 NSLayoutConstraint 并将这个约束赋给相应的 view 来设置布局</p>
-<pre><code class="swift">let constraint = NSLayoutConstraint(item: backgroundImage, attribute: .width, relatedBy: .equal, toItem: backingView, attribute: .width, multiplier: 1, constant: 0)
+<h2 id="nslayoutconstraint"><a class="markdownIt-Anchor" href="#nslayoutconstraint"></a> NSLayoutConstraint</h2>
+<p>最基础的 AutoLayout 写法就是通过创建一个 NSLayoutConstraint 并将这个约束赋给相应的 view 来设置布局</p>
+<pre class="highlight"><code class="swift"><span class="keyword">let</span> constraint = <span class="type">NSLayoutConstraint</span>(item: backgroundImage, attribute: .width, relatedBy: .<span class="built_in">equal</span>, toItem: backingView, attribute: .width, multiplier: <span class="number">1</span>, constant: <span class="number">0</span>)
 view.addConstraint(constraint)
 </code></pre>
 <p>学习这种写法只需要掌握一个公式即可（以下均为参数名请自行对照）：</p>
@@ -126,11 +129,12 @@ view.addConstraint(constraint)
 <p>item.attribute =(&gt;=,&lt;=) toItem.attribute * multiplier + constant</p>
 </blockquote>
 <p>给一个 view 可以一次添加一个或多个约束</p>
-<pre><code class="Swift">view.addConstraint(constraint)
+<pre class="highlight"><code class="Swift">view.addConstraint(constraint)
 view.addConstraints([constraint1, constraint2])
 </code></pre>
-<h2 id="withVisualFormat"><a href="#withVisualFormat" class="headerlink" title="withVisualFormat"></a>withVisualFormat</h2><p>iOS 中还提供了另一种无比神奇的方法来创建约束</p>
-<pre><code class="swift">NSLayoutConstraint.constraints(withVisualFormat: String, options: NSLayoutFormatOptions, metrics: [String : Any]?, views: [String : Any])
+<h2 id="withvisualformat"><a class="markdownIt-Anchor" href="#withvisualformat"></a> withVisualFormat</h2>
+<p>iOS 中还提供了另一种无比神奇的方法来创建约束</p>
+<pre class="highlight"><code class="swift"><span class="type">NSLayoutConstraint</span>.constraints(withVisualFormat: <span class="type">String</span>, options: <span class="type">NSLayoutFormatOptions</span>, metrics: [<span class="type">String</span> : <span class="type">Any</span>]?, views: [<span class="type">String</span> : <span class="type">Any</span>])
 </code></pre>
 <p>这种方法通过 ASCII 码绘制的可视化图形来设置约束，非常直观形象，这个方法直接返回的是一个 NSLayoutConstraint 的数组，因为通过 ASCII 图像可以同时设置多个属性约束，使用起来很方便也可以减少代码量</p>
 <p>各个参数的含义：</p>
@@ -150,21 +154,22 @@ view.addConstraints([constraint1, constraint2])
 <p>@：表示权值</p>
 <p>[]：表示视图</p>
 </blockquote>
-<pre><code class="swift">// 设置 view 的宽度与 superview 相等
-NSLayoutConstraint.constraints(withVisualFormat: &quot;H:|[view]|&quot;, options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: [&quot;view&quot;: view])
-/* 设置 view 的左边距 superview 为 25
+<pre class="highlight"><code class="swift"><span class="comment">// 设置 view 的宽度与 superview 相等</span>
+<span class="type">NSLayoutConstraint</span>.constraints(withVisualFormat: <span class="string">"H:|[view]|"</span>, options: <span class="type">NSLayoutFormatOptions</span>(rawValue: <span class="number">0</span>), metrics: [:], views: [<span class="string">"view"</span>: view])
+<span class="comment">/* 设置 view 的左边距 superview 为 25
 * view 的右边距 superview 为 space，在 metrics 中定义为 300
-*/
-NSLayoutConstraint.constraints(withVisualFormat: &quot;H:|-25.0-[view]-(==space)-|&quot;, options: NSLayoutFormatOptions(rawValue: 0), metrics: [&quot;width&quot;: 300, &quot;space&quot;: 40], views: [&quot;view&quot;: view])
-/* 设置 view 和 view1 等宽
+*/</span>
+<span class="type">NSLayoutConstraint</span>.constraints(withVisualFormat: <span class="string">"H:|-25.0-[view]-(==space)-|"</span>, options: <span class="type">NSLayoutFormatOptions</span>(rawValue: <span class="number">0</span>), metrics: [<span class="string">"width"</span>: <span class="number">300</span>, <span class="string">"space"</span>: <span class="number">40</span>], views: [<span class="string">"view"</span>: view])
+<span class="comment">/* 设置 view 和 view1 等宽
 * 并且左右距 superview 为 20，两者间间距为 8
-*/
-NSLayoutConstraint.constraints(withVisualFormat: &quot;H:|-[view(view1)-[view1]-|&quot;, options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: [&quot;view&quot;: view, &quot;view1&quot;: view1])
-// 设置 view 的高度为 50
-NSLayoutConstraint.constraints(withVisualFormat: &quot;V:|-[view(50.0)|&quot;, options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: [&quot;view&quot;: view])
+*/</span>
+<span class="type">NSLayoutConstraint</span>.constraints(withVisualFormat: <span class="string">"H:|-[view(view1)-[view1]-|"</span>, options: <span class="type">NSLayoutFormatOptions</span>(rawValue: <span class="number">0</span>), metrics: [:], views: [<span class="string">"view"</span>: view, <span class="string">"view1"</span>: view1])
+<span class="comment">// 设置 view 的高度为 50</span>
+<span class="type">NSLayoutConstraint</span>.constraints(withVisualFormat: <span class="string">"V:|-[view(50.0)|"</span>, options: <span class="type">NSLayoutFormatOptions</span>(rawValue: <span class="number">0</span>), metrics: [:], views: [<span class="string">"view"</span>: view])
 </code></pre>
 <p>vfl 中默认为 H:，因此水平约束时可以不写</p>
-<h2 id="AutoLayout-注意事项"><a href="#AutoLayout-注意事项" class="headerlink" title="AutoLayout 注意事项"></a>AutoLayout 注意事项</h2><p>通过代码来实现 AutoLayout 时要注意几个问题：</p>
+<h2 id="autolayout-注意事项"><a class="markdownIt-Anchor" href="#autolayout-注意事项"></a> AutoLayout 注意事项</h2>
+<p>通过代码来实现 AutoLayout 时要注意几个问题：</p>
 <ol>
 <li>要通过约束来实现自动布局首先需要设置 <strong>translatesAutoresizingMaskIntoConstraints</strong> 为 <strong>false</strong> 否则系统会自动给视图添加一些约束可能会和我们添加的产生冲突</li>
 <li>给视图添加约束前要确保该视图已经被添加到视图中即被某个 superview addSubView 过，否则因为没有加入到视图中就没办法设置约束</li>

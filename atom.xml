@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-26T09:23:00.190Z</updated>
+  <updated>2017-09-02T09:46:57.841Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CGAffineTransform 介绍</title>
+    <link href="http://yoursite.com/2017/09/01/CGAffineTransform/"/>
+    <id>http://yoursite.com/2017/09/01/CGAffineTransform/</id>
+    <published>2017-08-31T16:05:43.000Z</published>
+    <updated>2017-09-02T09:46:57.841Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近又在写动画; 最近写动画又遇到了这个莫名其妙的东西; 最近终于了解了一些这个东西;&lt;/p&gt;
+&lt;p&gt;于是记录一下, 毕竟基础太差好不容易弄明白很怕过段时间就忘了&lt;/p&gt;
+&lt;p&gt;在做动画的时候很经常使用 &lt;code&gt;CGAffineTransform&lt;/code&gt; 这个 struct. UIView 有一个属性 &lt;code&gt;var transform: CGAffineTransform&lt;/code&gt; , 我们可以在对 UIView 做动画的时候修改这个属性来使 UIView 进行移动, 旋转, 缩放等动画. 但很多时候我们只是简单地使用如 &lt;code&gt;CGAffineTransform(rotationAngle: CGFloat)&lt;/code&gt; 这些自带的方法来进行变换. 接下来会比较详细地讨论一下关于这个 struct 的一些细节.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="Basic" scheme="http://yoursite.com/tags/Basic/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS 中的多线程</title>
@@ -26,10 +48,10 @@
     
       &lt;p&gt;在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了&lt;/p&gt;
 &lt;p&gt;我们可能都会写过这样的代码:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;Swift&quot;&gt;DispatchQueue.global().async {
-  // get data from networking
-  DispatchQueue.main.async {
-    // update ui
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;Swift&quot;&gt;&lt;span class=&quot;type&quot;&gt;DispatchQueue&lt;/span&gt;.global().async {
+  &lt;span class=&quot;comment&quot;&gt;// get data from networking&lt;/span&gt;
+  &lt;span class=&quot;type&quot;&gt;DispatchQueue&lt;/span&gt;.main.async {
+    &lt;span class=&quot;comment&quot;&gt;// update ui&lt;/span&gt;
   }
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -96,11 +118,11 @@
     <summary type="html">
     
       &lt;p&gt;Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-  if let objectList = jsonObject as? [Any] {
-    for object in objectList {
-      if let object = object as? [String: Any] {
-        // use object
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;swift&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; jsonObject = &lt;span class=&quot;keyword&quot;&gt;try&lt;/span&gt;? &lt;span class=&quot;type&quot;&gt;JSONSerialization&lt;/span&gt;.jsonObject(with: data!, options: .allowFragments) {
+  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; objectList = jsonObject &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt;? [&lt;span class=&quot;type&quot;&gt;Any&lt;/span&gt;] {
+    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; object &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; objectList {
+      &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; object = object &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt;? [&lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;: &lt;span class=&quot;type&quot;&gt;Any&lt;/span&gt;] {
+        &lt;span class=&quot;comment&quot;&gt;// use object&lt;/span&gt;
       }
     }
   }
@@ -163,10 +185,13 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;画圆形的方法&quot;&gt;&lt;a href=&quot;#画圆形的方法&quot; class=&quot;headerlink&quot; title=&quot;画圆形的方法&quot;&gt;&lt;/a&gt;画圆形的方法&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆&lt;/p&gt;
+      &lt;h3 id=&quot;画圆形的方法&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#画圆形的方法&quot;&gt;&lt;/a&gt; 画圆形的方法&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)&lt;/p&gt;
+&lt;li&gt;
+&lt;p&gt;UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;参数列表为弧形中心，半径，开始角度，结束角度，方向是否为顺时针&lt;/p&gt;
@@ -206,7 +231,8 @@
     <summary type="html">
     
       &lt;p&gt;开始参加百度 2017 年前端技术学院，发现基础还是有点烂，记个笔记作为补充。&lt;/p&gt;
-&lt;h2 id=&quot;Emmet&quot;&gt;&lt;a href=&quot;#Emmet&quot; class=&quot;headerlink&quot; title=&quot;Emmet&quot;&gt;&lt;/a&gt;Emmet&lt;/h2&gt;&lt;p&gt;首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。&lt;/p&gt;
+&lt;h2 id=&quot;emmet&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#emmet&quot;&gt;&lt;/a&gt; Emmet&lt;/h2&gt;
+&lt;p&gt;首先是开发效率上面，因为过去常年使用 koa + pug(jade) 快速搭建前后端项目，或者使用 React 这种全面的前端框架，一直没有机会去尝试 emmet 这种神奇的代码生成工具。因为 Ife 的课题都是裸写 HTML，去配置了一下 emmet 发现前端开发速度飞了起来。&lt;/p&gt;
     
     </summary>
     
