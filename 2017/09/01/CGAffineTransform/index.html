@@ -124,7 +124,7 @@
 <p>在做动画的时候很经常使用 <code>CGAffineTransform</code> 这个 struct. UIView 有一个属性 <code>var transform: CGAffineTransform</code> , 我们可以在对 UIView 做动画的时候修改这个属性来使 UIView 进行移动, 旋转, 缩放等动画. 但很多时候我们只是简单地使用如 <code>CGAffineTransform(rotationAngle: CGFloat)</code> 这些自带的方法来进行变换. 接下来会比较详细地讨论一下关于这个 struct 的一些细节.</p>
 <a id="more"></a>
 <h2 id="affine-transformation"><a class="markdownIt-Anchor" href="#affine-transformation"></a> Affine Transformation</h2>
-<p>这个看起来很神奇的名字, 翻译成中文的话就是<strong>仿射变换</strong>(虽然不了解但应该都听说过, 反正很厉害的样子). 知道了名字之后瞬间亲切了很多, 好像会了一样<s>醒醒吧</s>. <em>Affine</em> 源自拉丁文, 翻译成英文就是 <em>connected with</em>. Affine transformation 指在几何中, 一个向量空间进行一次线性变换并接上一个平移, 变换为另一个向量空间, 即通过一次矩阵乘法变成另一个图形.</p>
+<p>这个看起来很神奇的名字, 翻译成中文的话就是<strong>仿射变换</strong>(虽然不了解但应该都听说过, 反正很厉害的样子). 知道了名字之后瞬间亲切了很多, 好像会了一样<s>醒醒吧</s>. <em>Affine</em> 源自拉丁文, 翻译成英文就是 <em>connected with</em>. Affine transformation 指在几何中, 一个向量空间进行一次线性变换并接上一个平移, 变换为另一个向量空间</p>
 <h2 id="homogenous-coordinates"><a class="markdownIt-Anchor" href="#homogenous-coordinates"></a> Homogenous coordinates</h2>
 <p>齐次坐标, 也叫投影坐标. 这个坐标系实际上就是在笛卡尔坐标系中再增加一维, 比如二维笛卡尔坐标系中的 (3, 4) 在齐次坐标系中可以写成 (3, 4, 1) 或者 (6, 8, 2) 或者其他的什么. 可以看到, 增加的最后一维就是坐标系定义的 multiplier. 齐次坐标转笛卡尔坐标就直接 (x, y, w) =&gt; (x/w, y/w) 就可以了</p>
 <p>使用齐次坐标的一个好处是可以表示无穷远, 在笛卡尔坐标系中无穷远是没有一个很好地办法来表示, 总是需要一个 Float.Infinite 这样定义的无穷大常量来表示. 而在齐次坐标系中只需要将 multiplier 设为 0 即可, (3, 4, 0) 就可以用来表示无穷远的点. 所以也被称为投影坐标, 因为和真实的投影一样, 在齐次坐标中可以表示无穷远, 同时也可以表示平行线在无穷远处的相交</p>
