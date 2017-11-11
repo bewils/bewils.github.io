@@ -68,7 +68,7 @@
     <link href="http://yoursite.com/2017/08/24/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8A%A8%E7%94%BB%E5%B0%81%E8%A3%85/"/>
     <id>http://yoursite.com/2017/08/24/记一次动画封装/</id>
     <published>2017-08-24T14:29:28.000Z</published>
-    <updated>2017-09-03T04:42:56.660Z</updated>
+    <updated>2017-11-11T07:47:16.655Z</updated>
     
     <summary type="html">
     
@@ -78,7 +78,7 @@
 &lt;li&gt;像 SKAction 一样支持, start, pause, resume, cancel&lt;/li&gt;
 &lt;li&gt;统一 UIView 和 CALayer 的动画&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;然后开始进行了封装, 最后总算是写完了吧, 写的过程中向公司的大佬学习了很多&lt;/p&gt;
+&lt;p&gt;然后开始进行了封装, 最后总算是写完了吧, 写的过程中向公司的同事学习了很多&lt;/p&gt;
 &lt;p&gt;因此写了这篇文章, 主要想记录一下让代码从能运行到写起来和用起来都很舒服的一个过程吧&lt;/p&gt;
     
     </summary>
