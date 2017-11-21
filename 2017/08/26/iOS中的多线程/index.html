@@ -176,9 +176,61 @@ DispatchQueue.global().async {
 <p>然后使用的时候就直接 Dispatch.main.async 就跑起来了</p>
 <p>希望读完这篇文章能够了解这两者之间的关系</p>
 <p>PS: 开始实习之后越发感觉到自己的基础不好…要补的有点多</p>
-<blockquote>
-<p>非常后悔没学好多线程(但不后悔当初没好好学, 毕竟学习不是为了考试</p>
-</blockquote>
+<h3 id="20171121-追加"><a class="markdownIt-Anchor" href="#20171121-追加"></a> 2017/11/21 追加</h3>
+<p>上面对于 Operation 的描述有一定的遗漏, Operation 相比于 Dispatch(framework) 还是有一定的优势, 除了同样可以控制任务的进行取消还有以下优点</p>
+<ol>
+<li>支持依赖, 很像 Promise 的方式, 当前一个 Operation 做完才开始下一个</li>
+</ol>
+<pre class="highlight"><code class="swift"><span class="comment">// Custom Operation</span>
+@implementation <span class="type">YourOperation</span>
+
+-(void)start {
+  _notDone = <span class="type">NO</span>;
+  <span class="comment">// 打印开始执行的时间</span>
+  <span class="type">NSLog</span>(@<span class="string">"%lf"</span>, <span class="type">CFAbsoluteTimeGetCurrent</span>());
+  <span class="comment">// 等待 2s 后手动停止 Operation</span>
+  dispatch_after(dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, (int64_t)(<span class="number">2</span> * <span class="type">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^{
+    _notDone = <span class="type">YES</span>;
+  });
+  
+  [<span class="keyword">super</span> start];
+}
+
+-(void)main {
+  <span class="comment">// Operation 判断结束的方法是判断 main 是否返回</span>
+  <span class="comment">// 因此通过 while + bool 即可手动控制  operation 异步执行</span>
+  <span class="keyword">while</span> (!_notDone &amp;&amp; !<span class="keyword">self</span>.isCancelled) {
+  }
+}
+
+@end
+
+<span class="comment">// Usage in VC</span>
+@implementation <span class="type">ViewController</span>
+
+- (void)viewDidLoad {
+  [<span class="keyword">super</span> viewDidLoad];
+  
+  <span class="type">NSOperationQueue</span> *queue = [<span class="type">NSOperationQueue</span> new];
+  <span class="type">YourOperation</span> *operation1 = [<span class="type">YourOperation</span> new];
+  <span class="type">YourOperation</span> *operation2 = [<span class="type">YourOperation</span> new];
+  
+  [queue addOperation:operation1];
+  [queue addOperation:operation2];
+  <span class="comment">// operation3 依赖于 operation1, operation2, 即当两个任务做完后才开始做</span>
+  <span class="type">YourOperation</span> *operation3 = [<span class="type">YourOperation</span> new];
+  [operation3 addDependency:operation1];
+  [operation3 addDependency:operation2];
+  
+  [queue addOperation:operation3];
+}
+
+@end
+</code></pre>
+<ol start="2">
+<li>高度自定义, 通过上面的例子也可以看出通过自己实现 Operation 可以手动控制执行流程, 可以控制执行时间等各种细节, 而 DispatchWorkItem 则不可以, 因为 Operation 的 access control 为 <code>open</code> 但 DispatchWorkItem 的 access control 为 <code>public</code> 无法被继承.</li>
+</ol>
+<p>关于多线程更多细节推荐 <a href="https://www.objc.io/issues/2-concurrency/" target="_blank" rel="external">https://www.objc.io/issues/2-concurrency/</a></p>
 
       
     </div>
