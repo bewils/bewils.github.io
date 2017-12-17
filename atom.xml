@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-02T09:53:47.195Z</updated>
+  <updated>2017-12-17T14:52:24.796Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>&lt;代码之髓&gt;与Swift</title>
+    <link href="http://yoursite.com/2017/12/17/%3C%E4%BB%A3%E7%A0%81%E4%B9%8B%E9%AB%93%3E%E4%B8%8ESwift/"/>
+    <id>http://yoursite.com/2017/12/17/&lt;代码之髓&gt;与Swift/</id>
+    <published>2017-12-17T13:12:30.000Z</published>
+    <updated>2017-12-17T14:52:24.796Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在读一本叫&amp;lt;代码之髓&amp;gt;的书. 这本书很有趣, 就像它自己的描述: 编程语言 核心概念. 通过看这本书并不能精通所有的语言, 也不能写出美观健壮的代码, 但是可以让人从一个宏观的角度来观察一门语言.&lt;/p&gt;
+&lt;p&gt;书中的介绍顺序和任何一门语言书的顺序其实都是一样: 表达式, 流程控制, 类. 但是在读任何一本语言书的时候重点关注的都是这个语法’是什么’, 而&amp;lt;代码之髓&amp;gt;中则一定程度向我们展示了’为什么’是这个语法. 所以找一门语言对照着这本书来读会有更好的体验.&lt;/p&gt;
+&lt;p&gt;因为这本书成书较早, 当时还没有 Swift 这门语言, 又因笔者只会稍微写点 Swift, 所以这篇文章讨论的都是 Swift 的代码, 而且可能会有很多因为水平不够导致的不正确.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Basic" scheme="http://yoursite.com/tags/Basic/"/>
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+  </entry>
   
   <entry>
     <title>CGAffineTransform 介绍</title>
