@@ -254,8 +254,8 @@ Connection closed by foreign host.
 <p>过程如下:</p>
 <p>5~7 是 TCP 的三次握手</p>
 <p>9 是服务器发送 hello world!</p>
-<p>10 开始断开连接</p>
-<p>11~14 是客户端收到数据和 FIN 也断开连接最后服务器发送最后一个 ACK 彻底断开这次 TCP 连接</p>
+<p>10 服务器主动断开连接</p>
+<p>11~14 是客户端收到数据, 收到服务器的 FIN 后也断开连接, 向服务器发送 FIN, 最后服务器发送最后一个 ACK 彻底断开这次 TCP 连接</p>
 <p>单独查看 9 的数据包:</p>
 <p><img src="/images/%E4%B8%80%E7%82%B9%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/1516294260778.jpg" alt=""></p>
 <p>hello world!</p>
