@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-19T12:25:40.826Z</updated>
+  <updated>2018-03-20T17:53:29.971Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>&lt;无声告白&gt;</title>
+    <link href="http://yoursite.com/2018/03/21/%E6%97%A0%E5%A3%B0%E5%91%8A%E7%99%BD/"/>
+    <id>http://yoursite.com/2018/03/21/无声告白/</id>
+    <published>2018-03-20T16:40:54.000Z</published>
+    <updated>2018-03-20T17:53:29.971Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;我们终此一生, 就是要拜托被人的期待, 找到真正的自己.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;半夜终于读完了这本书, 想发一条微博来特别纪念. 结果越写越长, 于是删掉了微博回到自己的老窝发一篇博客.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Read" scheme="http://yoursite.com/tags/Read/"/>
+    
+  </entry>
   
   <entry>
     <title>一点网络基础</title>
@@ -108,7 +129,7 @@
     <link href="http://yoursite.com/2017/08/24/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8A%A8%E7%94%BB%E5%B0%81%E8%A3%85/"/>
     <id>http://yoursite.com/2017/08/24/记一次动画封装/</id>
     <published>2017-08-24T14:29:28.000Z</published>
-    <updated>2017-11-11T07:47:16.655Z</updated>
+    <updated>2018-03-20T16:45:19.095Z</updated>
     
     <summary type="html">
     
