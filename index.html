@@ -90,6 +90,58 @@
 
   
     
+    <h3 class="article-title"><a href="/2018/08/14/NewMac/"><span>新 Mac 配置</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/08/14/NewMac/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-08-14T13:41:35.000Z">
+          2018-08-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>前段时间手欠更新了系统, 体会到了 mac 变砖的快感. 出问题的情况和 <a href="https://www.loli.ren/archives/43/?from=groupmessage&amp;isappinstalled=0" target="_blank" rel="noopener">https://www.loli.ren/archives/43/?from=groupmessage&amp;isappinstalled=0</a> 这篇解决方案描述的大体一致. 然而用这个解决方案并没有办法, 最后还是最暴力用外接 U 盘装了个系统强行开机, 把东西做好备份后格了整个硬盘. 过去既没钱买 time machine 也觉得 5G 的 iCloud 够用了, 这次真是死得惨. 鉴于目前还是穷就乖乖先买着便宜的 iCloud, 把怕丢的东西全扔上去. 得到了一台崭新的 mac 后又到了人生最喜忧参半的配环境时刻了. 这次就记录下我的一些习惯的配置, 主要是各种工具和软件的安装, 顺便做个安利.</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Life/">Life</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2018/03/21/无声告白/"><span>&lt;无声告白&gt;</span></a></h3>
     
   
@@ -165,7 +217,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>先来说一下写这篇文章的原因, 这两天读了 bang 的 <a href="http://blog.cnbang.net/tech/3531/">http://blog.cnbang.net/tech/3531/</a> 这篇文章, 看到了移动端开发有关网络面临的许多问题, 意识到在眼界和探索问题方面还有很大的局限. 同时在阅读中还发现了很多概念性模糊的地方, 在此记录下来, 虽然这些并不能帮助写好一个 URLSession, 但是作为科普性了解一下还是不错的.</p>
+        <p>先来说一下写这篇文章的原因, 这两天读了 bang 的 <a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="noopener">http://blog.cnbang.net/tech/3531/</a> 这篇文章, 看到了移动端开发有关网络面临的许多问题, 意识到在眼界和探索问题方面还有很大的局限. 同时在阅读中还发现了很多概念性模糊的地方, 在此记录下来, 虽然这些并不能帮助写好一个 URLSession, 但是作为科普性了解一下还是不错的.</p>
       
     </div>
 
@@ -327,10 +379,10 @@
       
         <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
 <p>我们可能都会写过这样的代码:</p>
-<pre class="highlight"><code class="Swift"><span class="type">DispatchQueue</span>.global().async {
-  <span class="comment">// get data from networking</span>
-  <span class="type">DispatchQueue</span>.main.async {
-    <span class="comment">// update ui</span>
+<pre><code class="Swift">DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
   }
 }
 </code></pre>
@@ -444,7 +496,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>Protobuf 是 protocol buffers 的缩写. 根据<a href="https://developers.google.com/protocol-buffers/">官网</a>的说法, protocol buffers 与平台无关, 与语言无关, 实现数据序列化的一种手段. 正如名字一样, protobuf 可以将数据按照规定的协议(protocol)序列化为二进制的数据(buffers). 序列化的数据基本上可以保证类型安全, 并且可以压缩大小. 这篇文章将简单说说关于 protobuf 的优点和问题, 如果有使用的需要可以作为参考</p>
+        <p>Protobuf 是 protocol buffers 的缩写. 根据<a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="noopener">官网</a>的说法, protocol buffers 与平台无关, 与语言无关, 实现数据序列化的一种手段. 正如名字一样, protobuf 可以将数据按照规定的协议(protocol)序列化为二进制的数据(buffers). 序列化的数据基本上可以保证类型安全, 并且可以压缩大小. 这篇文章将简单说说关于 protobuf 的优点和问题, 如果有使用的需要可以作为参考</p>
       
     </div>
 
@@ -497,11 +549,11 @@
     <div class="entry">
       
         <p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
-<pre class="highlight"><code class="swift"><span class="keyword">if</span> <span class="keyword">let</span> jsonObject = <span class="keyword">try</span>? <span class="type">JSONSerialization</span>.jsonObject(with: data!, options: .allowFragments) {
-  <span class="keyword">if</span> <span class="keyword">let</span> objectList = jsonObject <span class="keyword">as</span>? [<span class="type">Any</span>] {
-    <span class="keyword">for</span> object <span class="keyword">in</span> objectList {
-      <span class="keyword">if</span> <span class="keyword">let</span> object = object <span class="keyword">as</span>? [<span class="type">String</span>: <span class="type">Any</span>] {
-        <span class="comment">// use object</span>
+<pre><code class="swift">if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+  if let objectList = jsonObject as? [Any] {
+    for object in objectList {
+      if let object = object as? [String: Any] {
+        // use object
       }
     }
   }
@@ -575,62 +627,6 @@
     <span class="post-tags">
       <i class="icon-tags"></i>
         <a href="/tags/iOS/">iOS</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/06/09/Swift4/"><span>What&#39;s new in swift4</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/06/09/Swift4/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-06-09T06:55:03.000Z">
-          2017-06-09
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <blockquote>
-<p>这次 WWDC 最令你激动的更新是什么？</p>
-<p>最令我激动的是 swift 没更新</p>
-</blockquote>
-<p>然而并不是这样，只不过 keynote 中偏重新品发布没提到就以为没有更新了？Github 上 swift 的更新进程仍在继续，新添加的特性和修复的 bug 也不断增多。Swift 作为一门现代语言正向着更好的方向发展，在这篇文章中将主要讨论 swift4 中主要的变化</p>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/Swift/">Swift</a>
     </span>
     
 

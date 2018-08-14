@@ -123,10 +123,10 @@ DispatchQueue.global().async {
       
         <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
 <p>我们可能都会写过这样的代码:</p>
-<pre class="highlight"><code class="Swift"><span class="type">DispatchQueue</span>.global().async {
-  <span class="comment">// get data from networking</span>
-  <span class="type">DispatchQueue</span>.main.async {
-    <span class="comment">// update ui</span>
+<pre><code class="Swift">DispatchQueue.global().async {
+  // get data from networking
+  DispatchQueue.main.async {
+    // update ui
   }
 }
 </code></pre>
@@ -134,91 +134,83 @@ DispatchQueue.global().async {
 <p>在 iOS 的很多教程, 包括著名的斯坦福公开课 CS193P 里面关于多线程的课程也使用了这样的 GCD 代码. 当时理所当然得接受了这个, 认为这个就像冒泡排序一样的模板, 遇到了直接背上去就可以.</p>
 <p>直到实习面试的时候倒背如流这段代码后被问到了一个问题, 那么为什么<code>用这样的 GCD 代码就能开启多线程呢?</code>(笑容渐渐消失…)</p>
 <p>这篇文章的目的其实主要就是去寻找为什么, 而不是关于多线程的具体使用, 具体使用的话预计接下来会写一篇关于使用 GCD 的文章</p>
-<h2 id="概览"><a class="markdownIt-Anchor" href="#概览"></a> 概览</h2>
-<p><img src="http://ouqin1qvl.bkt.clouddn.com/1503731690955.jpg?imageslim" alt="iOS 多线程"></p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><img src="http://ouqin1qvl.bkt.clouddn.com/1503731690955.jpg?imageslim" alt="iOS 多线程"></p>
 <p>iOS 中的多线程的结构大概就是这样, 每一层都对上一层进行了封装, 接下来将一层一层进行分析</p>
-<h2 id="mach"><a class="markdownIt-Anchor" href="#mach"></a> Mach</h2>
-<p>Mach 最早是 CMU 开发的操作系统微内核, 但现在基本上是作为其他类似操作系统的标准而存在</p>
+<h2 id="Mach"><a href="#Mach" class="headerlink" title="Mach"></a>Mach</h2><p>Mach 最早是 CMU 开发的操作系统微内核, 但现在基本上是作为其他类似操作系统的标准而存在</p>
 <p>Apple 在 2000 年开源了一个叫 Darwin 的操作系统, Darwin 就是实现了 Mach 的架构. 而且 Darwin 也同时作为 macOS 和 iOS 的核心, 因此在 iOS 的操作系统内核直接与 CPU 进行控制的部分就是 Mach, 直接控制线程的部分就是这里</p>
-<h2 id="pthread"><a class="markdownIt-Anchor" href="#pthread"></a> pthread</h2>
-<p>POSIX Threads 是一个跨平台的线程标准, 定义了创建和操作线程的一套 API</p>
+<h2 id="pthread"><a href="#pthread" class="headerlink" title="pthread"></a>pthread</h2><p>POSIX Threads 是一个跨平台的线程标准, 定义了创建和操作线程的一套 API</p>
 <p>支持包括 Linux, Windows, macOS 等各种系统, 使用的时候只需要引入<code>pthread.h</code> 即可</p>
 <p>但由于是纯 C 库, 在 OC 中使用尚可忍受, 在 Swift 中…(算了, 就当无事发生过</p>
-<h2 id="thread"><a class="markdownIt-Anchor" href="#thread"></a> Thread</h2>
-<p>也就是过去的 NSThread, 是在 pthread 上封装了一层, 用面向对象的方式直接将线程和代码做了映射</p>
+<h2 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h2><p>也就是过去的 NSThread, 是在 pthread 上封装了一层, 用面向对象的方式直接将线程和代码做了映射</p>
 <p>通过 Thread 的 API 可以直接创建线程, 设置运行在子线程上的代码, 并且可以关闭子线程</p>
 <p>通过 Thread 可以直接对线程进行管理, 不过坏处也就是什么都需要手动管理</p>
-<h2 id="dispatch"><a class="markdownIt-Anchor" href="#dispatch"></a> Dispatch</h2>
-<p>就是过去的 GCD, GCD(Grand Central Dispatch) 是 Apple 开发的一个多线程编程的解决方案. 通过将任务抽象为队列的方法, GCD 可以让程序员在不直接操作线程即可完成并发编程</p>
+<h2 id="Dispatch"><a href="#Dispatch" class="headerlink" title="Dispatch"></a>Dispatch</h2><p>就是过去的 GCD, GCD(Grand Central Dispatch) 是 Apple 开发的一个多线程编程的解决方案. 通过将任务抽象为队列的方法, GCD 可以让程序员在不直接操作线程即可完成并发编程</p>
 <p>只需要简单地设置队列是<code>串行/并行</code> <code>同步/异步</code>然后加入要执行的操作(block/closure), GCD 内部会自动根据这些设置来创建线程, 并且会自行决定开多少个线程, 完全的对外隐藏内部的复杂操作, 可以将编程的关注点聚焦于任务的处理</p>
 <p>另: GCD 是纯 C 的 API, 是在 pthread 上加入队列和任务的管理. 使用大概是这样:</p>
-<pre class="highlight"><code class="swift">dispatch_async(dispatch_get_main_queue(), {
-  <span class="comment">// update ui</span>
+<pre><code class="swift">dispatch_async(dispatch_get_main_queue(), {
+  // update ui
 })
 </code></pre>
 <p>但是这种纯 C 的代码与 Swift 的编程风格格格不入, 所幸在 Swift3 推出的时候, Apple 在 GCD 的基础上加入了面向对象的特点, 也就变成了现在的 Dispatch Framework</p>
-<pre class="highlight"><code class="swift"><span class="type">Dispatch</span>.main.async {
-    <span class="comment">// update ui</span>
+<pre><code class="swift">Dispatch.main.async {
+    // update ui
 }
 </code></pre>
-<h2 id="operationqueue"><a class="markdownIt-Anchor" href="#operationqueue"></a> OperationQueue</h2>
-<p>过去的 NSOperationQueue, 一个很尴尬的东西. 最初是封装了 GCD 为 GCD 添加了面向对象的特性, 将要添加的操作封装为 Operation, 然后直接添加到 OperationQueue 中并且设置<code>串行/并行</code>即可执行</p>
-<p>说了这么多(好像和 GCD 的功能差不多的样子?..</p>
+<h2 id="OperationQueue"><a href="#OperationQueue" class="headerlink" title="OperationQueue"></a>OperationQueue</h2><p>过去的 NSOperationQueue, 一个很尴尬的东西. 最初是封装了 GCD 为 GCD 添加了面向对象的特性, 将要添加的操作封装为 Operation, 然后直接添加到 OperationQueue 中并且设置<code>串行/并行</code>即可执行</p>
+<p>说了这么多(好像和 GCD 的功能差不多的样子?…</p>
 <p>确实是这样…在 OC 中因为 OperationQueue 提供了面向对象的使用方式, 并且相比于 GCD 更关键的一点是封装后的 Operation 是支持 start, cancel 等操作以及运行状态 isCancelled, isExecuting, isFinished 的判断, 使任务有了很好地可控性. 当然实际上 GCD 也是支持这种功能的, 但是在 C 的 API 下使用起来会很困难, 因此在 OC 中大多会用 OperationQueue 的方法开进行多线程编程</p>
 <p>然而 Swift3 中 Apple 提供了 Dispatch Framework, 不但提供了基础的面向对象的接口, 而且也提供了和 Operation 基本等价的 DispatchWorkItem, 这样 OperationQueue 对 GCD 的优势基本为 0, 这也就是 Swift 中为什么大家都喜欢用 GCD</p>
-<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
-<p>iOS 中的多线程的运作模式基本上就是上面写的这些. 通过层层的封装 Apple 提供了对程序员很友好, 使用便捷的接口, 但在日常使用的同时还是希望能了解它们内部的原理. 如果其他人看了这篇文章也能学到 iOS 的多线程, 无论在工作中还是面试中能够用上, 那还是很好的</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>iOS 中的多线程的运作模式基本上就是上面写的这些. 通过层层的封装 Apple 提供了对程序员很友好, 使用便捷的接口, 但在日常使用的同时还是希望能了解它们内部的原理. 如果其他人看了这篇文章也能学到 iOS 的多线程, 无论在工作中还是面试中能够用上, 那还是很好的</p>
 <p>而且希望能将脱节的理论和实际联系起来</p>
 <p>毕竟学习的时候就只是学到了 ‘利用 CPU 开启线程提高并发度’ 这种不痛不痒的东西</p>
 <p>然后使用的时候就直接 Dispatch.main.async 就跑起来了</p>
 <p>希望读完这篇文章能够了解这两者之间的关系</p>
 <p>PS: 开始实习之后越发感觉到自己的基础不好…要补的有点多</p>
-<h3 id="20171121-追加"><a class="markdownIt-Anchor" href="#20171121-追加"></a> 2017/11/21 追加</h3>
-<p>上面对于 Operation 的描述有一定的遗漏, Operation 相比于 Dispatch(framework) 还是有一定的优势, 除了同样可以控制任务的进行取消还有以下优点</p>
+<h3 id="2017-11-21-追加"><a href="#2017-11-21-追加" class="headerlink" title="2017/11/21 追加"></a>2017/11/21 追加</h3><p>上面对于 Operation 的描述有一定的遗漏, Operation 相比于 Dispatch(framework) 还是有一定的优势, 除了同样可以控制任务的进行取消还有以下优点</p>
 <ol>
 <li>支持依赖, 很像 Promise 的方式, 当前一个 Operation 做完才开始下一个</li>
 </ol>
-<pre class="highlight"><code class="swift"><span class="comment">// Custom Operation</span>
-@implementation <span class="type">YourOperation</span>
+<pre><code class="swift">// Custom Operation
+@implementation YourOperation
 
 -(void)start {
-  _notDone = <span class="type">NO</span>;
-  <span class="comment">// 打印开始执行的时间</span>
-  <span class="type">NSLog</span>(@<span class="string">"%lf"</span>, <span class="type">CFAbsoluteTimeGetCurrent</span>());
-  <span class="comment">// 等待 2s 后手动停止 Operation</span>
-  dispatch_after(dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, (int64_t)(<span class="number">2</span> * <span class="type">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^{
-    _notDone = <span class="type">YES</span>;
+  _notDone = NO;
+  // 打印开始执行的时间
+  NSLog(@&quot;%lf&quot;, CFAbsoluteTimeGetCurrent());
+  // 等待 2s 后手动停止 Operation
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    _notDone = YES;
   });
-  
-  [<span class="keyword">super</span> start];
+
+  [super start];
 }
 
 -(void)main {
-  <span class="comment">// Operation 判断结束的方法是判断 main 是否返回</span>
-  <span class="comment">// 因此通过 while + bool 即可手动控制  operation 异步执行</span>
-  <span class="keyword">while</span> (!_notDone &amp;&amp; !<span class="keyword">self</span>.isCancelled) {
+  // Operation 判断结束的方法是判断 main 是否返回
+  // 因此通过 while + bool 即可手动控制  operation 异步执行
+  while (!_notDone &amp;&amp; !self.isCancelled) {
   }
 }
 
 @end
 
-<span class="comment">// Usage in VC</span>
-@implementation <span class="type">ViewController</span>
+// Usage in VC
+@implementation ViewController
 
 - (void)viewDidLoad {
-  [<span class="keyword">super</span> viewDidLoad];
-  
-  <span class="type">NSOperationQueue</span> *queue = [<span class="type">NSOperationQueue</span> new];
-  <span class="type">YourOperation</span> *operation1 = [<span class="type">YourOperation</span> new];
-  <span class="type">YourOperation</span> *operation2 = [<span class="type">YourOperation</span> new];
-  
+  [super viewDidLoad];
+
+  NSOperationQueue *queue = [NSOperationQueue new];
+  YourOperation *operation1 = [YourOperation new];
+  YourOperation *operation2 = [YourOperation new];
+
   [queue addOperation:operation1];
   [queue addOperation:operation2];
-  <span class="comment">// operation3 依赖于 operation1, operation2, 即当两个任务做完后才开始做</span>
-  <span class="type">YourOperation</span> *operation3 = [<span class="type">YourOperation</span> new];
+  // operation3 依赖于 operation1, operation2, 即当两个任务做完后才开始做
+  YourOperation *operation3 = [YourOperation new];
   [operation3 addDependency:operation1];
   [operation3 addDependency:operation2];
-  
+
   [queue addOperation:operation3];
 }
 
@@ -227,7 +219,7 @@ DispatchQueue.global().async {
 <ol start="2">
 <li>高度自定义, 通过上面的例子也可以看出通过自己实现 Operation 可以手动控制执行流程, 可以控制执行时间等各种细节, 而 DispatchWorkItem 则不可以, 因为 Operation 的 access control 为 <code>open</code> 但 DispatchWorkItem 的 access control 为 <code>public</code> 无法被继承.</li>
 </ol>
-<p>关于多线程更多细节推荐 <a href="https://www.objc.io/issues/2-concurrency/" target="_blank" rel="external">https://www.objc.io/issues/2-concurrency/</a></p>
+<p>关于多线程更多细节推荐 <a href="https://www.objc.io/issues/2-concurrency/" target="_blank" rel="noopener">https://www.objc.io/issues/2-concurrency/</a></p>
 
       
     </div>

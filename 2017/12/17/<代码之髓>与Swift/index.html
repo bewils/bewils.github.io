@@ -122,24 +122,21 @@
 <a id="more"></a>
 <p>注1: 本文的每个主题名字都是书中的章节名, 便于更好的对照</p>
 <p>注2: 书中表现的另一个很重要的观点就是, 通过了解语法的’为什么’, 并且进行多门语言的比较, 来认清一个现实: 没有什么是绝对正确理所当然的, 一切只是为了解决问题</p>
-<h3 id="语法的诞生"><a class="markdownIt-Anchor" href="#语法的诞生"></a> 语法的诞生</h3>
-<p>这一章中作者讨论了两门上古语言 FORTH 和 Lisp, 二者分别代表了两种语法解析方式: <code>栈机器</code>与<code>语法树</code>, 虽然在编译原理中在语法分析的部分都是使用了语法树, 这在现代语言中也被普遍运用, 但就像书中指出的 Python, Ruby 和 Java 这些语言还是在使用栈机器解析语法, 个人感觉解释型的脚本语言(可能比如 JS) 可能都是是通过这种栈机器来解析语法的, 毕竟顺序执行不需要对整个程序进行宏观的解析.</p>
+<h3 id="语法的诞生"><a href="#语法的诞生" class="headerlink" title="语法的诞生"></a>语法的诞生</h3><p>这一章中作者讨论了两门上古语言 FORTH 和 Lisp, 二者分别代表了两种语法解析方式: <code>栈机器</code>与<code>语法树</code>, 虽然在编译原理中在语法分析的部分都是使用了语法树, 这在现代语言中也被普遍运用, 但就像书中指出的 Python, Ruby 和 Java 这些语言还是在使用栈机器解析语法, 个人感觉解释型的脚本语言(可能比如 JS) 可能都是是通过这种栈机器来解析语法的, 毕竟顺序执行不需要对整个程序进行宏观的解析.</p>
 <p>至于在 Swift 中, 就是比较标准的语法树了, 在这里举个例子:</p>
-<pre class="highlight"><code class="swift"><span class="comment">// test.swift</span>
-<span class="number">1</span> + <span class="number">2</span>
+<pre><code class="swift">// test.swift
+1 + 2
 </code></pre>
 <p>在命令行中执行<code>swiftc -dump-ast test.swift</code>后可以看到输出如下(虽然只有一行代码但 Swift 解析出的语法树还是很大, 在此只截取一小段):</p>
-<pre class="highlight"><code class="">(source_file
+<pre><code>(source_file
   (top_level_code_decl
     (brace_stmt
-      (binary_expr type='Int' location=test.swift:1:3 range=[test.swift:1:1 - line:1:5] nothrow
-        (dot_syntax_call_expr implicit type='(Int, Int) -&gt; Int' location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] nothrow
-          (declref_expr type='(Int.Type) -&gt; (Int, Int) -&gt; Int' location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] decl=Swift.(file).Int.+ function_ref=unapplied)
-          (type_expr implicit type='Int.Type' location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] typerepr='Int'))
-</code></pre>
-<p>虽然很多无关的内容有很多, 但还是可以大体看出来这一段语法树主要解析出了<code>+</code>这个函数的类型为<code>(Int, Int) -&gt; Int</code>, 原型为<code>Swift.Int.+</code></p>
-<h3 id="错误处理"><a class="markdownIt-Anchor" href="#错误处理"></a> 错误处理</h3>
-<p>这一章中讨论了两个很有趣的内容, 一个是关于微软公司</p>
+      (binary_expr type=&#39;Int&#39; location=test.swift:1:3 range=[test.swift:1:1 - line:1:5] nothrow
+        (dot_syntax_call_expr implicit type=&#39;(Int, Int) -&gt; Int&#39; location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] nothrow
+          (declref_expr type=&#39;(Int.Type) -&gt; (Int, Int) -&gt; Int&#39; location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] decl=Swift.(file).Int.+ function_ref=unapplied)
+          (type_expr implicit type=&#39;Int.Type&#39; location=test.swift:1:3 range=[test.swift:1:3 - line:1:3] typerepr=&#39;Int&#39;))
+</code></pre><p>虽然很多无关的内容有很多, 但还是可以大体看出来这一段语法树主要解析出了<code>+</code>这个函数的类型为<code>(Int, Int) -&gt; Int</code>, 原型为<code>Swift.Int.+</code></p>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>这一章中讨论了两个很有趣的内容, 一个是关于微软公司</p>
 
       
     </div>

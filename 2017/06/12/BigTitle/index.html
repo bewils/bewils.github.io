@@ -118,42 +118,38 @@
 <a id="more"></a>
 <p><img src="/images/BigTitle/Snip20170612_11.png" alt="Snip20170612_11"></p>
 <p>在过去的 iOS 版本中很多 App 就采用了这种设计方式，但由于 iOS 没有提供相关的方法，只能通过开发者自行实现。而在 iOS11 中，iOS 提供了统一的实现方法即 Large Title，我们可以很轻松地实现上述效果</p>
-<h2 id="1-相关属性"><a class="markdownIt-Anchor" href="#1-相关属性"></a> 1 相关属性</h2>
-<p>iOS11 中实现大标题非常简单，只需要设置两个属性即可：</p>
-<pre class="highlight"><code class="swift"><span class="comment">// UINavigationBar</span>
-<span class="keyword">var</span> prefersLargeTitles: <span class="type">Bool</span>
+<h2 id="1-相关属性"><a href="#1-相关属性" class="headerlink" title="1 相关属性"></a>1 相关属性</h2><p>iOS11 中实现大标题非常简单，只需要设置两个属性即可：</p>
+<pre><code class="swift">// UINavigationBar
+var prefersLargeTitles: Bool
 
-<span class="comment">// UINavigationItem</span>
-<span class="keyword">var</span> largeTitleDisplayMode: <span class="type">UINavigationItem</span>.<span class="type">LargeTitleDisplayMode</span>
+// UINavigationItem
+var largeTitleDisplayMode: UINavigationItem.LargeTitleDisplayMode
 </code></pre>
 <p>largeTitleDisplayMode 的取值为一个枚举值，取值如下：</p>
-<pre class="highlight"><code class="swift"><span class="keyword">case</span> always
-<span class="keyword">case</span> automatic
-<span class="keyword">case</span> never
+<pre><code class="swift">case always
+case automatic
+case never
 </code></pre>
 <p>当设置 <code>prefersLargeTitles = true</code> 且 <code>largeTitleDisplayMode = .automatic</code> 就会有如下图所示的效果，默认显示大标题，而当屏幕向上滑动的时候标题缩小恢复到过去的小标题样式</p>
 <p><img src="/images/BigTitle/Snip20170612_12.png" alt="Snip20170612_12"></p>
 <p>顺便还有个好消息，这么简单的两个属性当然已经集成在 storyboard 中了！</p>
 <p><img src="/images/BigTitle/Snip20170612_15.png" alt="Snip20170612_15"></p>
-<h2 id="2-集成搜索框"><a class="markdownIt-Anchor" href="#2-集成搜索框"></a> 2 集成搜索框</h2>
-<p>iOS8 中为 UITableView 内嵌了搜索框 UISearchController，但加到 UITableView 中的搜索框与大标题配合的时候就很复杂，需要两个组件间通信状态并同步动画。因此 iOS11 中选择将搜索框加入到 UINavigationItem 中，这样就实现了统一的动画。</p>
+<h2 id="2-集成搜索框"><a href="#2-集成搜索框" class="headerlink" title="2 集成搜索框"></a>2 集成搜索框</h2><p>iOS8 中为 UITableView 内嵌了搜索框 UISearchController，但加到 UITableView 中的搜索框与大标题配合的时候就很复杂，需要两个组件间通信状态并同步动画。因此 iOS11 中选择将搜索框加入到 UINavigationItem 中，这样就实现了统一的动画。</p>
 <p>而加入搜索框的方法也很简单，UINagivationItem 中新添加了两个属性：</p>
-<pre class="highlight"><code class="swift"><span class="keyword">var</span> searchController: <span class="type">UISearchController</span>?
-<span class="keyword">var</span> hidesSearchBarWhenScrolling: <span class="type">Bool</span>
+<pre><code class="swift">var searchController: UISearchController?
+var hidesSearchBarWhenScrolling: Bool
 
-<span class="comment">// 使用</span>
-<span class="keyword">self</span>.navigationItem.searchController = <span class="type">UISearchController</span>(searchResultsController: <span class="literal">nil</span>)
-<span class="keyword">self</span>.navigationItem.hidesSearchBarWhenScrolling = <span class="literal">true</span>
+// 使用
+self.navigationItem.searchController = UISearchController(searchResultsController: nil)
+self.navigationItem.hidesSearchBarWhenScrolling = true
 </code></pre>
 <p>其中 <code>hideSearchBarWhenScrolling</code> 属性可以设置下面试图滚动的时候时候隐藏搜索框， <code>true</code> 和 <code>false</code> 时效果分别如下：</p>
 <p><img src="/images/BigTitle/Snip20170613_18.png" alt="Snip20170613_18"></p>
-<h2 id="3-视图栈中的使用"><a class="markdownIt-Anchor" href="#3-视图栈中的使用"></a> 3 视图栈中的使用</h2>
-<p>iOS11 中的大标题，比如在设置中的使用，只在主界面中用了大标题，即 <code>UINavigationController</code> 的 <code>rootViewController</code> 中。当点击某个设置进入下级视图的时候直接是以小标题的样式展示</p>
+<h2 id="3-视图栈中的使用"><a href="#3-视图栈中的使用" class="headerlink" title="3 视图栈中的使用"></a>3 视图栈中的使用</h2><p>iOS11 中的大标题，比如在设置中的使用，只在主界面中用了大标题，即 <code>UINavigationController</code> 的 <code>rootViewController</code> 中。当点击某个设置进入下级视图的时候直接是以小标题的样式展示</p>
 <p>借助 iOS11 中方便的 API，我们只需要在后面的视图中设置 <code>largeTitleDisplayMode = .never</code> 即可</p>
 <p><img src="/images/BigTitle/demo.gif" alt="demo"></p>
-<h2 id="4-参考资料"><a class="markdownIt-Anchor" href="#4-参考资料"></a> 4 参考资料</h2>
-<p><a href="https://developer.apple.com/videos/play/wwdc2017/201/" target="_blank" rel="external">https://developer.apple.com/videos/play/wwdc2017/201/</a> What’s new in cocoa touch</p>
-<p><a href="https://developer.apple.com/documentation/uikit/uinavigationbar" target="_blank" rel="external">https://developer.apple.com/documentation/uikit/uinavigationbar</a> UINavigationBar 的改动</p>
+<h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4 参考资料"></a>4 参考资料</h2><p><a href="https://developer.apple.com/videos/play/wwdc2017/201/" target="_blank" rel="noopener">https://developer.apple.com/videos/play/wwdc2017/201/</a> What’s new in cocoa touch</p>
+<p><a href="https://developer.apple.com/documentation/uikit/uinavigationbar" target="_blank" rel="noopener">https://developer.apple.com/documentation/uikit/uinavigationbar</a> UINavigationBar 的改动</p>
 
       
     </div>

@@ -123,43 +123,38 @@
 <p>虽然这个样式实现起来其实很简单，到最后只写了 20 行代码，但是坑却踩了一天…</p>
 <p>为了复用直接继承一个 NSTextField，要解决的问题如下：</p>
 <ol>
-<li>
-<p>首先要解决的是当处于编辑状态的输入框外部有一圈蓝色的高亮边框以及自带的灰色的外边框都要去掉，只要修改两个属性即可</p>
-<pre class="highlight"><code class="swift"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">awakeFromNib</span><span class="params">()</span></span> {
-	<span class="keyword">self</span>.focusRingType = .<span class="keyword">none</span>
-	<span class="keyword">self</span>.isBordered = <span class="literal">false</span> 
+<li><p>首先要解决的是当处于编辑状态的输入框外部有一圈蓝色的高亮边框以及自带的灰色的外边框都要去掉，只要修改两个属性即可</p>
+<pre><code class="swift">override func awakeFromNib() {
+    self.focusRingType = .none
+    self.isBordered = false 
 }
 </code></pre>
 <p>因为比较懒喜欢用 storyboard 所以把这两句写到了 awakeFromNib 函数中，当从 storyboard 初始化之后会调用这个函数，这样只要在 storyboard 中拖控件然后改下类就可以了</p>
 </li>
-<li>
-<p>然后要解决自定义下边线的问题，这个需要重写 draw 方法，用贝塞尔曲线画条直线就行了</p>
-<pre class="highlight"><code class="swift"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> dirtyRect: NSRect)</span></span> {
-    <span class="keyword">super</span>.draw(dirtyRect)
-    
-    <span class="keyword">let</span> rect = <span class="keyword">self</span>.bounds
-    
-    <span class="keyword">let</span> underLine = <span class="type">NSBezierPath</span>()
-    <span class="comment">// 离底边距离2，否则移除边框时会把这条线也裁出去</span>
-    underLine.move(to: <span class="type">NSPoint</span>(x: <span class="number">1</span>, y: rect.height - <span class="number">2</span>))
-    <span class="comment">// 左右宽度分别缩回1，看起来舒服些</span>
-    underLine.line(to: <span class="type">NSPoint</span>(x: rect.width - <span class="number">1</span>, y: rect.height - <span class="number">2</span>))
-    underLine.lineWidth = <span class="number">2</span>
-    <span class="type">NSColor</span>.red.setStroke()
+<li><p>然后要解决自定义下边线的问题，这个需要重写 draw 方法，用贝塞尔曲线画条直线就行了</p>
+<pre><code class="swift">override func draw(_ dirtyRect: NSRect) {
+    super.draw(dirtyRect)
+
+    let rect = self.bounds
+
+    let underLine = NSBezierPath()
+    // 离底边距离2，否则移除边框时会把这条线也裁出去
+    underLine.move(to: NSPoint(x: 1, y: rect.height - 2))
+    // 左右宽度分别缩回1，看起来舒服些
+    underLine.line(to: NSPoint(x: rect.width - 1, y: rect.height - 2))
+    underLine.lineWidth = 2
+    NSColor.red.setStroke()
     underLine.stroke()
   }
 </code></pre>
 </li>
-<li>
-<p>最后的一个问题，本来想把输入框的文字弄成垂直居中，发现 macOS 没有这个属性，然后发现 NSTextField 的结构竟然是 NSTextField 中添加了一个 NSTextFieldCell 这个 Cell 感觉才是我们平常理解的 TextField，可以设置文字颜色背景颜色提示信息是否可编辑等属性，而 NSTextField 好像只是外面套的一层壳，但是又不像其他包含关系那样容易设置位置关系，最后想着反正没有上边框把高度调适中看起来就像垂直居中了…</p>
+<li><p>最后的一个问题，本来想把输入框的文字弄成垂直居中，发现 macOS 没有这个属性，然后发现 NSTextField 的结构竟然是 NSTextField 中添加了一个 NSTextFieldCell 这个 Cell 感觉才是我们平常理解的 TextField，可以设置文字颜色背景颜色提示信息是否可编辑等属性，而 NSTextField 好像只是外面套的一层壳，但是又不像其他包含关系那样容易设置位置关系，最后想着反正没有上边框把高度调适中看起来就像垂直居中了…</p>
 </li>
-<li>
-<p>在 2 中画了一条红色底边线，但是当画完后调整位置发现看不到这条线了，调整了半天发现是中间的 NSTextFieldCell 默认背景颜色是白色，而重绘 NSTextField 时是在下层重绘，这条线被盖住了，当然如果再继承一个 NSTextFieldCell 然后在 NSTextFieldCell 中重绘的话也可以</p>
+<li><p>在 2 中画了一条红色底边线，但是当画完后调整位置发现看不到这条线了，调整了半天发现是中间的 NSTextFieldCell 默认背景颜色是白色，而重绘 NSTextField 时是在下层重绘，这条线被盖住了，当然如果再继承一个 NSTextFieldCell 然后在 NSTextFieldCell 中重绘的话也可以</p>
 </li>
-<li>
-<p>尝试垂直居中的过程中在 stackoverflow 中找到了一个很厉害的答案 [<a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external">Is there a “right” way to have NSTextFieldCell draw vertically centered text?</a>](<a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="external">http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text</a>)</p>
-<pre class="highlight"><code class="swift"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">drawInterior</span><span class="params">(withFrame cellFrame: NSRect, <span class="keyword">in</span> controlView: NSView)</span></span> {
-      <span class="keyword">self</span>.attributedStringValue.draw(<span class="keyword">in</span>: <span class="type">NSRect</span>())
+<li><p>尝试垂直居中的过程中在 stackoverflow 中找到了一个很厉害的答案 <a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="noopener"><a href="http://stackoverflow.com/questions/1235219/is-there-a-right-way-to-have-nstextfieldcell-draw-vertically-centered-text" target="_blank" rel="noopener">Is there a “right” way to have NSTextFieldCell draw vertically centered text?</a></a> </p>
+<pre><code class="swift">override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
+      self.attributedStringValue.draw(in: NSRect())
   }
 </code></pre>
 <p>在这个函数里修改文字的绘制位置可以做到垂直居中的效果，但是尝试过发现了一个问题，这个方法适用于静态文字，就是 label。因为在 Cocoa 中虽然区分 label 和 textfield 但两种控件本质都是 NSTextField，只不过里面的子视图不同。label 的文字带定义时就确定了，可以用这种方法绘制，但 textfield 是交互性的，使用这种方法时很麻烦的是指针输入还是在原来顶端的位置，边输入边在下面绘制同样的文字</p>
