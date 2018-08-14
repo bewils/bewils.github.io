@@ -359,9 +359,9 @@ Connection closed by foreign host.
     </summary>
     
     
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
       <category term="Basic" scheme="http://yoursite.com/tags/Basic/"/>
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
     
   </entry>
   
@@ -733,9 +733,9 @@ Connection closed by foreign host.
     </summary>
     
     
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
       <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
     
   </entry>
   
