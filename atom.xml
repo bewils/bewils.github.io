@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-24T04:26:29.947Z</updated>
+  <updated>2018-03-24T04:26:29.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2018/03/21/%E6%97%A0%E5%A3%B0%E5%91%8A%E7%99%BD/"/>
     <id>http://yoursite.com/2018/03/21/无声告白/</id>
     <published>2018-03-20T16:40:54.000Z</published>
-    <updated>2018-03-24T04:26:29.947Z</updated>
+    <updated>2018-03-24T04:26:29.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>我们终此一生, 就是要摆脱被人的期待, 找到真正的自己.</p>
@@ -59,7 +59,7 @@
     <link href="http://yoursite.com/2018/01/17/%E4%B8%80%E7%82%B9%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
     <id>http://yoursite.com/2018/01/17/一点网络基础/</id>
     <published>2018-01-17T15:03:41.000Z</published>
-    <updated>2018-01-19T12:25:40.826Z</updated>
+    <updated>2018-01-19T12:25:40.000Z</updated>
     
     <content type="html"><![CDATA[<p>先来说一下写这篇文章的原因, 这两天读了 bang 的 <a href="http://blog.cnbang.net/tech/3531/" target="_blank" rel="external">http://blog.cnbang.net/tech/3531/</a> 这篇文章, 看到了移动端开发有关网络面临的许多问题, 意识到在眼界和探索问题方面还有很大的局限. 同时在阅读中还发现了很多概念性模糊的地方, 在此记录下来, 虽然这些并不能帮助写好一个 URLSession, 但是作为科普性了解一下还是不错的.</p>
 <a id="more"></a>
@@ -228,7 +228,7 @@ Connection closed by foreign host.
     <link href="http://yoursite.com/2017/12/17/%3C%E4%BB%A3%E7%A0%81%E4%B9%8B%E9%AB%93%3E%E4%B8%8ESwift/"/>
     <id>http://yoursite.com/2017/12/17/&lt;代码之髓&gt;与Swift/</id>
     <published>2017-12-17T13:12:30.000Z</published>
-    <updated>2018-01-17T15:18:12.210Z</updated>
+    <updated>2018-01-17T15:18:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近在读一本叫&lt;代码之髓&gt;的书. 这本书很有趣, 就像它自己的描述: 编程语言 核心概念. 通过看这本书并不能精通所有的语言, 也不能写出美观健壮的代码, 但是可以让人从一个宏观的角度来观察一门语言.</p>
 <p>书中的介绍顺序和任何一门语言书的顺序其实都是一样: 表达式, 流程控制, 类. 但是在读任何一本语言书的时候重点关注的都是这个语法’是什么’, 而&lt;代码之髓&gt;中则一定程度向我们展示了’为什么’是这个语法. 所以找一门语言对照着这本书来读会有更好的体验.</p>
@@ -276,7 +276,7 @@ Connection closed by foreign host.
     <link href="http://yoursite.com/2017/09/01/CGAffineTransform/"/>
     <id>http://yoursite.com/2017/09/01/CGAffineTransform/</id>
     <published>2017-08-31T16:05:43.000Z</published>
-    <updated>2017-09-02T09:53:47.195Z</updated>
+    <updated>2017-09-02T09:53:47.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近又在写动画; 最近写动画又遇到了这个莫名其妙的东西; 最近终于了解了一些这个东西;</p>
 <p>于是记录一下, 毕竟基础太差好不容易弄明白很怕过段时间就忘了</p>
@@ -359,9 +359,9 @@ Connection closed by foreign host.
     </summary>
     
     
-      <category term="Basic" scheme="http://yoursite.com/tags/Basic/"/>
-    
       <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="Basic" scheme="http://yoursite.com/tags/Basic/"/>
     
   </entry>
   
@@ -370,7 +370,7 @@ Connection closed by foreign host.
     <link href="http://yoursite.com/2017/08/26/iOS%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/08/26/iOS中的多线程/</id>
     <published>2017-08-26T06:10:42.000Z</published>
-    <updated>2017-11-21T14:14:11.287Z</updated>
+    <updated>2017-11-21T14:14:11.000Z</updated>
     
     <content type="html"><![CDATA[<p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
 <p>我们可能都会写过这样的代码:</p>
@@ -505,7 +505,7 @@ Connection closed by foreign host.
     <link href="http://yoursite.com/2017/08/24/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8A%A8%E7%94%BB%E5%B0%81%E8%A3%85/"/>
     <id>http://yoursite.com/2017/08/24/记一次动画封装/</id>
     <published>2017-08-24T14:29:28.000Z</published>
-    <updated>2018-03-20T16:45:19.095Z</updated>
+    <updated>2018-03-20T16:45:19.000Z</updated>
     
     <content type="html"><![CDATA[<p>⚠️ <strong>警告</strong>: 本文中的代码非常恶心, 可能引起身体不适, 请谨慎阅读(当然本文的代码主要就是想恶心到人), 当然如果能够坚持看下去, 说不定会变舒服</p>
 <p>最近在公司的项目中需要将动画封装来使用, 主要需求有两个:</p>
@@ -733,9 +733,9 @@ Connection closed by foreign host.
     </summary>
     
     
-      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
-    
       <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
     
   </entry>
   
@@ -744,7 +744,7 @@ Connection closed by foreign host.
     <link href="http://yoursite.com/2017/08/14/Protobuf/"/>
     <id>http://yoursite.com/2017/08/14/Protobuf/</id>
     <published>2017-08-14T14:05:11.000Z</published>
-    <updated>2017-08-15T16:40:02.937Z</updated>
+    <updated>2017-08-15T16:40:02.000Z</updated>
     
     <content type="html"><![CDATA[<p>Protobuf 是 protocol buffers 的缩写. 根据<a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="external">官网</a>的说法, protocol buffers 与平台无关, 与语言无关, 实现数据序列化的一种手段. 正如名字一样, protobuf 可以将数据按照规定的协议(protocol)序列化为二进制的数据(buffers). 序列化的数据基本上可以保证类型安全, 并且可以压缩大小. 这篇文章将简单说说关于 protobuf 的优点和问题, 如果有使用的需要可以作为参考</p>
 <a id="more"></a>
@@ -929,7 +929,7 @@ bookInfo.setId(<span class="number">4</span>)
     <link href="http://yoursite.com/2017/08/07/Swift4codable/"/>
     <id>http://yoursite.com/2017/08/07/Swift4codable/</id>
     <published>2017-08-07T14:05:52.000Z</published>
-    <updated>2017-08-24T14:33:25.639Z</updated>
+    <updated>2017-08-24T14:33:25.000Z</updated>
     
     <content type="html"><![CDATA[<p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
 <pre class="highlight"><code class="swift"><span class="keyword">if</span> <span class="keyword">let</span> jsonObject = <span class="keyword">try</span>? <span class="type">JSONSerialization</span>.jsonObject(with: data!, options: .allowFragments) {
@@ -1099,7 +1099,7 @@ bookInfo.setId(<span class="number">4</span>)
     <link href="http://yoursite.com/2017/06/12/BigTitle/"/>
     <id>http://yoursite.com/2017/06/12/BigTitle/</id>
     <published>2017-06-12T15:29:11.000Z</published>
-    <updated>2017-06-12T17:34:45.029Z</updated>
+    <updated>2017-06-12T17:34:45.000Z</updated>
     
     <content type="html"><![CDATA[<p>在 iOS11 中苹果推出了新的设计风格 Complexion Reduction，其中一个很直观的特点就是大标题的使用：</p>
 <a id="more"></a>
@@ -1159,7 +1159,7 @@ bookInfo.setId(<span class="number">4</span>)
     <link href="http://yoursite.com/2017/06/09/Swift4/"/>
     <id>http://yoursite.com/2017/06/09/Swift4/</id>
     <published>2017-06-09T06:55:03.000Z</published>
-    <updated>2017-08-24T14:33:19.456Z</updated>
+    <updated>2017-08-24T14:33:19.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这次 WWDC 最令你激动的更新是什么？</p>
@@ -1329,7 +1329,7 @@ maskLayer.add(animation, forKey: <span class="string">"maskAnimation"</span>)
     <link href="http://yoursite.com/2017/03/27/AutoLayout/"/>
     <id>http://yoursite.com/2017/03/27/AutoLayout/</id>
     <published>2017-03-26T16:50:49.000Z</published>
-    <updated>2017-06-12T16:47:12.665Z</updated>
+    <updated>2017-06-12T16:47:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>开始写起了 Playgroundbook，作为重度 storyboard 用户不管做什么项目都喜欢把能可视化的控件都扔到 storyboard 中，通过 storyboard 就能看到整个 App 的样式。结果 Playgroundbook 没法使用 storyboard 简直悲剧，样式看不到也就算了，布局还日常崩。用 frame 布局写得实在难受，还是正经学一下如何用代码来实现 AutoLayout</p>
 <a id="more"></a>
