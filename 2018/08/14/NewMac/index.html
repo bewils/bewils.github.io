@@ -34,7 +34,7 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" media="screen" type="text/css">
 
 
   <style media="screen">
@@ -116,48 +116,66 @@
       
         <p>前段时间手欠更新了系统, 体会到了 mac 变砖的快感. 出问题的情况和 <a href="https://www.loli.ren/archives/43/?from=groupmessage&amp;isappinstalled=0" target="_blank" rel="noopener">https://www.loli.ren/archives/43/?from=groupmessage&amp;isappinstalled=0</a> 这篇解决方案描述的大体一致. 然而用这个解决方案并没有办法, 最后还是最暴力用外接 U 盘装了个系统强行开机, 把东西做好备份后格了整个硬盘. 过去既没钱买 time machine 也觉得 5G 的 iCloud 够用了, 这次真是死得惨. 鉴于目前还是穷就乖乖先买着便宜的 iCloud, 把怕丢的东西全扔上去. 得到了一台崭新的 mac 后又到了人生最喜忧参半的配环境时刻了. 这次就记录下我的一些习惯的配置, 主要是各种工具和软件的安装, 顺便做个安利.</p>
 <a id="more"></a>
-<h4 id="iTerm2"><a href="#iTerm2" class="headerlink" title="iTerm2"></a>iTerm2</h4><p>mac 自带的终端不是很喜欢, 功能也相对少, 先换个终端工具 <a href="https://www.iterm2.com" target="_blank" rel="noopener">https://www.iterm2.com</a></p>
-<h4 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h4><p>zsh 提供了比 bash 更全面的功能, 至于 shell 语法上的不同如果不是专门写 shell 不需要关心(更何况写 shell 都在第一行加了 <code>#!/bin/bash</code> 写的本来就是 bash shell) <a href="https://github.com/robbyrussell/oh-my-zsh/" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh/</a></p>
+<h4 id="iterm2"><a class="markdownIt-Anchor" href="#iterm2"></a> iTerm2</h4>
+<p>mac 自带的终端不是很喜欢, 功能也相对少, 先换个终端工具 <a href="https://www.iterm2.com" target="_blank" rel="noopener">https://www.iterm2.com</a></p>
+<h4 id="zsh"><a class="markdownIt-Anchor" href="#zsh"></a> zsh</h4>
+<p>zsh 提供了比 bash 更全面的功能, 至于 shell 语法上的不同如果不是专门写 shell 不需要关心(更何况写 shell 都在第一行加了 <code>#!/bin/bash</code> 写的本来就是 bash shell) <a href="https://github.com/robbyrussell/oh-my-zsh/" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh/</a></p>
 <p>zsh 中有很多插件, 可以按照官网的介绍来弄, 虽然我平时只会用 git</p>
 <p>zsh 默认的主题不是很清晰美观, 推荐使用 <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes#ys" target="_blank" rel="noopener">ys</a> 这个主题</p>
-<h4 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h4><p>万物之源 Homebrew, 整个 mac 系统上所有命令行工具的管理器. 所有库都用 homebrew 的好处就是装卸都有保障 <a href="https://brew.sh" target="_blank" rel="noopener">https://brew.sh</a></p>
-<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><p>有了 Homebrew 之后就可以开始安装各种方便的工具和编程语言了, 安装 python 的时候需要注意一些问题:</p>
+<h4 id="homebrew"><a class="markdownIt-Anchor" href="#homebrew"></a> Homebrew</h4>
+<p>万物之源 Homebrew, 整个 mac 系统上所有命令行工具的管理器. 所有库都用 homebrew 的好处就是装卸都有保障 <a href="https://brew.sh" target="_blank" rel="noopener">https://brew.sh</a></p>
+<h4 id="python"><a class="markdownIt-Anchor" href="#python"></a> Python</h4>
+<p>有了 Homebrew 之后就可以开始安装各种方便的工具和编程语言了, 安装 python 的时候需要注意一些问题:</p>
 <p>首先 <code>brew install python</code> 其实是安装的 python3, 而 <code>brew install python2</code> 才是安装的 python2.</p>
 <p>其次, 因为 macOS 是自带 python2 的, 在 /usr/bin 目录下, 其实直接使用也不要紧, 只是为了统一管理我自己还是重新装了个 python2. 这样系统中就有了两个 python2 的版本, 一个是系统使用的在 /usr/bin, 另一个是用户使用的在 /usr/local/bin, 使用时通过 python 和 python2 命令来区分.</p>
 <p>如果自己安装了 python2 的话需要通过 <code>which python</code> 来确认 python 命令是否还是指向了 /usr/bin 路径下的那个 python, 如果不是的话应该是 PATH 出了问题, 可以通过修改 .bashrc/.zshrc 或者最暴力修改系统的 /etc/paths 来解决</p>
 <p>比如我的 /etc/paths 就是这样的, 这样在执行 python 的时候就会找到 homebrew 安装的版本, 暴力解决方案就 <code>sodu vim</code> 再重启就行了(</p>
-<pre><code class="shell">$ cat /etc/paths
+<pre class="highlight"><code class="shell"><span class="hljs-meta">$</span><span class="bash"> cat /etc/paths</span>
 /usr/local/bin
 /usr/bin
 /bin
 /usr/sbin
 /sbin
 </code></pre>
-<h4 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h4><p>因为是用 hexo 来写博客, 电脑还是需要一个 node 环境, 直接装就行, 对于 node 开发的话可以用 nvm 来管理 node 版本, 不过我还是倾向简单的 n, 毕竟 n 用 npm 就能装了</p>
-<h4 id="vimplus"><a href="#vimplus" class="headerlink" title="vimplus"></a>vimplus</h4><p>用 vim 来写写小脚本还是挺方便的, vim 又很难用, 直接装个 vimplus, 这个会在 vim 中安装大量插件也会用 homebrew 安装许多依赖. 但是因为 vim 毕竟还是很轻量, 在打开大文本文件的时候就算带插件还是比 vscode/atom 之类的要快不少. <a href="https://github.com/chxuan/vimplus" target="_blank" rel="noopener">https://github.com/chxuan/vimplus</a></p>
-<h4 id="annie"><a href="#annie" class="headerlink" title="annie"></a>annie</h4><p>命令行视频下载工具, 吹爆, 支持各大视频网站的下载, 可以通过 homebrew 直接安装</p>
+<h4 id="node"><a class="markdownIt-Anchor" href="#node"></a> Node</h4>
+<p>因为是用 hexo 来写博客, 电脑还是需要一个 node 环境, 直接装就行, 对于 node 开发的话可以用 nvm 来管理 node 版本, 不过我还是倾向简单的 n, 毕竟 n 用 npm 就能装了</p>
+<h4 id="vimplus"><a class="markdownIt-Anchor" href="#vimplus"></a> vimplus</h4>
+<p>用 vim 来写写小脚本还是挺方便的, vim 又很难用, 直接装个 vimplus, 这个会在 vim 中安装大量插件也会用 homebrew 安装许多依赖. 但是因为 vim 毕竟还是很轻量, 在打开大文本文件的时候就算带插件还是比 vscode/atom 之类的要快不少. <a href="https://github.com/chxuan/vimplus" target="_blank" rel="noopener">https://github.com/chxuan/vimplus</a></p>
+<h4 id="annie"><a class="markdownIt-Anchor" href="#annie"></a> annie</h4>
+<p>命令行视频下载工具, 吹爆, 支持各大视频网站的下载, 可以通过 homebrew 直接安装</p>
 <p>一个无敌的功能是可以直接下载播放列表中的所有视频, 甚至还对 b 站做了特别的优化, 只要输入 av 号即可下载不用输出整个 url <a href="https://github.com/iawia002/annie" target="_blank" rel="noopener">https://github.com/iawia002/annie</a></p>
-<h4 id="Alfred"><a href="#Alfred" class="headerlink" title="Alfred"></a>Alfred</h4><p>直接把系统的 spotlight 关掉换成 Alfred 就行, 除了能够方便启动各种程序和打开文件外, Alfred 还有大量的 workflow 可用. </p>
+<h4 id="alfred"><a class="markdownIt-Anchor" href="#alfred"></a> Alfred</h4>
+<p>直接把系统的 spotlight 关掉换成 Alfred 就行, 除了能够方便启动各种程序和打开文件外, Alfred 还有大量的 workflow 可用.</p>
 <p>一个 workflow 集合 <a href="https://github.com/zenorocha/alfred-workflows" target="_blank" rel="noopener">https://github.com/zenorocha/alfred-workflows</a>, 基本够用</p>
 <p>另外还有一个查字典的 <a href="https://github.com/liberize/alfred-dict-workflow" target="_blank" rel="noopener">https://github.com/liberize/alfred-dict-workflow</a>, 下载后推荐去配置里把默认字典即 config.json 中的 ‘default’ 字段从 ‘nj’(牛津, 系统默认) 改成 ‘yd’(有道), 系统的字典什么都查不出来</p>
-<h4 id="Go2Shell"><a href="#Go2Shell" class="headerlink" title="Go2Shell"></a>Go2Shell</h4><p>下载后打开可以设置默认打开的 shell 为 iterm2, 并且在 Finder 中安装后可以看到文件夹中多了一个命令行的图片, 点一下就可以在当前路径打开一个 shell, 再也不用为路径发愁了</p>
-<h4 id="iina"><a href="#iina" class="headerlink" title="iina"></a>iina</h4><p>纯 Swift 写的视频播放器, 非常轻巧, 简洁现代就像 QuickTime 一样干净(当然功能不知道强到哪去了) <a href="https://github.com/lhc70000/iina" target="_blank" rel="noopener">https://github.com/lhc70000/iina</a></p>
-<p>除了用键盘控制进度音量外还支持手势, 用触摸板或者 magic mouse 非常舒服. </p>
+<h4 id="go2shell"><a class="markdownIt-Anchor" href="#go2shell"></a> Go2Shell</h4>
+<p>下载后打开可以设置默认打开的 shell 为 iterm2, 并且在 Finder 中安装后可以看到文件夹中多了一个命令行的图片, 点一下就可以在当前路径打开一个 shell, 再也不用为路径发愁了</p>
+<h4 id="iina"><a class="markdownIt-Anchor" href="#iina"></a> iina</h4>
+<p>纯 Swift 写的视频播放器, 非常轻巧, 简洁现代就像 QuickTime 一样干净(当然功能不知道强到哪去了) <a href="https://github.com/lhc70000/iina" target="_blank" rel="noopener">https://github.com/lhc70000/iina</a></p>
+<p>除了用键盘控制进度音量外还支持手势, 用触摸板或者 magic mouse 非常舒服.</p>
 <p>自动识别字幕, 播放速度调整, 支持画中画</p>
 <p>我非常喜欢的一个功能是一个文件夹中的系列视频 iina 能够自动识别成播放列表, 并且正确排序, 看起剧来非常爽(vlc 的问题就是用字符串排序, 第1集后面是第10集而不是第2集)</p>
-<h4 id="The-Unarchiver"><a href="#The-Unarchiver" class="headerlink" title="The Unarchiver"></a>The Unarchiver</h4><p>mac 解压 rar, 没广告, 免费, Appstore 下载</p>
-<h4 id="Magnet"><a href="#Magnet" class="headerlink" title="Magnet"></a>Magnet</h4><p>是用快捷键来管理窗口, 直接将窗口调整到全屏幕, 半屏幕, 1/3, 2/3 等比例</p>
-<h4 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h4><p>非常好用的 markdown 书写工具, 比较纯粹, 就是单纯的开文件编写, 没有什么分类什么同步之类的功能 <a href="https://www.typora.io" target="_blank" rel="noopener">https://www.typora.io</a></p>
+<h4 id="the-unarchiver"><a class="markdownIt-Anchor" href="#the-unarchiver"></a> The Unarchiver</h4>
+<p>mac 解压 rar, 没广告, 免费, Appstore 下载</p>
+<h4 id="magnet"><a class="markdownIt-Anchor" href="#magnet"></a> Magnet</h4>
+<p>是用快捷键来管理窗口, 直接将窗口调整到全屏幕, 半屏幕, 1/3, 2/3 等比例</p>
+<h4 id="typora"><a class="markdownIt-Anchor" href="#typora"></a> Typora</h4>
+<p>非常好用的 markdown 书写工具, 比较纯粹, 就是单纯的开文件编写, 没有什么分类什么同步之类的功能 <a href="https://www.typora.io" target="_blank" rel="noopener">https://www.typora.io</a></p>
 <p>特色之一是不区分编写和预览, 所见即所得</p>
 <p>另一个就是有打字机模式和专注模式, 非常有趣, 推荐体验</p>
 <p>还有就是可以换主题, 默认的 github 主题非常眼熟了, 最近去看甚至还有了 vue 官方文档的主题, 因为 Typora 的主题通过 css 控制, 因此想自定义也非常方便</p>
-<h4 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h4><p>对 TS, Python 等支持很好, 可以找到语言环境的路径, 能够轻松查看函数的调用情况</p>
+<h4 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VSCode</h4>
+<p>对 TS, Python 等支持很好, 可以找到语言环境的路径, 能够轻松查看函数的调用情况</p>
 <p>很强的自定义能力, 并且内部直接继承了 shell, 一边编写一边运行毫无压力 <a href="https://code.visualstudio.com" target="_blank" rel="noopener">https://code.visualstudio.com</a></p>
-<h4 id="VirtualBox"><a href="#VirtualBox" class="headerlink" title="VirtualBox"></a>VirtualBox</h4><p>虚拟机环境, 比较简陋但和 Parallels Desktop 的优势是免费, 而且像我跑 ubuntu server 版也不需要什么高级功能</p>
+<h4 id="virtualbox"><a class="markdownIt-Anchor" href="#virtualbox"></a> VirtualBox</h4>
+<p>虚拟机环境, 比较简陋但和 Parallels Desktop 的优势是免费, 而且像我跑 ubuntu server 版也不需要什么高级功能</p>
 <p><a href="https://www.virtualbox.org" target="_blank" rel="noopener">https://www.virtualbox.org</a></p>
-<h4 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h4><p>如果做苹果相关开发就装全部, 否则只需要安装 Command Line Tools 即可. 不过 CLT 也不急着装, 因为当你执行命令需要的时候系统会弹窗提示, 点下安装就行了</p>
-<h4 id="Source-code-pro"><a href="#Source-code-pro" class="headerlink" title="Source code pro"></a>Source code pro</h4><p>Adobe 出品的为了编程而生的等宽字体, 看起来非常舒服, 直接安装在系统的字体集中就可以在各个编程软件(iterm2, VSCode, Xcode)中修改字体了 <a href="https://github.com/adobe-fonts/source-code-pro" target="_blank" rel="noopener">https://github.com/adobe-fonts/source-code-pro</a></p>
-<h4 id="Nord"><a href="#Nord" class="headerlink" title="Nord"></a>Nord</h4><p>一套基本支持全部代码编辑器的配色方案, 深色柔和系看起来比较舒心, 所以我将 VSCode 和 iterm2 都改成了 Nord 配色. 前面安装过的 vimplus 会将 vim 的配色默认改成 One Dark, 我觉得这样就挺好, 可以立刻区分出来哪个 shell 正在进行 vim 编辑, 哪些是普通的 shell</p>
+<h4 id="xcode"><a class="markdownIt-Anchor" href="#xcode"></a> Xcode</h4>
+<p>如果做苹果相关开发就装全部, 否则只需要安装 Command Line Tools 即可. 不过 CLT 也不急着装, 因为当你执行命令需要的时候系统会弹窗提示, 点下安装就行了</p>
+<h4 id="source-code-pro"><a class="markdownIt-Anchor" href="#source-code-pro"></a> Source code pro</h4>
+<p>Adobe 出品的为了编程而生的等宽字体, 看起来非常舒服, 直接安装在系统的字体集中就可以在各个编程软件(iterm2, VSCode, Xcode)中修改字体了 <a href="https://github.com/adobe-fonts/source-code-pro" target="_blank" rel="noopener">https://github.com/adobe-fonts/source-code-pro</a></p>
+<h4 id="nord"><a class="markdownIt-Anchor" href="#nord"></a> Nord</h4>
+<p>一套基本支持全部代码编辑器的配色方案, 深色柔和系看起来比较舒心, 所以我将 VSCode 和 iterm2 都改成了 Nord 配色. 前面安装过的 vimplus 会将 vim 的配色默认改成 One Dark, 我觉得这样就挺好, 可以立刻区分出来哪个 shell 正在进行 vim 编辑, 哪些是普通的 shell</p>
 <hr>
 <p>目前使用中就只用到这些比较方便的工具和软件了, 接下来会持续更新, 找到什么新的更好的就分享出来. 虽然是新 mac 的配置方案, 以防变砖和换电脑, 不过还是希望自己这两年内都不要用到这篇文章吧(</p>
 
@@ -185,40 +203,6 @@
     
   </div>
 </article>
-
-  <div id="container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<style media="screen">
-	.gitment-comments-init-btn:disabled,
-	.gitment-editor-submit:disabled {
-		background-color: #f03838;
-	}
-
-	.gitment-editor-submit,
-	.gitment-comments-init-btn {
-		background-color: #f03838;
-	}
-
-	.gitment-editor-submit:hover,
-	.gitment-comments-init-btn:hover {
-		background-color: #f03838;
-	}
-</style>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  owner: 'bewils',
-	repo: 'bewils.github.io',
-	id: window.location.pathname,
-  oauth: {
-    client_id: '7238409484b54ebdd4a6',
-    client_secret: '4fad27888c7ad67c5a12390a02e4705fb566ded5',
-  },
-})
-gitment.render('container')
-</script>
-
-
 
 
     </main>

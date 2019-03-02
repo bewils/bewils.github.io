@@ -43,7 +43,7 @@ if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .all
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" media="screen" type="text/css">
 
 
   <style media="screen">
@@ -124,11 +124,11 @@ if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .all
     <div class="entry">
       
         <p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
-<pre><code class="swift">if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-  if let objectList = jsonObject as? [Any] {
-    for object in objectList {
-      if let object = object as? [String: Any] {
-        // use object
+<pre class="highlight"><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> jsonObject = <span class="hljs-keyword">try</span>? <span class="hljs-type">JSONSerialization</span>.jsonObject(with: data!, options: .allowFragments) {
+  <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> objectList = jsonObject <span class="hljs-keyword">as</span>? [<span class="hljs-type">Any</span>] {
+    <span class="hljs-keyword">for</span> object <span class="hljs-keyword">in</span> objectList {
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> object = object <span class="hljs-keyword">as</span>? [<span class="hljs-type">String</span>: <span class="hljs-type">Any</span>] {
+        <span class="hljs-comment">// use object</span>
       }
     }
   }
@@ -139,24 +139,25 @@ if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .all
 <p>转成 <code>[String: Any]</code> 的 object 基本上没法用, 很多时候我们还需要去拿每个 key 和 value 再赋给我们自己定义好的 struct / class (又是一长串的 <code>if let as</code>)</p>
 <p>当然, 目前解决这个问题还是有一些办法的, 比如可以去尝试使用 <a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" rel="noopener">SwiftyJSON</a> 直接当原生的 Array / Dictionary 用, 或者更高级的 <a href="https://github.com/thoughtbot/Argo" target="_blank" rel="noopener">Argo</a>, 直接将 JSON data 映射到自己定义的 struct</p>
 <p>在 Swift4 中, Swift Standard Library 带来的新的类和协议支持原生的 JSON 解析. 甚至不只是 JSON, 只要是 encoding / decoding 的转化都可以支持(比如 plist)</p>
-<h2 id="关于-Swift4-Codable"><a href="#关于-Swift4-Codable" class="headerlink" title="关于 Swift4 Codable"></a>关于 Swift4 Codable</h2><p>在 Swfit4 中新添加了一个复合协议  <code>typealias Codable = Decodable &amp; Encodable</code>, 想进行 encoding / decoding 只要实现这个协议即可. 而且根据需要, 如果只是从服务器取数据或只是向服务器发数据完全可以只实现其中一个, 接下来先来试验下 Decodable 协议. 先找一个 API, 就随便找了一个项目直接用 github 的 API <a href="https://api.github.com/repos/bewils/IWantTheGreenOne" target="_blank" rel="noopener">https://api.github.com/repos/bewils/IWantTheGreenOne</a>. 首先可以看看返回的数据结构: 因为只取了一个 repository 所以可以看到返回的结构也很简单, 按照这个结构写出如下 struct</p>
-<pre><code class="swift">struct Repo: Decodable {
-  var `private`: Bool
-  var html_url: String
-  var description: String?
+<h2 id="关于-swift4-codable"><a class="markdownIt-Anchor" href="#关于-swift4-codable"></a> 关于 Swift4 Codable</h2>
+<p>在 Swfit4 中新添加了一个复合协议  <code>typealias Codable = Decodable &amp; Encodable</code>, 想进行 encoding / decoding 只要实现这个协议即可. 而且根据需要, 如果只是从服务器取数据或只是向服务器发数据完全可以只实现其中一个, 接下来先来试验下 Decodable 协议. 先找一个 API, 就随便找了一个项目直接用 github 的 API <a href="https://api.github.com/repos/bewils/IWantTheGreenOne" target="_blank" rel="noopener">https://api.github.com/repos/bewils/IWantTheGreenOne</a>. 首先可以看看返回的数据结构: 因为只取了一个 repository 所以可以看到返回的结构也很简单, 按照这个结构写出如下 struct</p>
+<pre class="highlight"><code class="swift"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Repo</span>: <span class="hljs-title">Decodable</span> </span>{
+  <span class="hljs-keyword">var</span> `<span class="hljs-keyword">private</span>`: <span class="hljs-type">Bool</span>
+  <span class="hljs-keyword">var</span> html_url: <span class="hljs-type">String</span>
+  <span class="hljs-keyword">var</span> description: <span class="hljs-type">String</span>?
 }
 </code></pre>
 <p>这里只取了其中的三个属性, 即只解析返回的 data 的这三个字段, 然后尝试发送请求并解析返回的数据</p>
-<pre><code class="swift">if let url = URL(string: &quot;https://api.github.com/repos/bewils/IWantTheGreenOne&quot;) {
-  let session = URLSession(configuration: .default)
-  session.dataTask(with: url) { (data, _, err) in
-    guard err == nil else { return }
-
-    guard let data = data else { return }
-    if let repo = try? JSONDecoder().decode(Repo.self, from: data) {
-      print(repo)
-    } else {
-      print(&quot;JSON parse failed&quot;)
+<pre class="highlight"><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> url = <span class="hljs-type">URL</span>(string: <span class="hljs-string">"https://api.github.com/repos/bewils/IWantTheGreenOne"</span>) {
+  <span class="hljs-keyword">let</span> session = <span class="hljs-type">URLSession</span>(configuration: .<span class="hljs-keyword">default</span>)
+  session.dataTask(with: url) { (data, <span class="hljs-number">_</span>, err) <span class="hljs-keyword">in</span>
+    <span class="hljs-keyword">guard</span> err == <span class="hljs-literal">nil</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    
+    <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> data = data <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> repo = <span class="hljs-keyword">try</span>? <span class="hljs-type">JSONDecoder</span>().decode(<span class="hljs-type">Repo</span>.<span class="hljs-keyword">self</span>, from: data) {
+      <span class="hljs-built_in">print</span>(repo)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">print</span>(<span class="hljs-string">"JSON parse failed"</span>)
     }
   }.resume()
 }
@@ -164,62 +165,66 @@ if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .all
 <p>奇迹出现了, 很快控制台里就输出了 <code>Repo(private: false, html_url: &quot;https://github.com/bewils/IWantTheGreenOne&quot;, description: Optional(&quot;SpriteKit Game&quot;))</code> 这样的文字. 我们几乎没做什么事, 一如既往的网络请求, 在回调函数中利用同样是 Swift4 中新加入的 JSONDecoder 类来按照 Repo 的模型解析 data, 然后就成功的输出了解析结果</p>
 <p>Codable 便利的一点还在于 Swift 中给出了这个协议的默认实现, 就像 Repo 直接遵从 Decodable 没有写解析的任何方法就能通过 JSONDecoder 解析出来</p>
 <p>同时在声明 Repo 时我们将 description 声明成了 String? 的类型, 这样如果返回的数据里没有这个字段只会解析出 nil 而不会报错</p>
-<h2 id="关于字段名"><a href="#关于字段名" class="headerlink" title="关于字段名"></a>关于字段名</h2><p>第一个字段 <code>private</code> 是 Swift 的关键字, 当做变量名的时候只能用 `` 包起来, 那要不换个名字改成 <code>jurisdiction</code>. 运行, 好的, 报错: <strong>没有 jurisdicition 这个字段</strong></p>
+<h2 id="关于字段名"><a class="markdownIt-Anchor" href="#关于字段名"></a> 关于字段名</h2>
+<p>第一个字段 <code>private</code> 是 Swift 的关键字, 当做变量名的时候只能用 `` 包起来, 那要不换个名字改成 <code>jurisdiction</code>. 运行, 好的, 报错: <strong>没有 jurisdicition 这个字段</strong></p>
 <p>这只是一种情况, 还有比如返回的 JSON 的 key 是用 _ 分割的命名, 而 Swift 的代码风格一般是驼峰命名, 这时就会有字段名不对应的问题, 为了解决这个问题, 可以在 Repo 的内部声明一个遵从 CodingKey 的叫 CodingKeys 枚举值</p>
-<pre><code class="swift">struct Repo: Decodable {
-  var jurisdiction: Bool
-  var htmlUrl: String
-  var description: String?
-
-  enum CodingKeys: String, CodingKey {
-    case jurisdiction = &quot;private&quot;
-    case htmlUrl = &quot;html_url&quot;
-    case description
+<pre class="highlight"><code class="swift"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Repo</span>: <span class="hljs-title">Decodable</span> </span>{
+  <span class="hljs-keyword">var</span> jurisdiction: <span class="hljs-type">Bool</span>
+  <span class="hljs-keyword">var</span> htmlUrl: <span class="hljs-type">String</span>
+  <span class="hljs-keyword">var</span> description: <span class="hljs-type">String</span>?
+  
+  <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">CodingKeys</span>: <span class="hljs-title">String</span>, <span class="hljs-title">CodingKey</span> </span>{
+    <span class="hljs-keyword">case</span> jurisdiction = <span class="hljs-string">"private"</span>
+    <span class="hljs-keyword">case</span> htmlUrl = <span class="hljs-string">"html_url"</span>
+    <span class="hljs-keyword">case</span> description
   }
 }
 </code></pre>
-<p>重新运行, 又一次成功地解析出了 Repo: <code>Repo(jurisdiction: false, htmlUrl: &quot;https://github.com/bewils/IWantTheGreenOne&quot;, description: Optional(&quot;SpriteKit Game&quot;))</code>. </p>
+<p>重新运行, 又一次成功地解析出了 Repo: <code>Repo(jurisdiction: false, htmlUrl: &quot;https://github.com/bewils/IWantTheGreenOne&quot;, description: Optional(&quot;SpriteKit Game&quot;))</code>.</p>
 <p>通过使用 CodingKey 的方式重新定义 JSON key 和属性名的对应关系是很好用的, 但这里还有一个小问题, 就是如果使用 CodingKey 就必须吧所有的属性和 key 都写进去, 比如 Repo 中虽然 description 不需要转化还是要写进去, 否则这次会找不到 description 对应的 key (如果有 50 个属性的对象为了一个属性而使用 CodingKeys 也是很惨的…)</p>
-<h2 id="关于嵌套结构"><a href="#关于嵌套结构" class="headerlink" title="关于嵌套结构"></a>关于嵌套结构</h2><p>可以看到从 API 返回的数据虽然是基本的 Dictionary 结构, 但里面还是有一个 <code>owner</code> 的字段属于嵌套的结构, Swift4 中解析嵌套结构的方法非常简单: 也直接嵌套一个就可以了</p>
-<pre><code class="swift">struct Owner: Decodable {
-  var login: String
-  var id: Int
-  var avatar_url: String
+<h2 id="关于嵌套结构"><a class="markdownIt-Anchor" href="#关于嵌套结构"></a> 关于嵌套结构</h2>
+<p>可以看到从 API 返回的数据虽然是基本的 Dictionary 结构, 但里面还是有一个 <code>owner</code> 的字段属于嵌套的结构, Swift4 中解析嵌套结构的方法非常简单: 也直接嵌套一个就可以了</p>
+<pre class="highlight"><code class="swift"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Owner</span>: <span class="hljs-title">Decodable</span> </span>{
+  <span class="hljs-keyword">var</span> login: <span class="hljs-type">String</span>
+  <span class="hljs-keyword">var</span> id: <span class="hljs-type">Int</span>
+  <span class="hljs-keyword">var</span> avatar_url: <span class="hljs-type">String</span>
 }
 
-struct Repo: Decodable {
-  var jurisdiction: Bool
-  var htmlUrl: String
-  var description: String?
-  var owner: Owner
-
-  enum CodingKeys: String, CodingKey {
-    case jurisdiction = &quot;private&quot;
-    case htmlUrl = &quot;html_url&quot;
-    case description
-    case owner
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Repo</span>: <span class="hljs-title">Decodable</span> </span>{
+  <span class="hljs-keyword">var</span> jurisdiction: <span class="hljs-type">Bool</span>
+  <span class="hljs-keyword">var</span> htmlUrl: <span class="hljs-type">String</span>
+  <span class="hljs-keyword">var</span> description: <span class="hljs-type">String</span>?
+  <span class="hljs-keyword">var</span> owner: <span class="hljs-type">Owner</span>
+  
+  <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">CodingKeys</span>: <span class="hljs-title">String</span>, <span class="hljs-title">CodingKey</span> </span>{
+    <span class="hljs-keyword">case</span> jurisdiction = <span class="hljs-string">"private"</span>
+    <span class="hljs-keyword">case</span> htmlUrl = <span class="hljs-string">"html_url"</span>
+    <span class="hljs-keyword">case</span> description
+    <span class="hljs-keyword">case</span> owner
   }
 }
 </code></pre>
 <p>新添加了一个 Owner 的 struct, 然后加到 Repo 中并且添加一个 CodingKey</p>
 <p>运行, 输出: <code>Repo(jurisdiction: false, htmlUrl: &quot;https://github.com/bewils/IWantTheGreenOne&quot;, description: Optional(&quot;SpriteKit Game&quot;), owner: __lldb_expr_36.Owner(login: &quot;bewils&quot;, id: 16081099, avatar_url: &quot;https://avatars3.githubusercontent.com/u/16081099?v=4&quot;))</code></p>
 <p>(简直完美, 此处应有掌声 👏</p>
-<h2 id="关于数组"><a href="#关于数组" class="headerlink" title="关于数组"></a>关于数组</h2><p>通过上面的过程已经可以将 Repo 成功解析出来了, 无论多复杂的 JSON, 只要是 key-value, 无论嵌套多深都是一样的写法</p>
+<h2 id="关于数组"><a class="markdownIt-Anchor" href="#关于数组"></a> 关于数组</h2>
+<p>通过上面的过程已经可以将 Repo 成功解析出来了, 无论多复杂的 JSON, 只要是 key-value, 无论嵌套多深都是一样的写法</p>
 <p>然而如果返回的是一个数组呢? <a href="https://api.github.com/users/bewils/repos" target="_blank" rel="noopener">https://api.github.com/users/bewils/repos</a></p>
 <p>关于数组的解析将会分为两部分: 二逼程序员和文艺程序员</p>
-<h3 id="二逼程序员"><a href="#二逼程序员" class="headerlink" title="二逼程序员"></a>二逼程序员</h3><p>再声明一个 stuct</p>
-<pre><code class="swift">struct UserRepos {
-  var repoList: [Repo]
+<h3 id="二逼程序员"><a class="markdownIt-Anchor" href="#二逼程序员"></a> 二逼程序员</h3>
+<p>再声明一个 stuct</p>
+<pre class="highlight"><code class="swift"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">UserRepos</span> </span>{
+  <span class="hljs-keyword">var</span> repoList: [<span class="hljs-type">Repo</span>]
 }
 </code></pre>
 <p>因为返回的是一个数组, 没有 key 所以通过默认方法肯定转换不来, 自定义去实现 Decodable</p>
-<pre><code class="swift">extension UserRepos: Decodable {
-  init(from decoder: Decoder) throws {
+<pre class="highlight"><code class="swift"><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">UserRepos</span>: <span class="hljs-title">Decodable</span> </span>{
+  <span class="hljs-keyword">init</span>(from decoder: <span class="hljs-type">Decoder</span>) <span class="hljs-keyword">throws</span> {
     repoList = []
-
-    var values = try decoder.unkeyedContainer()
-    while !values.isAtEnd {
-      let repo = try values.decode(Repo.self)
+    
+    <span class="hljs-keyword">var</span> values = <span class="hljs-keyword">try</span> decoder.unkeyedContainer()
+    <span class="hljs-keyword">while</span> !values.isAtEnd {
+      <span class="hljs-keyword">let</span> repo = <span class="hljs-keyword">try</span> values.decode(<span class="hljs-type">Repo</span>.<span class="hljs-keyword">self</span>)
       repoList.append(repo)
     }
   }
@@ -227,29 +232,32 @@ struct Repo: Decodable {
 </code></pre>
 <p>自定义实现的过程中首先通过 decoder 取出 unkeyedContainer 即初步解析为数组型的结构, 如果这时输出的话可以看到 values 就是我们要的数组, 然后顺手开始 <code>for in</code>, values 的类型是 <code>UnkeyedDecodingContainer</code>, 但竟然不遵从 <code>Sequence</code> 协议…没办法遍历这可是个难题, 而且查看 values 的其他属性 <code>isAtEnd = false, count = 31</code> 也证明了 values 应该是可以遍历的</p>
 <p>最后发现 <code>UnkeyedDecodingContainer</code> 的遍历方法就像一个队列, 每次调用 decode 就出一个, 然后通过 <code>isAtEnd</code> 来终止循环就可以了</p>
-<pre><code class="swift">if let url = URL(string: &quot;https://api.github.com/users/bewils/repos&quot;) {
-  let session = URLSession(configuration: .default)
-  session.dataTask(with: url, completionHandler: { (data, _, err) in
-    guard err == nil else { return }
-
-    guard let data = data else { return }
-    do {
-      // 二逼程序员解析法
-      let repos = try JSONDecoder().decode(UserRepos.self, from: data)
-      print(repos.repoList)
-    } catch let err {
-      print(err)
+<pre class="highlight"><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> url = <span class="hljs-type">URL</span>(string: <span class="hljs-string">"https://api.github.com/users/bewils/repos"</span>) {
+  <span class="hljs-keyword">let</span> session = <span class="hljs-type">URLSession</span>(configuration: .<span class="hljs-keyword">default</span>)
+  session.dataTask(with: url, completionHandler: { (data, <span class="hljs-number">_</span>, err) <span class="hljs-keyword">in</span>
+    <span class="hljs-keyword">guard</span> err == <span class="hljs-literal">nil</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    
+    <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> data = data <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    <span class="hljs-keyword">do</span> {
+      <span class="hljs-comment">// 二逼程序员解析法</span>
+      <span class="hljs-keyword">let</span> repos = <span class="hljs-keyword">try</span> <span class="hljs-type">JSONDecoder</span>().decode(<span class="hljs-type">UserRepos</span>.<span class="hljs-keyword">self</span>, from: data)
+      <span class="hljs-built_in">print</span>(repos.repoList)
+    } <span class="hljs-keyword">catch</span> <span class="hljs-keyword">let</span> err {
+      <span class="hljs-built_in">print</span>(err)
     }
   }).resume()
 }
 </code></pre>
 <p>这样就通过自定义实现 Decodable 成功地解析出了返回的数组</p>
-<h3 id="文艺程序员"><a href="#文艺程序员" class="headerlink" title="文艺程序员"></a>文艺程序员</h3><p>文艺程序员的解析方法呢?</p>
-<pre><code class="swift">let repos = try JSONDecoder().decode([Repo].self, from: data)
+<h3 id="文艺程序员"><a class="markdownIt-Anchor" href="#文艺程序员"></a> 文艺程序员</h3>
+<p>文艺程序员的解析方法呢?</p>
+<pre class="highlight"><code class="swift"><span class="hljs-keyword">let</span> repos = <span class="hljs-keyword">try</span> <span class="hljs-type">JSONDecoder</span>().decode([<span class="hljs-type">Repo</span>].<span class="hljs-keyword">self</span>, from: data)
 </code></pre>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Swift4 中提供的 Codable 使得解析 JSON 变的极其方便, 这篇文章中主要讨论了 Decodable, 关于 Encodable 基本上就是 Decodable 的反向操作, 就不在这里讨论了</p>
+<h2 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 最后</h2>
+<p>Swift4 中提供的 Codable 使得解析 JSON 变的极其方便, 这篇文章中主要讨论了 Decodable, 关于 Encodable 基本上就是 Decodable 的反向操作, 就不在这里讨论了</p>
 <p>本文的 demo 代码放在如下地址 <a href="https://github.com/bewils/SwiftCodable" target="_blank" rel="noopener">SwiftCodable</a></p>
-<h2 id="另"><a href="#另" class="headerlink" title="另"></a>另</h2><p>活动马上就要过去了, 还是没有抽到师匠, 气 （｀へ´）</p>
+<h2 id="另"><a class="markdownIt-Anchor" href="#另"></a> 另</h2>
+<p>活动马上就要过去了, 还是没有抽到师匠, 气 （｀へ´）</p>
 <blockquote>
 <p>P 站</p>
 <p>Lpip(6996493) -「スカサハ」(59639555)</p>
@@ -280,40 +288,6 @@ struct Repo: Decodable {
     
   </div>
 </article>
-
-  <div id="container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<style media="screen">
-	.gitment-comments-init-btn:disabled,
-	.gitment-editor-submit:disabled {
-		background-color: #f03838;
-	}
-
-	.gitment-editor-submit,
-	.gitment-comments-init-btn {
-		background-color: #f03838;
-	}
-
-	.gitment-editor-submit:hover,
-	.gitment-comments-init-btn:hover {
-		background-color: #f03838;
-	}
-</style>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  owner: 'bewils',
-	repo: 'bewils.github.io',
-	id: window.location.pathname,
-  oauth: {
-    client_id: '7238409484b54ebdd4a6',
-    client_secret: '4fad27888c7ad67c5a12390a02e4705fb566ded5',
-  },
-})
-gitment.render('container')
-</script>
-
-
 
 
     </main>

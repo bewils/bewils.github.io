@@ -29,7 +29,7 @@
   <link rel="alternate" href="/atom.xml" title="Yuki" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <link rel="stylesheet" href="/css/code.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/css/katex.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" media="screen" type="text/css">
 
 
   <style media="screen">
@@ -137,7 +137,6 @@
 </article>
 
 
-
   <article>
 
   
@@ -187,7 +186,6 @@
     
   </div>
 </article>
-
 
 
   <article>
@@ -243,7 +241,6 @@
 </article>
 
 
-
   <article>
 
   
@@ -270,10 +267,10 @@
       
         <p>在 iOS 中, 我们经常会把比较耗时的操作通过异步的方式运行, 最主要的使用场合大概就是网络通信了</p>
 <p>我们可能都会写过这样的代码:</p>
-<pre><code class="Swift">DispatchQueue.global().async {
-  // get data from networking
-  DispatchQueue.main.async {
-    // update ui
+<pre class="highlight"><code class="Swift"><span class="hljs-type">DispatchQueue</span>.global().async {
+  <span class="hljs-comment">// get data from networking</span>
+  <span class="hljs-type">DispatchQueue</span>.main.async {
+    <span class="hljs-comment">// update ui</span>
   }
 }
 </code></pre>
@@ -301,7 +298,6 @@
     
   </div>
 </article>
-
 
 
   <article>
@@ -362,7 +358,6 @@
 </article>
 
 
-
   <article>
 
   
@@ -414,7 +409,6 @@
 </article>
 
 
-
   <article>
 
   
@@ -440,11 +434,11 @@
     <div class="entry">
       
         <p>Swift 的 JSON 解析一直是一件很麻烦的事, 在 Swift3 中请求一个数据后可能要进行如下操作(比如服务器返回一个数组):</p>
-<pre><code class="swift">if let jsonObject = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-  if let objectList = jsonObject as? [Any] {
-    for object in objectList {
-      if let object = object as? [String: Any] {
-        // use object
+<pre class="highlight"><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> jsonObject = <span class="hljs-keyword">try</span>? <span class="hljs-type">JSONSerialization</span>.jsonObject(with: data!, options: .allowFragments) {
+  <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> objectList = jsonObject <span class="hljs-keyword">as</span>? [<span class="hljs-type">Any</span>] {
+    <span class="hljs-keyword">for</span> object <span class="hljs-keyword">in</span> objectList {
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> object = object <span class="hljs-keyword">as</span>? [<span class="hljs-type">String</span>: <span class="hljs-type">Any</span>] {
+        <span class="hljs-comment">// use object</span>
       }
     }
   }
@@ -474,7 +468,6 @@
     
   </div>
 </article>
-
 
 
   <article>
@@ -526,7 +519,6 @@
     
   </div>
 </article>
-
 
 
   <article>
@@ -584,7 +576,6 @@
 </article>
 
 
-
   <article>
 
   
@@ -609,10 +600,13 @@
   <div class="article-content">
     <div class="entry">
       
-        <h3 id="画圆形的方法"><a href="#画圆形的方法" class="headerlink" title="画圆形的方法"></a>画圆形的方法</h3><ol>
-<li><p>UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆</p>
+        <h3 id="画圆形的方法"><a class="markdownIt-Anchor" href="#画圆形的方法"></a> 画圆形的方法</h3>
+<ol>
+<li>
+<p>UIBezierPath(ovalIn: CGRect) 给定一个矩形的范围在其中画一个内接圆</p>
 </li>
-<li><p>UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)</p>
+<li>
+<p>UIBezierPath(arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool)</p>
 </li>
 </ol>
 <p>参数列表为弧形中心，半径，开始角度，结束角度，方向是否为顺时针</p>
@@ -640,7 +634,6 @@
     
   </div>
 </article>
-
 
 
 
